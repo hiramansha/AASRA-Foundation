@@ -1,0 +1,484 @@
+
+@media (min-width: 1500px) {
+  .hero,
+  .section,
+  .get-involved-section,
+  .mission-strip {
+    padding-left: max(8%, calc((100% - 1250px) / 2));
+    padding-right: max(8%, calc((100% - 1250px) / 2));
+  }
+}
+
+@media (max-width: 1100px) {
+  .site-header {
+    padding-left: 4%;
+    padding-right: 4%;
+    gap: 18px;
+  }
+
+  .main-nav {
+    gap: 14px;
+  }
+
+  .main-nav a {
+    font-size: 11px;
+  }
+
+  .hero {
+    padding-left: 5%;
+    padding-right: 5%;
+    gap: 35px;
+  }
+
+  .about-section,
+  .volunteer-section,
+  .contact-section {
+    gap: 45px;
+  }
+
+  .section,
+  .get-involved-section {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .approach-content {
+    padding: 65px 40px;
+  }
+
+  .involved-decoration {
+    font-size: 90px;
+  }
+}
+
+@media (max-width: 850px) {
+  .site-header {
+    min-height: 76px;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 18px 6% 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--paper);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .main-nav.is-open {
+    display: flex;
+  }
+
+  .main-nav a {
+    padding: 12px 8px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .main-nav .nav-cta {
+    margin-top: 12px;
+    text-align: center;
+    border-bottom: 0;
+  }
+
+  .hero {
+    padding: 65px 6%;
+    grid-template-columns: 1fr 0.85fr;
+    gap: 25px;
+    min-height: auto;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 5.4vw, 48px);
+  }
+
+  .hero-visual > img {
+    height: 350px;
+  }
+
+  .image-caption {
+    width: 95%;
+    padding: 12px;
+  }
+
+  .image-caption strong {
+    font-size: 12px;
+  }
+
+  .mission-strip {
+    padding: 25px 5%;
+  }
+
+  .about-section {
+    gap: 40px;
+  }
+
+  .section-image img {
+    height: 390px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .approach-image,
+  .approach-image img {
+    min-height: 550px;
+  }
+
+  .approach-content {
+    padding: 45px 28px;
+  }
+
+  .programs-grid {
+    gap: 16px;
+  }
+
+  .program-card img {
+    height: 175px;
+  }
+
+  .program-body {
+    padding: 18px;
+  }
+
+  .program-card h3 {
+    font-size: 19px;
+  }
+
+  .volunteer-section,
+  .contact-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .contact-form {
+    padding: 24px;
+  }
+
+  .footer-main > p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    scroll-padding-top: 78px;
+  }
+
+  .topbar {
+    padding: 7px 4%;
+    font-size: 9px;
+    gap: 8px;
+  }
+
+  .language-btn {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .site-header {
+    padding: 12px 5%;
+    min-height: 72px;
+  }
+
+  .brand-symbol {
+    width: 39px;
+    height: 39px;
+    font-size: 25px;
+  }
+
+  .brand-copy strong {
+    font-size: 22px;
+  }
+
+  .brand-copy small {
+    font-size: 8px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 52px 6% 60px;
+    gap: 42px;
+  }
+
+  .hero h1 {
+    font-size: clamp(39px, 10vw, 53px);
+  }
+
+  .hero-description {
+    font-size: 13px;
+    margin: 19px 0 24px;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero-note {
+    align-items: flex-start;
+    font-size: 10px;
+  }
+
+  .hero-visual {
+    max-width: 440px;
+    justify-self: center;
+    padding: 0 0 28px 15px;
+  }
+
+  .hero-visual > img {
+    height: 340px;
+    border-radius: 150px 150px 8px 8px;
+  }
+
+  .floating-label {
+    top: 20px;
+    right: -5px;
+    font-size: 8px;
+    padding: 9px 10px;
+  }
+
+  .image-caption {
+    width: 94%;
+    min-height: 75px;
+    padding: 12px;
+  }
+
+  .caption-heart {
+    font-size: 25px;
+  }
+
+  .image-caption strong {
+    font-size: 11px;
+  }
+
+  .image-caption small {
+    font-size: 9px;
+  }
+
+  .mission-strip {
+    padding: 23px 6%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .mission-label {
+    width: 100%;
+    text-align: center;
+  }
+
+  .mission-strip p {
+    font-size: 20px;
+  }
+
+  .mission-flower {
+    display: none;
+  }
+
+  .section,
+  .get-involved-section {
+    padding: 65px 6%;
+  }
+
+  .about-section {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .section-image {
+    padding-right: 15px;
+  }
+
+  .section-image img {
+    height: 330px;
+    border-radius: 8px 80px 8px 8px;
+  }
+
+  .section-content h2,
+  .approach-content h2,
+  .contact-intro h2 {
+    font-size: 35px;
+  }
+
+  .section-content > p,
+  .approach-content > p,
+  .contact-intro > p {
+    font-size: 12px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .service-card {
+    min-height: auto;
+    padding: 25px 22px;
+  }
+
+  .service-card h3 {
+    font-size: 21px;
+  }
+
+  .section-heading {
+    margin-bottom: 32px;
+  }
+
+  .section-heading h2 {
+    font-size: 35px;
+  }
+
+  .section-heading > p {
+    font-size: 12px;
+  }
+
+  .approach-section {
+    grid-template-columns: 1fr;
+  }
+
+  .approach-image,
+  .approach-image img {
+    min-height: 0;
+    height: 280px;
+  }
+
+  .approach-content {
+    padding: 45px 6%;
+  }
+
+  .approach-step strong {
+    font-size: 17px;
+  }
+
+  .programs-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .program-card img {
+    height: 220px;
+  }
+
+  .program-body {
+    padding: 23px;
+  }
+
+  .get-involved-section {
+    display: block;
+  }
+
+  .get-involved-section h2 {
+    font-size: 37px;
+  }
+
+  .involved-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .involved-actions .btn {
+    width: 100%;
+  }
+
+  .involved-decoration {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 75px;
+  }
+
+  .volunteer-section,
+  .contact-section {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .contact-form {
+    padding: 22px 18px;
+  }
+
+  .donate-section h2 {
+    font-size: 34px;
+  }
+
+  .site-footer {
+    padding: 35px 6% 20px;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .footer-main > p {
+    max-width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 7px;
+    font-size: 9px;
+  }
+
+  [dir="rtl"] .hero-visual {
+    padding: 0 15px 28px 0;
+  }
+
+  [dir="rtl"] .floating-label {
+    left: -5px;
+    right: auto;
+  }
+
+  [dir="rtl"] .section-image {
+    padding-left: 15px;
+    padding-right: 0;
+  }
+
+  [dir="rtl"] .hero-actions,
+  [dir="rtl"] .involved-actions {
+    flex-direction: column;
+  }
+
+  [dir="rtl"] .hero-actions .btn,
+  [dir="rtl"] .involved-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-copy strong {
+    font-size: 19px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero-visual > img {
+    height: 290px;
+  }
+
+  .section-content h2,
+  .section-heading h2,
+  .approach-content h2,
+  .contact-intro h2 {
+    font-size: 31px;
+  }
+}
