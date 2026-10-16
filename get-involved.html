@@ -4,45 +4,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover ways to support AASRA Foundation's proposed community initiatives.">
+    <meta name="theme-color" content="#fffdf9">
+    <meta name="description" content="Discover ways to support AASRA Foundation's community initiatives.">
     <title>Get Involved | AASRA Foundation</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
 
     <script src="js/language.js" defer></script>
     <script src="js/app.js" defer></script>
+
+    <style>
+        .volunteer-form-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 32px;
+            background: #fff;
+            border: 1px solid rgba(70, 60, 45, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(40, 35, 25, 0.07);
+        }
+
+        .volunteer-form-wrap .form-group {
+            margin-bottom: 20px;
+        }
+
+        .volunteer-form-wrap label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .volunteer-form-wrap input,
+        .volunteer-form-wrap select,
+        .volunteer-form-wrap textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .volunteer-form-wrap textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .volunteer-form-wrap button {
+            margin-top: 5px;
+        }
+
+        #volunteer-message {
+            margin-top: 16px;
+            line-height: 1.7;
+        }
+
+        .involvement-card-link {
+            display: inline-block;
+            margin-top: 14px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .volunteer-form-wrap {
+                padding: 22px 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="header">
-    <nav class="navbar">
-        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+<div class="topbar">
+    <span data-en="Together, we can make a difference."
+          data-ur="مل کر ہم تبدیلی لا سکتے ہیں۔">
+        Together, we can make a difference.
+    </span>
+    <button id="language-toggle" type="button" aria-label="Switch language">اردو</button>
+</div>
 
-        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+<header class="site-header">
+    <a href="index.html" class="brand" aria-label="AASRA Foundation Home">
+        <span class="brand-name">AASRA</span>
+        <span class="brand-subtitle">Foundation</span>
+    </a>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="programs.html">Programs</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="get-involved.html" class="active btn btn-primary">Get Involved</a></li>
-        </ul>
+    <button id="menu-toggle" class="menu-toggle"
+            type="button" aria-label="Toggle navigation"
+            aria-controls="main-nav" aria-expanded="false">☰</button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+        <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
+        <a href="about.html" data-en="About" data-ur="ہمارے بارے میں">About</a>
+        <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+        <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+        <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+        <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+        <a href="get-involved.html" class="nav-cta active"
+           aria-current="page" data-en="Get Involved" data-ur="شامل ہوں">
+            Get Involved
+        </a>
     </nav>
 </header>
 
 <main>
     <section class="hero">
         <div class="hero-content">
-            <span class="section-tag">MAKE A DIFFERENCE</span>
-            <h1>Your Time Can Create <span>Positive Change</span></h1>
-            <p>
+            <span class="eyebrow" data-en="MAKE A DIFFERENCE" data-ur="تبدیلی لائیں">
+                MAKE A DIFFERENCE
+            </span>
+
+            <h1 data-en="Your Time Can Create Positive Change"
+                data-ur="آپ کا وقت مثبت تبدیلی لا سکتا ہے">
+                Your Time Can Create <span>Positive Change</span>
+            </h1>
+
+            <p class="hero-description"
+               data-en="Every skill, kind action, and helping hand can contribute to a stronger and more caring community."
+               data-ur="ہر صلاحیت، نیک عمل اور مدد کرنے والا ہاتھ ایک مضبوط اور خیال رکھنے والی کمیونٹی بنانے میں مدد دے سکتا ہے۔">
                 Every skill, kind action, and helping hand can contribute
                 to a stronger and more caring community.
             </p>
-            <a href="#volunteer-options" class="btn btn-primary">Explore Opportunities</a>
+
+            <div class="hero-actions">
+                <a href="#volunteer-options" class="nav-cta"
+                   data-en="Explore Opportunities" data-ur="مواقع دیکھیں">
+                    Explore Opportunities
+                </a>
+            </div>
         </div>
 
         <div class="hero-visual">
@@ -52,134 +142,182 @@
         </div>
     </section>
 
-    <section class="section" id="volunteer-options">
+    <section class="section services-section" id="volunteer-options">
         <div class="section-heading">
-            <span class="section-tag">WAYS TO PARTICIPATE</span>
-            <h2>How Would You Like to Help?</h2>
-            <p>Explore different ways to contribute to community-focused initiatives.</p>
+            <span class="eyebrow" data-en="WAYS TO PARTICIPATE" data-ur="حصہ لینے کے طریقے">
+                WAYS TO PARTICIPATE
+            </span>
+            <h2 data-en="How Would You Like to Help?" data-ur="آپ کس طرح مدد کرنا چاہیں گے؟">
+                How Would You Like to Help?
+            </h2>
+            <p data-en="Explore different ways to contribute to community-focused initiatives."
+               data-ur="کمیونٹی کی بہتری کے لیے اپنا کردار ادا کرنے کے مختلف طریقے دیکھیں۔">
+                Explore different ways to contribute to community-focused initiatives.
+            </p>
         </div>
 
         <div class="services-grid">
             <article class="service-card">
-                <div class="service-icon">♡</div>
-                <h3>Become a Volunteer</h3>
-                <p>
+                <div class="service-icon" aria-hidden="true">♡</div>
+                <h3 data-en="Become a Volunteer" data-ur="رضاکار بنیں">Become a Volunteer</h3>
+                <p data-en="Share your time, talents, and ideas to support community activities and awareness initiatives."
+                   data-ur="کمیونٹی سرگرمیوں اور آگاہی کے لیے اپنا وقت، صلاحیتیں اور خیالات پیش کریں۔">
                     Share your time, talents, and ideas to support
                     community activities and awareness initiatives.
                 </p>
-                <a href="#volunteer-form">Register Interest →</a>
+                <a class="involvement-card-link" href="#volunteer-form"
+                   data-en="Register Interest →" data-ur="دلچسپی درج کریں ←">
+                    Register Interest →
+                </a>
             </article>
 
             <article class="service-card">
-                <div class="service-icon">▤</div>
-                <h3>Share Your Skills</h3>
-                <p>
+                <div class="service-icon" aria-hidden="true">▤</div>
+                <h3 data-en="Share Your Skills" data-ur="اپنی صلاحیتیں بانٹیں">Share Your Skills</h3>
+                <p data-en="Contribute skills such as teaching, design, communication, technology, or event support."
+                   data-ur="تعلیم، ڈیزائن، رابطے، ٹیکنالوجی یا تقریبات میں اپنی صلاحیتوں سے مدد کریں۔">
                     Contribute skills such as teaching, design,
                     communication, technology, or event support.
                 </p>
-                <a href="#volunteer-form">Share Your Skills →</a>
+                <a class="involvement-card-link" href="#volunteer-form"
+                   data-en="Share Your Skills →" data-ur="اپنی صلاحیتیں بتائیں ←">
+                    Share Your Skills →
+                </a>
             </article>
 
             <article class="service-card">
-                <div class="service-icon">✦</div>
-                <h3>Spread Awareness</h3>
-                <p>
+                <div class="service-icon" aria-hidden="true">✦</div>
+                <h3 data-en="Spread Awareness" data-ur="آگاہی پھیلائیں">Spread Awareness</h3>
+                <p data-en="Help share positive messages about compassion, education, and community well-being."
+                   data-ur="ہمدردی، تعلیم اور کمیونٹی کی فلاح سے متعلق مثبت پیغامات پھیلائیں۔">
                     Help share positive messages about compassion,
                     education, and community well-being.
                 </p>
-                <a href="contact.html">Contact Us →</a>
+                <a class="involvement-card-link" href="contact.html"
+                   data-en="Contact Us →" data-ur="رابطہ کریں ←">
+                    Contact Us →
+                </a>
             </article>
         </div>
     </section>
 
     <section class="section" id="volunteer-form">
         <div class="section-heading">
-            <span class="section-tag">VOLUNTEER WITH US</span>
-            <h2>Register Your Interest</h2>
-            <p>
+            <span class="eyebrow" data-en="VOLUNTEER WITH US" data-ur="ہمارے ساتھ رضاکار بنیں">
+                VOLUNTEER WITH US
+            </span>
+            <h2 data-en="Register Your Interest" data-ur="اپنی دلچسپی درج کریں">
+                Register Your Interest
+            </h2>
+            <p data-en="Complete the form to express your interest in volunteering. This demo form saves information only in this browser."
+               data-ur="رضاکارانہ خدمات میں دلچسپی ظاہر کرنے کے لیے فارم پُر کریں۔ یہ ڈیمو فارم معلومات صرف اسی براؤزر میں محفوظ کرتا ہے۔">
                 Complete the form to express your interest in volunteering.
-                This demonstration form does not send information to a server.
+                This demo form saves information only in this browser.
             </p>
         </div>
 
-        <form id="volunteer-form-element" class="contact-form">
-            <div class="form-group">
-                <label for="volunteer-name">Full Name</label>
-                <input
-                    type="text"
-                    id="volunteer-name"
-                    name="name"
-                    placeholder="Enter your full name"
-                    required>
-            </div>
+        <div class="volunteer-form-wrap">
+            <form id="volunteer-form-element" class="contact-form">
+                <div class="form-group">
+                    <label for="volunteer-name" data-en="Full Name" data-ur="پورا نام">
+                        Full Name
+                    </label>
+                    <input type="text" id="volunteer-name" name="name"
+                           placeholder="Enter your full name" required>
+                </div>
 
-            <div class="form-group">
-                <label for="volunteer-email">Email Address</label>
-                <input
-                    type="email"
-                    id="volunteer-email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required>
-            </div>
+                <div class="form-group">
+                    <label for="volunteer-email" data-en="Email Address" data-ur="ای میل">
+                        Email Address
+                    </label>
+                    <input type="email" id="volunteer-email" name="email"
+                           placeholder="Enter your email" required>
+                </div>
 
-            <div class="form-group">
-                <label for="volunteer-phone">Phone Number (Optional)</label>
-                <input
-                    type="tel"
-                    id="volunteer-phone"
-                    name="phone"
-                    placeholder="Enter your phone number">
-            </div>
+                <div class="form-group">
+                    <label for="volunteer-phone" data-en="Phone Number (Optional)" data-ur="فون نمبر (اختیاری)">
+                        Phone Number (Optional)
+                    </label>
+                    <input type="tel" id="volunteer-phone" name="phone"
+                           placeholder="Enter your phone number">
+                </div>
 
-            <div class="form-group">
-                <label for="volunteer-interest">Area of Interest</label>
-                <select id="volunteer-interest" name="interest" required>
-                    <option value="">Choose an area</option>
-                    <option value="Education">Education Support</option>
-                    <option value="Community Welfare">Community Welfare</option>
-                    <option value="Health Awareness">Health Awareness</option>
-                    <option value="Event Support">Event Support</option>
-                    <option value="Digital Skills">Digital Skills</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="volunteer-interest" data-en="Area of Interest" data-ur="دلچسپی کا شعبہ">
+                        Area of Interest
+                    </label>
+                    <select id="volunteer-interest" name="interest" required>
+                        <option value="" data-en="Choose an area" data-ur="شعبہ منتخب کریں">Choose an area</option>
+                        <option value="Education" data-en="Education Support" data-ur="تعلیمی معاونت">Education Support</option>
+                        <option value="Community Welfare" data-en="Community Welfare" data-ur="کمیونٹی کی فلاح">Community Welfare</option>
+                        <option value="Health Awareness" data-en="Health Awareness" data-ur="صحت سے متعلق آگاہی">Health Awareness</option>
+                        <option value="Event Support" data-en="Event Support" data-ur="تقریبات میں معاونت">Event Support</option>
+                        <option value="Digital Skills" data-en="Digital Skills" data-ur="ڈیجیٹل مہارتیں">Digital Skills</option>
+                        <option value="Other" data-en="Other" data-ur="دیگر">Other</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="volunteer-message">Why would you like to volunteer?</label>
-                <textarea
-                    id="volunteer-message"
-                    name="message"
-                    rows="5"
-                    placeholder="Tell us about your interests"></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="volunteer-reason"
+                           data-en="Why would you like to volunteer?"
+                           data-ur="آپ رضاکارانہ خدمات کیوں انجام دینا چاہتے ہیں؟">
+                        Why would you like to volunteer?
+                    </label>
+                    <textarea id="volunteer-reason" name="message" rows="5"
+                              placeholder="Tell us about your interests"></textarea>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Submit Interest</button>
+                <button type="submit" class="nav-cta"
+                        data-en="Submit Interest" data-ur="درخواست جمع کریں">
+                    Submit Interest
+                </button>
 
-            <p id="volunteer-message" role="status" aria-live="polite"></p>
-        </form>
+                <p id="volunteer-message" role="status" aria-live="polite"></p>
+            </form>
+        </div>
     </section>
 
-    <section class="section">
+    <section class="section get-involved-section">
         <div class="section-heading">
-            <span class="section-tag">LET'S CONNECT</span>
-            <h2>Have Another Idea?</h2>
-            <p>
-                If you have a question or another way you would like to
-                contribute, reach out through our contact page.
+            <span class="eyebrow" data-en="LET'S CONNECT" data-ur="رابطہ کریں">LET'S CONNECT</span>
+            <h2 data-en="Have Another Idea?" data-ur="کوئی اور خیال ہے؟">Have Another Idea?</h2>
+            <p data-en="Have a question or another way to contribute? Reach out through our contact page."
+               data-ur="کوئی سوال ہے یا مدد کرنے کا کوئی اور طریقہ؟ ہمارے رابطہ صفحے پر تشریف لائیں۔">
+                Have a question or another way to contribute?
+                Reach out through our contact page.
             </p>
-            <a href="contact.html" class="btn btn-primary">Contact Us</a>
+            <a href="contact.html" class="nav-cta"
+               data-en="Contact Us" data-ur="رابطہ کریں">Contact Us</a>
         </div>
     </section>
 </main>
 
-<footer class="footer">
-    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
-    <p>Compassion • Dignity • Hope</p>
-</footer>
+<footer class="site-footer">
+    <div class="footer-main">
+        <div>
+            <a href="index.html" class="brand">
+                <span class="brand-name">AASRA</span>
+                <span class="brand-subtitle">Foundation</span>
+            </a>
+            <p data-en="Compassion • Dignity • Hope" data-ur="ہمدردی • وقار • امید">
+                Compassion • Dignity • Hope
+            </p>
+        </div>
 
-    <script src="js/language.js"></script>
-<script src="js/app.js"></script>
+        <div class="footer-links">
+            <a href="about.html" data-en="About" data-ur="ہمارے بارے میں">About</a>
+            <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+            <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+            <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+            <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    </div>
+</footer>
 
 </body>
 </html>
+
