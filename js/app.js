@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeMenu();
-        menuToggle.focus();
       }
     });
 
@@ -53,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Close the mobile menu when switching to desktop layout.
     window.addEventListener("resize", () => {
       if (window.innerWidth > 850) {
         closeMenu();
@@ -80,16 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (target) {
         event.preventDefault();
 
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
         target.scrollIntoView({
-          behavior: window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-          ).matches
-            ? "auto"
-            : "smooth",
+          behavior: reduceMotion ? "auto" : "smooth",
           block: "start",
         });
 
-        // Keep the URL in sync without forcing an immediate jump.
         if (window.location.hash !== targetId) {
           history.replaceState(null, "", targetId);
         }
@@ -98,14 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Demo form handling.
-  // No form data is transmitted or stored by this script.
+  // Form data is not transmitted or stored by this script.
   function setupDemoForm(formId, messageId, message) {
     const form = document.getElementById(formId);
     const messageElement = document.getElementById(messageId);
 
     if (!form || !messageElement) return;
 
-    // Make feedback accessible to screen readers.
     messageElement.setAttribute("role", "status");
     messageElement.setAttribute("aria-live", "polite");
 
@@ -118,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Check email fields when present.
+      // Validate email when an email field is provided.
       const emailField = form.querySelector('input[type="email"]');
 
       if (emailField && emailField.value.trim()) {
@@ -136,32 +132,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
+      // Show the appropriate demo message.
       messageElement.textContent = message;
+
+      // Clear fields after displaying the message.
       form.reset();
     });
   }
 
+  // Help Request form
+  setupDemoForm(
+    "help-form",
+    "help-message",
+    "Demo only: your help request was not submitted or saved. A secure backend connection is needed to receive requests."
+  );
+
+  // Volunteer form
   setupDemoForm(
     "volunteer-form-element",
     "volunteer-message",
     "Demo only: your volunteer interest was not submitted or saved. A secure backend connection is needed to register you."
   );
 
+  // Contact form
   setupDemoForm(
     "contact-form",
     "contact-message",
     "Demo only: your message was not sent or saved. A secure backend connection is needed to contact the foundation."
   );
 
-  // Improve keyboard focus visibility for interactive elements.
-  document.querySelectorAll("a, button, input, select, textarea").forEach(
-    (element) => {
+  // Allow Escape to dismiss keyboard focus from text fields.
+  document
+    .querySelectorAll("input, textarea")
+    .forEach((element) => {
       element.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && element.matches("input, textarea")) {
+        if (event.key === "Escape") {
           element.blur();
         }
       });
-    }
-  );
+    });
 });
-
