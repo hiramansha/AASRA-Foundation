@@ -1,182 +1,320 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about supporting AASRA Foundation's proposed community initiatives.">
-    <title>Support Our Mission | AASRA Foundation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b3a">
+  <meta name="description" content="Learn about supporting AASRA Foundation's proposed community initiatives.">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+  <title>Support Our Mission | AASRA Foundation</title>
 
-    <script src="js/language.js" defer></script>
-    <script src="js/app.js" defer></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- JavaScript: load once -->
+  <script src="js/language.js" defer></script>
+  <script src="js/app.js" defer></script>
 </head>
+
 <body>
 
-<header class="header">
-    <nav class="navbar">
-        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <p data-en="Lahore, Pakistan | Compassion, dignity and hope"
+       data-ur="لاہور، پاکستان | ہمدردی، عزت اور امید">
+      Lahore, Pakistan | Compassion, dignity and hope
+    </p>
 
-        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+    <button id="language-toggle" class="language-btn" type="button">
+      اردو
+    </button>
+  </div>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="programs.html">Programs</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
-        </ul>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AASRA Foundation Home">
+      <span class="brand-symbol">A</span>
+      <span class="brand-copy">
+        <strong>AASRA</strong>
+        <small>FOUNDATION</small>
+      </span>
+    </a>
+
+    <button id="menu-toggle" class="menu-toggle"
+      type="button" aria-label="Open navigation"
+      aria-expanded="false" aria-controls="main-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
+      <a href="about.html" data-en="About" data-ur="تعارف">About</a>
+      <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+      <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+      <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+      <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+      <a href="get-involved.html" class="nav-cta"
+        data-en="Get Involved" data-ur="ہمارا ساتھ دیں">Get Involved</a>
     </nav>
-</header>
+  </header>
 
-<main>
+  <main>
+
+    <!-- HERO -->
     <section class="hero">
-        <div class="hero-content">
-            <span class="section-tag">GIVE WITH COMPASSION</span>
-            <h1>Together, We Can Create <span>Hope</span></h1>
-            <p>
-                Explore ways to support community-focused initiatives
-                promoting education, well-being, and care for others.
-            </p>
-            <a href="#donation-interest" class="btn btn-primary">Express Your Interest</a>
-        </div>
+      <div class="hero-content">
+        <span class="eyebrow"
+          data-en="GIVE WITH COMPASSION"
+          data-ur="ہمدردی کے ساتھ تعاون کریں">
+          GIVE WITH COMPASSION
+        </span>
 
-        <div class="hero-visual">
-            <img
-                src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1000&q=85"
-                alt="People working together to support a community">
-        </div>
-    </section>
+        <h1 data-en="Together, We Can Create <em>Hope.</em>"
+            data-ur="مل کر ہم <em>امید پیدا کر سکتے ہیں۔</em>">
+          Together, We Can Create <em>Hope.</em>
+        </h1>
 
-    <section class="section">
-        <div class="section-heading">
-            <span class="section-tag">WHY SUPPORT MATTERS</span>
-            <h2>Small Acts Can Make a Difference</h2>
-            <p>
-                Community support can help create opportunities and
-                encourage positive change when resources are directed
-                responsibly toward genuine needs.
-            </p>
-        </div>
-
-        <div class="services-grid">
-            <article class="service-card">
-                <div class="service-icon">▤</div>
-                <h3>Learning Opportunities</h3>
-                <p>
-                    Support ideas that encourage education,
-                    learning resources, and knowledge sharing.
-                </p>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">♡</div>
-                <h3>Community Care</h3>
-                <p>
-                    Encourage compassion, connection, and
-                    awareness of available community resources.
-                </p>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">✦</div>
-                <h3>Positive Change</h3>
-                <p>
-                    Help promote community initiatives that focus
-                    on dignity, opportunity, and well-being.
-                </p>
-            </article>
-        </div>
-    </section>
-
-    <section class="section" id="donation-interest">
-        <div class="section-heading">
-            <span class="section-tag">SUPPORT OUR MISSION</span>
-            <h2>Donation Interest Form</h2>
-            <p>
-                Use this form to express interest in supporting a proposed
-                initiative. This form does not collect payments.
-            </p>
-        </div>
-
-        <form id="donation-interest-form" class="contact-form">
-            <div class="form-group">
-                <label for="donor-name">Full Name</label>
-                <input
-                    type="text"
-                    id="donor-name"
-                    name="name"
-                    placeholder="Enter your name"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="donor-email">Email Address</label>
-                <input
-                    type="email"
-                    id="donor-email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="support-area">Area You Would Like to Support</label>
-                <select id="support-area" name="supportArea" required>
-                    <option value="">Choose an area</option>
-                    <option value="Education">Education</option>
-                    <option value="Community Welfare">Community Welfare</option>
-                    <option value="Health Awareness">Health Awareness</option>
-                    <option value="General Support">General Support</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="donation-note">Message (Optional)</label>
-                <textarea
-                    id="donation-note"
-                    name="message"
-                    rows="4"
-                    placeholder="Share a question or message"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-                Submit Interest
-            </button>
-
-            <p id="donation-interest-message" role="status" aria-live="polite"></p>
-        </form>
-
-        <p class="section-note">
-            No payment is taken through this form. This is a demonstration
-            website, and submitting the form does not confirm a donation
-            or contact a real organization.
+        <p class="hero-description"
+          data-en="Explore ways to support community-focused initiatives promoting education, well-being, and care for others."
+          data-ur="تعلیم، فلاح و بہبود اور دوسروں کی دیکھ بھال کو فروغ دینے والے مجوزہ سماجی منصوبوں کی حمایت کے طریقے دیکھیں۔">
+          Explore ways to support community-focused initiatives promoting education, well-being, and care for others.
         </p>
-    </section>
 
-    <section class="section">
-        <div class="section-heading">
-            <span class="section-tag">ANOTHER WAY TO HELP</span>
-            <h2>Share Your Time and Skills</h2>
-            <p>
-                You can also explore volunteer opportunities and
-                contribute through your skills and time.
-            </p>
-            <a href="get-involved.html" class="btn btn-primary">Become a Volunteer</a>
-            <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+        <div class="hero-actions">
+          <a href="#donation-interest" class="btn btn-primary"
+            data-en="Express Your Interest ↗"
+            data-ur="اپنی دلچسپی ظاہر کریں ↗">
+            Express Your Interest ↗
+          </a>
+
+          <a href="get-involved.html" class="btn btn-outline"
+            data-en="Volunteer With Us"
+            data-ur="ہمارے ساتھ رضاکار بنیں">
+            Volunteer With Us
+          </a>
         </div>
-    </section>
-</main>
+      </div>
 
-<footer class="footer">
-    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
-    <p>Compassion • Dignity • Hope</p>
-</footer>
-<script src="js/language.js"></script>
-<script src="js/app.js"></script>
+      <div class="hero-visual">
+        <img
+          src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1000&q=85"
+          alt="People working together to support a community">
+      </div>
+    </section>
+
+    <!-- WHY SUPPORT MATTERS -->
+    <section class="services-section section">
+      <div class="section-heading">
+        <span class="eyebrow"
+          data-en="WHY SUPPORT MATTERS"
+          data-ur="تعاون کیوں اہم ہے">
+          WHY SUPPORT MATTERS
+        </span>
+
+        <h2 data-en="Small Acts Can Make <em>a Difference.</em>"
+            data-ur="چھوٹے اقدامات بھی <em>فرق پیدا کر سکتے ہیں۔</em>">
+          Small Acts Can Make <em>a Difference.</em>
+        </h2>
+
+        <p data-en="Community support can help create opportunities and encourage positive change when resources are directed responsibly toward genuine needs."
+           data-ur="جب وسائل ذمہ داری کے ساتھ حقیقی ضروریات کے لیے استعمال ہوں تو سماجی تعاون مواقع پیدا کرنے اور مثبت تبدیلی کی حوصلہ افزائی کر سکتا ہے۔">
+          Community support can help create opportunities and encourage positive change when resources are directed responsibly toward genuine needs.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-icon">▤</div>
+          <span class="service-number">01</span>
+          <h3 data-en="Learning Opportunities" data-ur="تعلیمی مواقع">Learning Opportunities</h3>
+          <p data-en="Support ideas that encourage education, learning resources, and knowledge sharing."
+             data-ur="تعلیم، تعلیمی وسائل اور علم کے تبادلے کو فروغ دینے والے خیالات کی حمایت کریں۔">
+            Support ideas that encourage education, learning resources, and knowledge sharing.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">♡</div>
+          <span class="service-number">02</span>
+          <h3 data-en="Community Care" data-ur="سماجی دیکھ بھال">Community Care</h3>
+          <p data-en="Encourage compassion, connection, and awareness of available community resources."
+             data-ur="ہمدردی، باہمی رابطے اور دستیاب سماجی وسائل کے بارے میں آگاہی کو فروغ دیں۔">
+            Encourage compassion, connection, and awareness of available community resources.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">✦</div>
+          <span class="service-number">03</span>
+          <h3 data-en="Positive Change" data-ur="مثبت تبدیلی">Positive Change</h3>
+          <p data-en="Help promote community initiatives that focus on dignity, opportunity, and well-being."
+             data-ur="عزت، مواقع اور فلاح و بہبود پر توجہ دینے والے سماجی منصوبوں کو فروغ دیں۔">
+            Help promote community initiatives that focus on dignity, opportunity, and well-being.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- DONATION INTEREST FORM -->
+    <section class="section" id="donation-interest">
+      <div class="section-heading">
+        <span class="eyebrow"
+          data-en="SUPPORT OUR MISSION"
+          data-ur="ہمارے مقصد کی حمایت کریں">
+          SUPPORT OUR MISSION
+        </span>
+
+        <h2 data-en="Donation <em>Interest Form</em>"
+            data-ur="تعاون میں دلچسپی کا <em>فارم</em>">
+          Donation <em>Interest Form</em>
+        </h2>
+
+        <p data-en="Express interest in supporting a proposed initiative. This form does not collect payments."
+           data-ur="مجوزہ منصوبے کی حمایت میں اپنی دلچسپی ظاہر کریں۔ یہ فارم ادائیگی وصول نہیں کرتا۔">
+          Express interest in supporting a proposed initiative. This form does not collect payments.
+        </p>
+      </div>
+
+      <form id="donation-interest-form" class="contact-form">
+        <div class="form-group">
+          <label for="donor-name">Full Name</label>
+          <input
+            type="text"
+            id="donor-name"
+            name="name"
+            placeholder="Enter your name"
+            autocomplete="name"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="donor-email">Email Address</label>
+          <input
+            type="email"
+            id="donor-email"
+            name="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="support-area">Area You Would Like to Support</label>
+          <select id="support-area" name="supportArea" required>
+            <option value="">Choose an area</option>
+            <option value="Education">Education</option>
+            <option value="Community Welfare">Community Welfare</option>
+            <option value="Health Awareness">Health Awareness</option>
+            <option value="General Support">General Support</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="donation-note">Message (Optional)</label>
+          <textarea
+            id="donation-note"
+            name="message"
+            rows="4"
+            placeholder="Share a question or message"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Submit Interest →
+        </button>
+
+        <p id="donation-interest-message"
+          role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="section-note">
+        No payment is taken through this form. This is a demonstration
+        website. Submitting the form does not confirm a donation or
+        contact a real organization.
+      </p>
+    </section>
+
+    <!-- VOLUNTEER CTA -->
+    <section class="get-involved-section">
+      <div class="get-involved-copy">
+        <span class="eyebrow"
+          data-en="ANOTHER WAY TO HELP"
+          data-ur="مدد کرنے کا ایک اور طریقہ">
+          ANOTHER WAY TO HELP
+        </span>
+
+        <h2 data-en="Share Your Time <em>and Skills.</em>"
+            data-ur="اپنا وقت اور <em>مہارتیں بانٹیں۔</em>">
+          Share Your Time <em>and Skills.</em>
+        </h2>
+
+        <p data-en="Explore volunteer opportunities and contribute through your skills and time."
+           data-ur="رضاکارانہ مواقع دیکھیں اور اپنے وقت اور مہارتوں کے ذریعے حصہ ڈالیں۔">
+          Explore volunteer opportunities and contribute through your skills and time.
+        </p>
+
+        <div class="involved-actions">
+          <a href="get-involved.html" class="btn btn-light"
+            data-en="Become a Volunteer ↗"
+            data-ur="رضاکار بنیں ↗">
+            Become a Volunteer ↗
+          </a>
+
+          <a href="contact.html" class="btn btn-transparent"
+            data-en="Contact Us"
+            data-ur="ہم سے رابطہ کریں">
+            Contact Us
+          </a>
+        </div>
+      </div>
+
+      <div class="involved-decoration">AASRA<span>♡</span></div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-symbol">A</span>
+        <span class="brand-copy">
+          <strong>AASRA</strong>
+          <small>FOUNDATION</small>
+        </span>
+      </a>
+
+      <p data-en="A little care can help open the door to a better tomorrow."
+         data-ur="تھوڑی سی توجہ بہتر کل کا دروازہ کھول سکتی ہے۔">
+        A little care can help open the door to a better tomorrow.
+      </p>
+
+      <div class="footer-links">
+        <a href="about.html" data-en="About" data-ur="تعارف">About</a>
+        <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+        <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+        <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+      </div>
+
+      <a href="index.html" class="back-top"
+        data-en="Home ↑" data-ur="ہوم ↑">Home ↑</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</span>
+      <span data-en="Har Insaan Ka Sahara · Lahore, Pakistan"
+            data-ur="ہر انسان کا سہارا · لاہور، پاکستان">
+        Har Insaan Ka Sahara · Lahore, Pakistan
+      </span>
+    </div>
+  </footer>
+
 </body>
 </html>
+
