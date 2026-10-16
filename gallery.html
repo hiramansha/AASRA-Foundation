@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#fffdf9">
-    <meta name="description" content="Explore the AASRA Foundation community photo gallery.">
+    <meta name="description" content="Explore the AASRA Foundation gallery featuring illustrative community, education, and volunteering photographs.">
     <title>Gallery | AASRA Foundation</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +19,12 @@
     <script src="js/app.js" defer></script>
 
     <style>
+        .gallery-intro {
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -27,35 +33,36 @@
         }
 
         .gallery-item {
+            min-width: 0;
             overflow: hidden;
+            border: 1px solid rgba(70, 60, 45, 0.1);
             border-radius: 18px;
             background: #fff;
-            border: 1px solid rgba(70, 60, 45, 0.09);
             box-shadow: 0 10px 30px rgba(40, 35, 25, 0.07);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .gallery-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 16px 36px rgba(40, 35, 25, 0.12);
+            box-shadow: 0 16px 36px rgba(40, 35, 25, 0.13);
         }
 
         .gallery-image {
-            overflow: hidden;
             aspect-ratio: 4 / 3;
+            overflow: hidden;
             background: #f0e9df;
         }
 
-        .gallery-item img {
+        .gallery-image img {
             display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.45s ease;
+            transition: transform 0.4s ease;
         }
 
-        .gallery-item:hover img {
-            transform: scale(1.06);
+        .gallery-item:hover .gallery-image img {
+            transform: scale(1.05);
         }
 
         .gallery-caption {
@@ -65,19 +72,13 @@
         .gallery-caption h3 {
             margin: 0 0 10px;
             font-family: "Playfair Display", Georgia, serif;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
         }
 
         .gallery-caption p {
             margin: 0;
-            line-height: 1.7;
             color: #706b63;
-        }
-
-        .gallery-intro {
-            max-width: 720px;
-            margin: 0 auto;
-            text-align: center;
+            line-height: 1.7;
         }
 
         .gallery-cta {
@@ -88,9 +89,22 @@
             margin-top: 24px;
         }
 
+        .gallery-cta a {
+            text-decoration: none;
+        }
+
+        .gallery-hero-image {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
         @media (max-width: 900px) {
             .gallery-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 20px;
             }
         }
 
@@ -108,9 +122,30 @@
                 aspect-ratio: 5 / 3;
             }
 
+            .gallery-cta {
+                flex-direction: column;
+            }
+
             .gallery-cta a {
                 width: 100%;
                 text-align: center;
+                box-sizing: border-box;
+            }
+
+            .gallery-hero-image {
+                min-height: 220px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-item,
+            .gallery-image img {
+                transition: none;
+            }
+
+            .gallery-item:hover,
+            .gallery-item:hover .gallery-image img {
+                transform: none;
             }
         }
     </style>
@@ -119,64 +154,87 @@
 <body>
 
 <div class="topbar">
-    <span data-en="Together, we can make a difference." data-ur="مل کر ہم تبدیلی لا سکتے ہیں۔">Together, we can make a difference.</span>
-    <button id="language-toggle" type="button" aria-label="Switch language">اردو</button>
+    <p data-en="Together, we can make a difference."
+       data-ur="مل کر ہم تبدیلی لا سکتے ہیں۔">
+        Together, we can make a difference.
+    </p>
+    <button id="language-toggle" class="language-btn" type="button">
+        اردو
+    </button>
 </div>
 
 <header class="site-header">
-    <a href="index.html" class="brand" aria-label="AASRA Foundation Home">
-        <span class="brand-name">AASRA</span>
-        <span class="brand-subtitle">Foundation</span>
+    <a class="brand" href="index.html" aria-label="AASRA Foundation Home">
+        <span class="brand-symbol">A</span>
+        <span class="brand-copy">
+            <strong>AASRA</strong>
+            <small>FOUNDATION</small>
+        </span>
     </a>
 
-    <button id="menu-toggle" class="menu-toggle"
-        type="button" aria-label="Toggle navigation"
-        aria-controls="main-nav" aria-expanded="false">☰</button>
+    <button id="menu-toggle" class="menu-toggle" type="button"
+        aria-label="Toggle navigation" aria-controls="main-nav"
+        aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
 
     <nav id="main-nav" class="main-nav" aria-label="Main navigation">
         <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
-        <a href="about.html" data-en="About" data-ur="ہمارے بارے میں">About</a>
+        <a href="about.html" data-en="About" data-ur="تعارف">About</a>
         <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
         <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
-        <a href="gallery.html" class="active" aria-current="page" data-en="Gallery" data-ur="گیلری">Gallery</a>
+        <a href="gallery.html" class="active" aria-current="page"
+           data-en="Gallery" data-ur="گیلری">Gallery</a>
         <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
-        <a href="get-involved.html" class="nav-cta" data-en="Get Involved" data-ur="شامل ہوں">Get Involved</a>
+        <a href="get-involved.html" class="nav-cta"
+           data-en="Get Involved" data-ur="ہمارا ساتھ دیں">Get Involved</a>
     </nav>
 </header>
 
 <main>
     <section class="hero">
         <div class="hero-content">
-            <span class="eyebrow" data-en="OUR GALLERY" data-ur="ہماری گیلری">OUR GALLERY</span>
-            <h1 data-en="Moments of Care and Compassion" data-ur="دیکھ بھال اور ہمدردی کے لمحات">
+            <span class="eyebrow"
+                data-en="OUR GALLERY" data-ur="ہماری گیلری">OUR GALLERY</span>
+
+            <h1 data-en="Moments of Care and Compassion"
+                data-ur="دیکھ بھال اور ہمدردی کے لمحات">
                 Moments of <span>Care and Compassion</span>
             </h1>
+
             <p class="hero-description"
-                data-en="Explore photographs representing community support, volunteering, education, and the spirit of helping others."
-                data-ur="کمیونٹی کی مدد، رضاکارانہ خدمات، تعلیم اور دوسروں کی مدد کے جذبے کی عکاسی کرتی تصاویر دیکھیں۔">
-                Explore photographs representing community support,
-                volunteering, education, and the spirit of helping others.
+                data-en="Explore illustrative photographs celebrating community, education, volunteering, and kindness."
+                data-ur="کمیونٹی، تعلیم، رضاکارانہ خدمات اور مہربانی کی عکاسی کرتی نمائشی تصاویر دیکھیں۔">
+                Explore illustrative photographs celebrating community,
+                education, volunteering, and kindness.
             </p>
+
             <div class="hero-actions">
                 <a href="get-involved.html" class="nav-cta"
-                   data-en="Be Part of the Change" data-ur="تبدیلی کا حصہ بنیں">Be Part of the Change</a>
+                   data-en="Be Part of the Change"
+                   data-ur="تبدیلی کا حصہ بنیں">Be Part of the Change</a>
             </div>
         </div>
 
         <div class="hero-visual">
-            <img
+            <img class="gallery-hero-image"
                 src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1000&q=85"
-                alt="People coming together for a community activity">
+                alt="People gathered for a community activity"
+                fetchpriority="high">
         </div>
     </section>
 
     <section class="section">
-        <div class="section-heading">
-            <span class="eyebrow" data-en="PHOTO COLLECTION" data-ur="تصویری مجموعہ">PHOTO COLLECTION</span>
-            <h2 data-en="People. Purpose. Possibilities." data-ur="لوگ، مقصد اور امکانات">People. Purpose. Possibilities.</h2>
-            <p data-en="Illustrative photographs reflecting the values and community initiatives AASRA Foundation aims to promote."
+        <div class="section-heading gallery-intro">
+            <span class="eyebrow"
+                data-en="PHOTO COLLECTION" data-ur="تصویری مجموعہ">PHOTO COLLECTION</span>
+
+            <h2 data-en="People. Purpose. Possibilities."
+                data-ur="لوگ، مقصد اور امکانات">People. Purpose. Possibilities.</h2>
+
+            <p data-en="These illustrative photographs represent the values and community initiatives AASRA Foundation aims to promote."
                data-ur="یہ نمائشی تصاویر ان اقدار اور کمیونٹی سرگرمیوں کی عکاسی کرتی ہیں جنہیں آسرٰا فاؤنڈیشن فروغ دینا چاہتی ہے۔">
-                Illustrative photographs reflecting the values and
+                These illustrative photographs represent the values and
                 community initiatives AASRA Foundation aims to promote.
             </p>
         </div>
@@ -185,13 +243,13 @@
             <article class="gallery-item">
                 <div class="gallery-image">
                     <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=900&q=85"
-                         alt="People supporting a community initiative" loading="lazy">
+                         alt="People participating in a community initiative" loading="lazy">
                 </div>
                 <div class="gallery-caption">
                     <h3 data-en="Community Support" data-ur="کمیونٹی کی مدد">Community Support</h3>
-                    <p data-en="Working together to encourage care and connection."
-                       data-ur="دیکھ بھال اور باہمی تعلق کو فروغ دینے کے لیے مل کر کام کرنا۔">
-                        Working together to encourage care and connection.
+                    <p data-en="Encouraging care, connection, and community support."
+                       data-ur="دیکھ بھال، تعلق اور کمیونٹی کی مدد کو فروغ دینا۔">
+                        Encouraging care, connection, and community support.
                     </p>
                 </div>
             </article>
@@ -199,7 +257,7 @@
             <article class="gallery-item">
                 <div class="gallery-image">
                     <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=85"
-                         alt="Students participating in learning" loading="lazy">
+                         alt="Students learning together" loading="lazy">
                 </div>
                 <div class="gallery-caption">
                     <h3 data-en="Education and Learning" data-ur="تعلیم اور سیکھنا">Education and Learning</h3>
@@ -217,9 +275,9 @@
                 </div>
                 <div class="gallery-caption">
                     <h3 data-en="Volunteer Spirit" data-ur="رضاکارانہ جذبہ">Volunteer Spirit</h3>
-                    <p data-en="Inspiring people to contribute their time and skills."
+                    <p data-en="Inspiring people to share their time and skills."
                        data-ur="لوگوں کو اپنا وقت اور صلاحیتیں دینے کی ترغیب دینا۔">
-                        Inspiring people to contribute their time and skills.
+                        Inspiring people to share their time and skills.
                     </p>
                 </div>
             </article>
@@ -241,7 +299,7 @@
             <article class="gallery-item">
                 <div class="gallery-image">
                     <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=900&q=85"
-                         alt="People enjoying time together" loading="lazy">
+                         alt="People spending time together" loading="lazy">
                 </div>
                 <div class="gallery-caption">
                     <h3 data-en="Stronger Together" data-ur="مل کر مضبوط">Stronger Together</h3>
@@ -255,7 +313,7 @@
             <article class="gallery-item">
                 <div class="gallery-image">
                     <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85"
-                         alt="Healthcare professional working in a care setting" loading="lazy">
+                         alt="Healthcare professional in a care setting" loading="lazy">
                 </div>
                 <div class="gallery-caption">
                     <h3 data-en="Health Awareness" data-ur="صحت سے متعلق آگاہی">Health Awareness</h3>
@@ -270,13 +328,18 @@
 
     <section class="section get-involved-section">
         <div class="section-heading gallery-intro">
-            <span class="eyebrow" data-en="MAKE A DIFFERENCE" data-ur="تبدیلی لائیں">MAKE A DIFFERENCE</span>
-            <h2 data-en="Be Part of Our Story" data-ur="ہماری کہانی کا حصہ بنیں">Be Part of Our Story</h2>
-            <p data-en="Interested in supporting community-focused initiatives? Explore how you could get involved."
-               data-ur="کمیونٹی کی مدد میں دلچسپی ہے؟ جانیں کہ آپ کس طرح اپنا کردار ادا کر سکتے ہیں۔">
-                Interested in supporting community-focused initiatives?
-                Explore how you could get involved.
+            <span class="eyebrow"
+                data-en="MAKE A DIFFERENCE" data-ur="تبدیلی لائیں">MAKE A DIFFERENCE</span>
+
+            <h2 data-en="Be Part of Our Story" data-ur="ہماری کہانی کا حصہ بنیں">
+                Be Part of Our Story
+            </h2>
+
+            <p data-en="Explore how you could support community-focused initiatives."
+               data-ur="جانیں کہ آپ کمیونٹی کی مدد کے لیے کس طرح اپنا کردار ادا کر سکتے ہیں۔">
+                Explore how you could support community-focused initiatives.
             </p>
+
             <div class="gallery-cta">
                 <a href="get-involved.html" class="nav-cta"
                    data-en="Get Involved" data-ur="شامل ہوں">Get Involved</a>
@@ -290,28 +353,36 @@
 <footer class="site-footer">
     <div class="footer-main">
         <div>
-            <a href="index.html" class="brand">
-                <span class="brand-name">AASRA</span>
-                <span class="brand-subtitle">Foundation</span>
+            <a class="brand" href="index.html" aria-label="AASRA Foundation Home">
+                <span class="brand-symbol">A</span>
+                <span class="brand-copy">
+                    <strong>AASRA</strong>
+                    <small>FOUNDATION</small>
+                </span>
             </a>
-            <p data-en="Compassion • Dignity • Hope" data-ur="ہمدردی • وقار • امید">
+            <p data-en="Compassion • Dignity • Hope"
+               data-ur="ہمدردی • وقار • امید">
                 Compassion • Dignity • Hope
             </p>
         </div>
 
         <div class="footer-links">
-            <a href="about.html" data-en="About" data-ur="ہمارے بارے میں">About</a>
+            <a href="about.html" data-en="About" data-ur="تعارف">About</a>
             <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
             <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+            <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
             <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
         </div>
     </div>
 
     <div class="footer-bottom">
         <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+        <p data-en="Illustrative website concept"
+           data-ur="نمائشی ویب سائٹ کا تصور">Illustrative website concept</p>
     </div>
 </footer>
 
 </body>
 </html>
+
 
