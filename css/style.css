@@ -1158,4 +1158,106 @@ h1 em, h2 em {
     flex-wrap: wrap;
   }
 }
+/* ===== AASRA FOUNDATION: GLOBAL NAVBAR FIX ===== */
 
+.site-header {
+    width: 100%;
+    min-height: 100px;
+    padding: 18px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e5e3dc;
+    background: #fffdf9;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+}
+
+.main-nav a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.main-nav a.nav-cta {
+    padding: 18px 28px;
+    border-radius: 8px;
+}
+
+/* ===== PAGE LAYOUT AND FOOTER FIX ===== */
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+footer {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+
+@media (max-width: 900px) {
+    .site-header {
+        flex-wrap: wrap;
+        padding: 16px 5%;
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        gap: 12px 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .site-header {
+        gap: 14px;
+    }
+
+    .main-nav {
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .main-nav a.nav-cta {
+        padding: 12px 18px;
+    }
+
+    main {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
