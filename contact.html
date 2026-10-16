@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact AASRA Foundation for questions and information.">
+    <title>Contact Us | AASRA Foundation</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="js/language.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="section-tag">LET'S CONNECT</span>
+            <h1>We Would Love to <span>Hear From You</span></h1>
+            <p>
+                Have a question, suggestion, or idea? Use the form below
+                to share your message with this demonstration website.
+            </p>
+            <a href="#contact-form-section" class="btn btn-primary">Send a Message</a>
+        </div>
+
+        <div class="hero-visual">
+            <img
+                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85"
+                alt="People communicating and working together">
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">GET IN TOUCH</span>
+            <h2>How Can We Help?</h2>
+            <p>
+                Choose the most relevant page for your needs, or send
+                a general message using the form below.
+            </p>
+        </div>
+
+        <div class="services-grid">
+            <article class="service-card">
+                <div class="service-icon">♡</div>
+                <h3>Request Support</h3>
+                <p>Visit the help request page to describe the information you need.</p>
+                <a href="help.html">Request Help →</a>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">✦</div>
+                <h3>Volunteer With Us</h3>
+                <p>Explore ways to share your time, ideas, and skills.</p>
+                <a href="get-involved.html">Get Involved →</a>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">▤</div>
+                <h3>Explore Programs</h3>
+                <p>Learn about the community initiative ideas featured on this website.</p>
+                <a href="programs.html">View Programs →</a>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="contact-form-section">
+        <div class="section-heading">
+            <span class="section-tag">SEND A MESSAGE</span>
+            <h2>Contact Form</h2>
+            <p>Fill in the details below to submit a demo message.</p>
+        </div>
+
+        <form id="contact-form" class="contact-form">
+            <div class="form-group">
+                <label for="contact-name">Full Name</label>
+                <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact-email">Email Address</label>
+                <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact-subject">Subject</label>
+                <input
+                    type="text"
+                    id="contact-subject"
+                    name="subject"
+                    placeholder="What is your message about?"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact-content">Your Message</label>
+                <textarea
+                    id="contact-content"
+                    name="message"
+                    rows="6"
+                    placeholder="Write your message here..."
+                    required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Message</button>
+
+            <p id="contact-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="section-note">
+            This is a demonstration website. Messages may be handled by
+            browser-based demo code and are not automatically sent to a
+            real organization.
+        </p>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    <p>Compassion • Dignity • Hope</p>
+</footer>
+
+</body>
+</html>
