@@ -4,41 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fffdf9">
     <meta name="description" content="AASRA Foundation help request page.">
     <title>Request Help | AASRA Foundation</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
 
     <script src="js/language.js" defer></script>
     <script src="js/app.js" defer></script>
+
+    <style>
+        .help-form-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 32px;
+            background: #fff;
+            border: 1px solid rgba(70, 60, 45, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(40, 35, 25, 0.07);
+        }
+
+        .help-form-wrap .form-group {
+            margin-bottom: 20px;
+        }
+
+        .help-form-wrap label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .help-form-wrap input,
+        .help-form-wrap select,
+        .help-form-wrap textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .help-form-wrap textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        #help-message {
+            margin-top: 16px;
+            line-height: 1.7;
+        }
+
+        .help-note {
+            max-width: 760px;
+            margin: 22px auto 0;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: #f8f0e5;
+            color: #62594d;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .help-form-wrap {
+                padding: 22px 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="header">
-    <nav class="navbar">
-        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+<div class="topbar">
+    <span data-en="Together, we can make a difference."
+          data-ur="مل کر ہم تبدیلی لا سکتے ہیں۔">
+        Together, we can make a difference.
+    </span>
+    <button id="language-toggle" type="button" aria-label="Switch language">اردو</button>
+</div>
 
-        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+<header class="site-header">
+    <a href="index.html" class="brand" aria-label="AASRA Foundation Home">
+        <span class="brand-name">AASRA</span>
+        <span class="brand-subtitle">Foundation</span>
+    </a>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="programs.html">Programs</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
-        </ul>
+    <button id="menu-toggle" class="menu-toggle"
+            type="button" aria-label="Toggle navigation"
+            aria-controls="main-nav" aria-expanded="false">☰</button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+        <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
+        <a href="about.html" data-en="About" data-ur="ہمارے بارے میں">About</a>
+        <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+        <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+        <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+        <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+        <a href="get-involved.html" class="nav-cta"
+           data-en="Get Involved" data-ur="شامل ہوں">Get Involved</a>
     </nav>
 </header>
 
 <main>
     <section class="hero">
         <div class="hero-content">
-            <span class="section-tag">WE ARE HERE TO LISTEN</span>
-            <h1>Request <span>Support</span></h1>
-            <p>
+            <span class="eyebrow"
+                  data-en="WE ARE HERE TO LISTEN"
+                  data-ur="ہم آپ کی بات سننے کے لیے موجود ہیں">
+                WE ARE HERE TO LISTEN
+            </span>
+
+            <h1 data-en="Request Support" data-ur="مدد کی درخواست کریں">
+                Request <span>Support</span>
+            </h1>
+
+            <p class="hero-description"
+               data-en="Use this form to describe the kind of support or information you are looking for. Please avoid sharing sensitive personal or financial information."
+               data-ur="اس فارم کے ذریعے بتائیں کہ آپ کو کس قسم کی مدد یا معلومات درکار ہیں۔ براہِ کرم حساس ذاتی یا مالی معلومات شیئر نہ کریں۔">
                 Use this form to describe the kind of support or information
                 you are looking for. Please avoid sharing sensitive personal
                 or financial information.
@@ -54,84 +137,133 @@
 
     <section class="section">
         <div class="section-heading">
-            <span class="section-tag">HELP REQUEST FORM</span>
-            <h2>Tell Us How We Can Help</h2>
-            <p>
+            <span class="eyebrow"
+                  data-en="HELP REQUEST FORM"
+                  data-ur="مدد کی درخواست کا فارم">
+                HELP REQUEST FORM
+            </span>
+
+            <h2 data-en="Tell Us How We Can Help"
+                data-ur="بتائیں ہم کیسے مدد کر سکتے ہیں">
+                Tell Us How We Can Help
+            </h2>
+
+            <p data-en="Complete the fields below to create a demonstration help request on this website."
+               data-ur="اس ویب سائٹ پر ایک نمائشی درخواست بنانے کے لیے نیچے دیا گیا فارم پُر کریں۔">
                 Complete the fields below to create a demonstration help
                 request on this website.
             </p>
         </div>
 
-        <form id="help-form" class="contact-form">
-            <div class="form-group">
-                <label for="help-name">Full Name</label>
-                <input
-                    type="text"
-                    id="help-name"
-                    name="name"
-                    placeholder="Enter your name"
-                    required>
-            </div>
+        <div class="help-form-wrap">
+            <form id="help-form" class="contact-form">
+                <div class="form-group">
+                    <label for="help-name" data-en="Full Name" data-ur="پورا نام">
+                        Full Name
+                    </label>
+                    <input type="text" id="help-name" name="name"
+                           placeholder="Enter your name" required>
+                </div>
 
-            <div class="form-group">
-                <label for="help-email">Email Address</label>
-                <input
-                    type="email"
-                    id="help-email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    required>
-            </div>
+                <div class="form-group">
+                    <label for="help-email" data-en="Email Address" data-ur="ای میل">
+                        Email Address
+                    </label>
+                    <input type="email" id="help-email" name="email"
+                           placeholder="Enter your email address" required>
+                </div>
 
-            <div class="form-group">
-                <label for="help-category">Type of Support</label>
-                <select id="help-category" name="category" required>
-                    <option value="">Select a category</option>
-                    <option value="Education">Education Information</option>
-                    <option value="Family Support">Family Support</option>
-                    <option value="Health Awareness">Health Information</option>
-                    <option value="Community Resources">Community Resources</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="help-category" data-en="Type of Support" data-ur="مدد کی قسم">
+                        Type of Support
+                    </label>
+                    <select id="help-category" name="category" required>
+                        <option value="" data-en="Select a category" data-ur="قسم منتخب کریں">Select a category</option>
+                        <option value="Education" data-en="Education Information" data-ur="تعلیمی معلومات">Education Information</option>
+                        <option value="Family Support" data-en="Family Support" data-ur="خاندانی مدد">Family Support</option>
+                        <option value="Health Awareness" data-en="Health Information" data-ur="صحت سے متعلق معلومات">Health Information</option>
+                        <option value="Community Resources" data-en="Community Resources" data-ur="کمیونٹی وسائل">Community Resources</option>
+                        <option value="Other" data-en="Other" data-ur="دیگر">Other</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="help-description">Describe Your Request</label>
-                <textarea
-                    id="help-description"
-                    name="description"
-                    rows="6"
-                    placeholder="Briefly describe the support or information you need"
-                    required></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="help-description"
+                           data-en="Describe Your Request"
+                           data-ur="اپنی درخواست کی وضاحت کریں">
+                        Describe Your Request
+                    </label>
+                    <textarea id="help-description" name="description"
+                              rows="6"
+                              placeholder="Briefly describe the support or information you need"
+                              required></textarea>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Submit Request</button>
+                <button type="submit" class="nav-cta"
+                        data-en="Submit Request" data-ur="درخواست جمع کریں">
+                    Submit Request
+                </button>
 
-            <p id="help-message" role="status" aria-live="polite"></p>
-        </form>
+                <p id="help-message" role="status" aria-live="polite"></p>
+            </form>
+        </div>
 
-        <p class="section-note">
+        <p class="help-note"
+           data-en="This is a demonstration website. Submitting this form does not contact a real support team or guarantee assistance."
+           data-ur="یہ ایک نمائشی ویب سائٹ ہے۔ فارم جمع کرنے سے کسی حقیقی امدادی ٹیم سے رابطہ نہیں ہوتا اور نہ ہی مدد کی ضمانت ملتی ہے۔">
             This is a demonstration website. Submitting this form does not
             contact a real support team or guarantee assistance.
         </p>
     </section>
 
-    <section class="section">
+    <section class="section get-involved-section">
         <div class="section-heading">
-            <h2>Need to Ask a Question?</h2>
-            <p>Visit our contact page to explore the website's contact options.</p>
-            <a href="contact.html" class="btn btn-primary">Go to Contact Page</a>
+            <span class="eyebrow" data-en="LET'S CONNECT" data-ur="رابطہ کریں">
+                LET'S CONNECT
+            </span>
+            <h2 data-en="Need to Ask a Question?"
+                data-ur="کوئی سوال پوچھنا چاہتے ہیں؟">
+                Need to Ask a Question?
+            </h2>
+            <p data-en="Visit our contact page to explore the website's contact options."
+               data-ur="رابطے کے دستیاب اختیارات دیکھنے کے لیے ہمارا رابطہ صفحہ کھولیں۔">
+                Visit our contact page to explore the website's contact options.
+            </p>
+            <a href="contact.html" class="nav-cta"
+               data-en="Go to Contact Page" data-ur="رابطہ صفحہ کھولیں">
+                Go to Contact Page
+            </a>
         </div>
     </section>
 </main>
 
-<footer class="footer">
-    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
-    <p>Compassion • Dignity • Hope</p>
-</footer>
+<footer class="site-footer">
+    <div class="footer-main">
+        <div>
+            <a href="index.html" class="brand">
+                <span class="brand-name">AASRA</span>
+                <span class="brand-subtitle">Foundation</span>
+            </a>
+            <p data-en="Compassion • Dignity • Hope"
+               data-ur="ہمدردی • وقار • امید">
+                Compassion • Dignity • Hope
+            </p>
+        </div>
 
-    <script src="js/language.js"></script>
-<script src="js/app.js"></script>
+        <div class="footer-links">
+            <a href="about.html" data-en="About" data-ur="ہمارے بارے میں">About</a>
+            <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+            <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+            <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+            <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    </div>
+</footer>
 
 </body>
 </html>
+
