@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =========================================
      AASRA FOUNDATION — MAIN JAVASCRIPT
+     Frontend + Local Storage
   ========================================= */
 
   // Mobile navigation
@@ -37,36 +38,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
-      }
+      if (event.key === "Escape") closeMenu();
     });
 
     document.addEventListener("click", (event) => {
-      const clickedInsideMenu =
-        mainNav.contains(event.target) ||
-        menuToggle.contains(event.target);
-
-      if (!clickedInsideMenu) {
+      if (
+        !mainNav.contains(event.target) &&
+        !menuToggle.contains(event.target)
+      ) {
         closeMenu();
       }
     });
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 850) {
-        closeMenu();
-      }
+      if (window.innerWidth > 850) closeMenu();
     });
   }
 
-  // Automatically update the footer year.
+  // Footer year
   const yearElement = document.getElementById("current-year");
 
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
   }
 
-  // Smooth scrolling for same-page navigation.
+  // Smooth scrolling
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href");
@@ -75,28 +71,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const target = document.querySelector(targetId);
 
-      if (target) {
-        event.preventDefault();
+      if (!target) return;
 
-        const reduceMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)"
-        ).matches;
+      event.preventDefault();
 
-        target.scrollIntoView({
-          behavior: reduceMotion ? "auto" : "smooth",
-          block: "start",
-        });
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
 
-        if (window.location.hash !== targetId) {
-          history.replaceState(null, "", targetId);
-        }
+      target.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+
+      if (window.location.hash !== targetId) {
+        history.replaceState(null, "", targetId);
       }
     });
   });
 
-  // Demo form handling.
-  // Form data is not transmitted or stored by this script.
-  function setupDemoForm(formId, messageId, message) {
+  // Local Storage form handling
+  function setupLocalStorageForm(formId, messageId, storageKey, successMessage) {
     const form = document.getElementById(formId);
     const messageElement = document.getElementById(messageId);
 
@@ -110,11 +105,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       messageElement.textContent = "";
 
-      if (!form.reportValidity()) {
-        return;
-      }
+      if (!form.reportValidity()) return;
 
-      // Validate email when an email field is provided.
+      // Validate email if the form contains an email field.
       const emailField = form.querySelector('input[type="email"]');
 
       if (emailField && emailField.value.trim()) {
@@ -132,43 +125,73 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Show the appropriate demo message.
-      messageElement.textContent = message;
+      // Read form values.
+      const formData = {};
 
-      // Clear fields after displaying the message.
-      form.reset();
+      new FormData(form).forEach((value, key) => {
+        if (typeof value === "string") {
+          formData[key] = value.trim();
+        }
+      });
+
+      try {
+        // Load previously saved entries.
+        const savedData = JSON.parse(
+          localStorage.getItem(storageKey) || "[]"
+        );
+
+        if (!Array.isArray(savedData)) {
+          throw new Error("Stored data format is invalid.");
+        }
+
+        // Save the new entry locally.
+        savedData.push({
+          ...formData,
+          savedAt: new Date().toISOString(),
+        });
+
+        localStorage.setItem(storageKey, JSON.stringify(savedData));
+
+        messageElement.textContent = successMessage;
+        form.reset();
+      } catch (error) {
+        console.error("AASRA Local Storage error:", error);
+
+        messageElement.textContent =
+          "Unable to save your information in this browser. Please try again.";
+      }
     });
   }
 
   // Help Request form
-  setupDemoForm(
+  setupLocalStorageForm(
     "help-form",
     "help-message",
-    "Demo only: your help request was not submitted or saved. A secure backend connection is needed to receive requests."
+    "aasra_help_requests",
+    "Your demo help request has been saved in this browser."
   );
 
   // Volunteer form
-  setupDemoForm(
+  setupLocalStorageForm(
     "volunteer-form-element",
     "volunteer-message",
-    "Demo only: your volunteer interest was not submitted or saved. A secure backend connection is needed to register you."
+    "aasra_volunteers",
+    "Your demo volunteer information has been saved in this browser."
   );
 
   // Contact form
-  setupDemoForm(
+  setupLocalStorageForm(
     "contact-form",
     "contact-message",
-    "Demo only: your message was not sent or saved. A secure backend connection is needed to contact the foundation."
+    "aasra_contact_messages",
+    "Your demo contact message has been saved in this browser."
   );
 
-  // Allow Escape to dismiss keyboard focus from text fields.
-  document
-    .querySelectorAll("input, textarea")
-    .forEach((element) => {
-      element.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          element.blur();
-        }
-      });
+  // Allow Escape to dismiss focus from text fields.
+  document.querySelectorAll("input, textarea").forEach((element) => {
+    element.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") element.blur();
     });
+  });
 });
+
