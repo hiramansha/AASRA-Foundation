@@ -1,148 +1,436 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore AASRA Foundation's community support services.">
-    <title>Our Services | AASRA Foundation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b3a">
+  <meta name="description" content="Explore AASRA Foundation's proposed community support services.">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+  <title>Our Services | AASRA Foundation</title>
 
-    <script src="js/language.js" defer></script>
-    <script src="js/app.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <script src="js/language.js" defer></script>
+  <script src="js/app.js" defer></script>
 </head>
+
 <body>
 
-<header class="header">
-    <nav class="navbar">
-        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <p data-en="Lahore, Pakistan | Compassion, dignity and hope"
+       data-ur="لاہور، پاکستان | ہمدردی، عزت اور امید">
+      Lahore, Pakistan | Compassion, dignity and hope
+    </p>
 
-        <button class="menu-toggle" aria-label="Toggle navigation">
-            ☰
-        </button>
+    <button id="language-toggle" class="language-btn" type="button">
+      اردو
+    </button>
+  </div>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html" class="active">Services</a></li>
-            <li><a href="programs.html">Programs</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
-        </ul>
+  <!-- HEADER -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AASRA Foundation Home">
+      <span class="brand-symbol">A</span>
+      <span class="brand-copy">
+        <strong>AASRA</strong>
+        <small>FOUNDATION</small>
+      </span>
+    </a>
+
+    <button
+      id="menu-toggle"
+      class="menu-toggle"
+      type="button"
+      aria-label="Toggle navigation"
+      aria-controls="main-nav"
+      aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
+      <a href="about.html" data-en="About" data-ur="تعارف">About</a>
+      <a href="services.html" aria-current="page"
+         data-en="Services" data-ur="خدمات">Services</a>
+      <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+      <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+      <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+      <a href="get-involved.html" class="nav-cta"
+         data-en="Get Involved" data-ur="ہمارا ساتھ دیں">Get Involved</a>
     </nav>
-</header>
+  </header>
 
-<main>
+  <main>
+
+    <!-- SERVICES HERO -->
     <section class="hero">
-        <div class="hero-content">
-            <span class="section-tag">HOW WE HELP</span>
-            <h1>Support That Makes a <span>Difference</span></h1>
-            <p>
-                Explore our proposed community support services, designed
-                to promote well-being, opportunity, and hope.
+      <div class="hero-content">
+        <span class="eyebrow"
+          data-en="HOW WE AIM TO HELP"
+          data-ur="ہم کس طرح مدد کرنا چاہتے ہیں">
+          HOW WE AIM TO HELP
+        </span>
+
+        <h1 data-en="Support That Makes a <em>Difference.</em>"
+            data-ur="ایسی مدد جو <em>فرق پیدا کرے۔</em>">
+          Support That Makes a <em>Difference.</em>
+        </h1>
+
+        <p class="hero-description"
+          data-en="Explore proposed community support services focused on well-being, opportunity, inclusion and hope."
+          data-ur="فلاح، مواقع، شمولیت اور امید پر مبنی مجوزہ سماجی خدمات دیکھیں۔">
+          Explore proposed community support services focused on well-being, opportunity, inclusion and hope.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#service-list" class="btn btn-primary"
+             data-en="Explore Services ↓" data-ur="خدمات دیکھیں ↓">
+            Explore Services ↓
+          </a>
+
+          <a href="help.html" class="btn btn-outline"
+             data-en="Request Help" data-ur="مدد کی درخواست">
+            Request Help
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img
+          src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1100&q=85"
+          alt="Community members participating in a group activity"
+          fetchpriority="high">
+
+        <div class="image-caption">
+          <span class="caption-heart">♡</span>
+          <div>
+            <strong data-en="Every person deserves care."
+                    data-ur="ہر انسان توجہ کا حقدار ہے۔">
+              Every person deserves care.
+            </strong>
+            <small data-en="Compassion begins with understanding."
+                   data-ur="ہمدردی سمجھنے سے شروع ہوتی ہے۔">
+              Compassion begins with understanding.
+            </small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BELIEF STRIP -->
+    <section class="mission-strip">
+      <div class="mission-label"
+        data-en="OUR COMMITMENT" data-ur="ہمارا عزم">
+        OUR COMMITMENT
+      </div>
+
+      <p data-en="Promoting dignity, inclusion and access to appropriate support."
+         data-ur="عزت، شمولیت اور مناسب مدد تک رسائی کو فروغ دینا۔">
+        Promoting dignity, inclusion and access to appropriate support.
+      </p>
+
+      <span class="mission-flower">✳</span>
+    </section>
+
+    <!-- SERVICE CARDS -->
+    <section class="section services-section" id="service-list">
+      <div class="section-heading">
+        <span class="eyebrow"
+          data-en="OUR SERVICE AREAS" data-ur="ہماری خدمات کے شعبے">
+          OUR SERVICE AREAS
+        </span>
+
+        <h2 data-en="Ways We Aim to <em>Help.</em>"
+            data-ur="مدد کے <em>ممکنہ طریقے۔</em>">
+          Ways We Aim to <em>Help.</em>
+        </h2>
+
+        <p data-en="Discover areas where a community welfare initiative could help connect people with relevant resources."
+           data-ur="وہ شعبے دیکھیں جہاں ایک فلاحی منصوبہ لوگوں کو متعلقہ وسائل سے جوڑنے میں مدد دے سکتا ہے۔">
+          Discover areas where a community welfare initiative could help connect people with relevant resources.
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <article class="service-card">
+          <div class="service-icon">♡</div>
+          <span class="eyebrow" data-en="01 · FAMILY" data-ur="01 · خاندان">
+            01 · FAMILY
+          </span>
+
+          <h3 data-en="Family Support" data-ur="خاندانی مدد">Family Support</h3>
+
+          <p data-en="Explore ways to connect families with relevant community resources during challenging circumstances."
+             data-ur="مشکل حالات میں خاندانوں کو متعلقہ سماجی وسائل سے جوڑنے کے طریقے تلاش کرنا۔">
+            Explore ways to connect families with relevant community resources during challenging circumstances.
+          </p>
+
+          <a class="text-link" href="help.html"
+             data-en="Explore Help Options ↗" data-ur="مدد کے مواقع دیکھیں ↗">
+            Explore Help Options ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">✚</div>
+          <span class="eyebrow" data-en="02 · HEALTH" data-ur="02 · صحت">
+            02 · HEALTH
+          </span>
+
+          <h3 data-en="Health Awareness" data-ur="صحت سے متعلق آگاہی">
+            Health Awareness
+          </h3>
+
+          <p data-en="Encourage health education, awareness and knowledge of appropriate healthcare resources."
+             data-ur="صحت کی تعلیم، آگاہی اور مناسب طبی وسائل کے بارے میں معلومات کو فروغ دینا۔">
+            Encourage health education, awareness and knowledge of appropriate healthcare resources.
+          </p>
+
+          <a class="text-link" href="programs.html"
+             data-en="Explore Programs ↗" data-ur="پروگرام دیکھیں ↗">
+            Explore Programs ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">▤</div>
+          <span class="eyebrow" data-en="03 · EDUCATION" data-ur="03 · تعلیم">
+            03 · EDUCATION
+          </span>
+
+          <h3 data-en="Education Support" data-ur="تعلیمی مدد">
+            Education Support
+          </h3>
+
+          <p data-en="Promote learning opportunities and help people discover useful educational resources."
+             data-ur="تعلیم کے مواقع اور مفید تعلیمی وسائل کے بارے میں آگاہی کو فروغ دینا۔">
+            Promote learning opportunities and help people discover useful educational resources.
+          </p>
+
+          <a class="text-link" href="programs.html"
+             data-en="View Programs ↗" data-ur="پروگرام دیکھیں ↗">
+            View Programs ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">♧</div>
+          <span class="eyebrow" data-en="04 · COMMUNITY" data-ur="04 · کمیونٹی">
+            04 · COMMUNITY
+          </span>
+
+          <h3 data-en="Community Welfare" data-ur="سماجی فلاح">
+            Community Welfare
+          </h3>
+
+          <p data-en="Encourage community-led ideas that respond to local needs and promote inclusion."
+             data-ur="مقامی ضروریات کے مطابق سماجی اقدامات اور شمولیت کو فروغ دینا۔">
+            Encourage community-led ideas that respond to local needs and promote inclusion.
+          </p>
+
+          <a class="text-link" href="get-involved.html"
+             data-en="Get Involved ↗" data-ur="ہمارا ساتھ دیں ↗">
+            Get Involved ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">♡</div>
+          <span class="eyebrow" data-en="05 · WELL-BEING" data-ur="05 · فلاح">
+            05 · WELL-BEING
+          </span>
+
+          <h3 data-en="Emotional Well-being" data-ur="جذباتی فلاح">
+            Emotional Well-being
+          </h3>
+
+          <p data-en="Promote kindness, social connection and awareness of appropriate well-being resources."
+             data-ur="مہربانی، سماجی روابط اور مناسب فلاحی وسائل کے بارے میں آگاہی کو فروغ دینا۔">
+            Promote kindness, social connection and awareness of appropriate well-being resources.
+          </p>
+
+          <a class="text-link" href="contact.html"
+             data-en="Contact Us ↗" data-ur="رابطہ کریں ↗">
+            Contact Us ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">✦</div>
+          <span class="eyebrow" data-en="06 · VOLUNTEERING" data-ur="06 · رضاکارانہ خدمت">
+            06 · VOLUNTEERING
+          </span>
+
+          <h3 data-en="Volunteer Support" data-ur="رضاکارانہ خدمات">
+            Volunteer Support
+          </h3>
+
+          <p data-en="Explore ways to contribute time, skills and ideas to community-focused initiatives."
+             data-ur="سماجی اقدامات کے لیے وقت، مہارتیں اور خیالات دینے کے طریقے تلاش کرنا۔">
+            Explore ways to contribute time, skills and ideas to community-focused initiatives.
+          </p>
+
+          <a class="text-link" href="get-involved.html"
+             data-en="Become a Volunteer ↗" data-ur="رضاکار بنیں ↗">
+            Become a Volunteer ↗
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- OUR APPROACH -->
+    <section class="approach-section">
+      <div class="approach-image">
+        <img
+          src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85"
+          alt="People discussing ideas and working together"
+          loading="lazy">
+      </div>
+
+      <div class="approach-content">
+        <span class="eyebrow"
+          data-en="A THOUGHTFUL APPROACH" data-ur="سوچا سمجھا طریقۂ کار">
+          A THOUGHTFUL APPROACH
+        </span>
+
+        <h2 data-en="Support built around <em>real needs.</em>"
+            data-ur="حقیقی ضروریات کے مطابق <em>مدد۔</em>">
+          Support built around <em>real needs.</em>
+        </h2>
+
+        <p data-en="Effective support begins by understanding individual circumstances and identifying suitable resources."
+           data-ur="مؤثر مدد افراد کے حالات سمجھنے اور مناسب وسائل کی شناخت سے شروع ہوتی ہے۔">
+          Effective support begins by understanding individual circumstances and identifying suitable resources.
+        </p>
+
+        <div class="approach-step">
+          <span>01</span>
+          <div>
+            <strong data-en="Listen carefully" data-ur="توجہ سے سنیں">Listen carefully</strong>
+            <p data-en="Understand people's circumstances and priorities."
+               data-ur="لوگوں کے حالات اور ترجیحات کو سمجھیں۔">
+              Understand people's circumstances and priorities.
             </p>
-            <a href="help.html" class="btn btn-primary">Request Help</a>
+          </div>
         </div>
 
-        <div class="hero-visual">
-            <img
-                src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1000&q=85"
-                alt="Community members supporting one another">
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-heading">
-            <span class="section-tag">OUR SERVICES</span>
-            <h2>Ways We Aim to Help</h2>
-            <p>Discover the areas where community support can create a positive impact.</p>
-        </div>
-
-        <div class="services-grid">
-            <article class="service-card">
-                <div class="service-icon">♡</div>
-                <h3>Family Support</h3>
-                <p>
-                    Connect families with relevant support and community
-                    resources during challenging times.
-                </p>
-                <a href="help.html">Request Support →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">✚</div>
-                <h3>Health Awareness</h3>
-                <p>
-                    Encourage health education, awareness activities,
-                    and access to appropriate community resources.
-                </p>
-                <a href="programs.html">Explore Programs →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">▤</div>
-                <h3>Education Support</h3>
-                <p>
-                    Promote learning opportunities and help people discover
-                    educational resources.
-                </p>
-                <a href="programs.html">View Programs →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">♧</div>
-                <h3>Community Welfare</h3>
-                <p>
-                    Encourage community-led initiatives that respond to
-                    local needs and promote inclusion.
-                </p>
-                <a href="get-involved.html">Get Involved →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">♡</div>
-                <h3>Emotional Well-being</h3>
-                <p>
-                    Promote kindness, connection, and awareness of
-                    appropriate emotional well-being resources.
-                </p>
-                <a href="contact.html">Contact Us →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">✦</div>
-                <h3>Volunteer Support</h3>
-                <p>
-                    Create opportunities for people to contribute their
-                    time and skills to community initiatives.
-                </p>
-                <a href="get-involved.html">Become a Volunteer →</a>
-            </article>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-heading">
-            <span class="section-tag">TAKE THE NEXT STEP</span>
-            <h2>Every Kind Act Matters</h2>
-            <p>
-                Whether you need guidance or want to contribute,
-                start by reaching out to AASRA Foundation.
+        <div class="approach-step">
+          <span>02</span>
+          <div>
+            <strong data-en="Identify resources" data-ur="وسائل کی شناخت کریں">
+              Identify resources
+            </strong>
+            <p data-en="Explore suitable, safe and relevant support options."
+               data-ur="مناسب، محفوظ اور متعلقہ امدادی مواقع تلاش کریں۔">
+              Explore suitable, safe and relevant support options.
             </p>
-            <a href="contact.html" class="btn btn-primary">Contact Us</a>
-            <a href="get-involved.html" class="btn btn-secondary">Support Our Mission</a>
+          </div>
         </div>
-    </section>
-</main>
 
-<footer class="footer">
-    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
-    <p>Compassion • Dignity • Hope</p>
-</footer>
-  <script src="js/language.js"></script>
-  <script src="js/app.js"></script>
+        <div class="approach-step">
+          <span>03</span>
+          <div>
+            <strong data-en="Encourage independence" data-ur="خودمختاری کو فروغ دیں">
+              Encourage independence
+            </strong>
+            <p data-en="Help people explore skills, learning and future opportunities."
+               data-ur="لوگوں کو ہنر، تعلیم اور مستقبل کے مواقع تلاش کرنے میں مدد دیں۔">
+              Help people explore skills, learning and future opportunities.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="get-involved-section">
+      <div class="get-involved-copy">
+        <span class="eyebrow"
+          data-en="TAKE THE NEXT STEP" data-ur="اگلا قدم اٹھائیں">
+          TAKE THE NEXT STEP
+        </span>
+
+        <h2 data-en="Every kind act <em>matters.</em>"
+            data-ur="مہربانی کا ہر عمل <em>اہم ہے۔</em>">
+          Every kind act <em>matters.</em>
+        </h2>
+
+        <p data-en="Whether you are looking for information or want to contribute, begin by exploring the available options."
+           data-ur="چاہے آپ معلومات چاہتے ہوں یا اپنا تعاون دینا چاہتے ہوں، دستیاب مواقع دیکھ کر آغاز کریں۔">
+          Whether you are looking for information or want to contribute, begin by exploring the available options.
+        </p>
+
+        <div class="involved-actions">
+          <a href="contact.html" class="btn btn-light"
+             data-en="Contact Us ↗" data-ur="رابطہ کریں ↗">
+            Contact Us ↗
+          </a>
+
+          <a href="get-involved.html" class="btn btn-transparent"
+             data-en="Support Our Mission" data-ur="ہمارے مشن کا ساتھ دیں">
+            Support Our Mission
+          </a>
+        </div>
+      </div>
+
+      <div class="involved-decoration">AASRA<span>♡</span></div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-symbol">A</span>
+        <span class="brand-copy">
+          <strong>AASRA</strong>
+          <small>FOUNDATION</small>
+        </span>
+      </a>
+
+      <p data-en="Har Insaan Ka Sahara — Every person deserves dignity, care and hope."
+         data-ur="ہر انسان کا سہارا — ہر انسان عزت، توجہ اور امید کا حقدار ہے۔">
+        Har Insaan Ka Sahara — Every person deserves dignity, care and hope.
+      </p>
+
+      <div class="footer-links">
+        <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
+        <a href="about.html" data-en="About" data-ur="تعارف">About</a>
+        <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+        <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+        <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+        <a href="help.html" data-en="Request Help" data-ur="مدد کی درخواست">Request Help</a>
+        <a href="donate.html" data-en="Donate" data-ur="عطیات">Donate</a>
+        <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+      </div>
+
+      <a href="#" class="back-top"
+         data-en="Back to top ↑" data-ur="اوپر جائیں ↑">
+        Back to top ↑
+      </a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</span>
+      <span data-en="Compassion · Dignity · Hope"
+            data-ur="ہمدردی · عزت · امید">
+        Compassion · Dignity · Hope
+      </span>
+    </div>
+  </footer>
+
 </body>
 </html>
+
