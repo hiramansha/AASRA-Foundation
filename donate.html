@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about supporting AASRA Foundation's proposed community initiatives.">
+    <title>Support Our Mission | AASRA Foundation</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="js/language.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="section-tag">GIVE WITH COMPASSION</span>
+            <h1>Together, We Can Create <span>Hope</span></h1>
+            <p>
+                Explore ways to support community-focused initiatives
+                promoting education, well-being, and care for others.
+            </p>
+            <a href="#donation-interest" class="btn btn-primary">Express Your Interest</a>
+        </div>
+
+        <div class="hero-visual">
+            <img
+                src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1000&q=85"
+                alt="People working together to support a community">
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">WHY SUPPORT MATTERS</span>
+            <h2>Small Acts Can Make a Difference</h2>
+            <p>
+                Community support can help create opportunities and
+                encourage positive change when resources are directed
+                responsibly toward genuine needs.
+            </p>
+        </div>
+
+        <div class="services-grid">
+            <article class="service-card">
+                <div class="service-icon">▤</div>
+                <h3>Learning Opportunities</h3>
+                <p>
+                    Support ideas that encourage education,
+                    learning resources, and knowledge sharing.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">♡</div>
+                <h3>Community Care</h3>
+                <p>
+                    Encourage compassion, connection, and
+                    awareness of available community resources.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">✦</div>
+                <h3>Positive Change</h3>
+                <p>
+                    Help promote community initiatives that focus
+                    on dignity, opportunity, and well-being.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="donation-interest">
+        <div class="section-heading">
+            <span class="section-tag">SUPPORT OUR MISSION</span>
+            <h2>Donation Interest Form</h2>
+            <p>
+                Use this form to express interest in supporting a proposed
+                initiative. This form does not collect payments.
+            </p>
+        </div>
+
+        <form id="donation-interest-form" class="contact-form">
+            <div class="form-group">
+                <label for="donor-name">Full Name</label>
+                <input
+                    type="text"
+                    id="donor-name"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="donor-email">Email Address</label>
+                <input
+                    type="email"
+                    id="donor-email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="support-area">Area You Would Like to Support</label>
+                <select id="support-area" name="supportArea" required>
+                    <option value="">Choose an area</option>
+                    <option value="Education">Education</option>
+                    <option value="Community Welfare">Community Welfare</option>
+                    <option value="Health Awareness">Health Awareness</option>
+                    <option value="General Support">General Support</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="donation-note">Message (Optional)</label>
+                <textarea
+                    id="donation-note"
+                    name="message"
+                    rows="4"
+                    placeholder="Share a question or message"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Submit Interest
+            </button>
+
+            <p id="donation-interest-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="section-note">
+            No payment is taken through this form. This is a demonstration
+            website, and submitting the form does not confirm a donation
+            or contact a real organization.
+        </p>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">ANOTHER WAY TO HELP</span>
+            <h2>Share Your Time and Skills</h2>
+            <p>
+                You can also explore volunteer opportunities and
+                contribute through your skills and time.
+            </p>
+            <a href="get-involved.html" class="btn btn-primary">Become a Volunteer</a>
+            <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    <p>Compassion • Dignity • Hope</p>
+</footer>
+
+</body>
+</html>
