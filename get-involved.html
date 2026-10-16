@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover ways to support AASRA Foundation's proposed community initiatives.">
+    <title>Get Involved | AASRA Foundation</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="js/language.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="get-involved.html" class="active btn btn-primary">Get Involved</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="section-tag">MAKE A DIFFERENCE</span>
+            <h1>Your Time Can Create <span>Positive Change</span></h1>
+            <p>
+                Every skill, kind action, and helping hand can contribute
+                to a stronger and more caring community.
+            </p>
+            <a href="#volunteer-options" class="btn btn-primary">Explore Opportunities</a>
+        </div>
+
+        <div class="hero-visual">
+            <img
+                src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1000&q=85"
+                alt="People volunteering and working together">
+        </div>
+    </section>
+
+    <section class="section" id="volunteer-options">
+        <div class="section-heading">
+            <span class="section-tag">WAYS TO PARTICIPATE</span>
+            <h2>How Would You Like to Help?</h2>
+            <p>Explore different ways to contribute to community-focused initiatives.</p>
+        </div>
+
+        <div class="services-grid">
+            <article class="service-card">
+                <div class="service-icon">♡</div>
+                <h3>Become a Volunteer</h3>
+                <p>
+                    Share your time, talents, and ideas to support
+                    community activities and awareness initiatives.
+                </p>
+                <a href="#volunteer-form">Register Interest →</a>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">▤</div>
+                <h3>Share Your Skills</h3>
+                <p>
+                    Contribute skills such as teaching, design,
+                    communication, technology, or event support.
+                </p>
+                <a href="#volunteer-form">Share Your Skills →</a>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">✦</div>
+                <h3>Spread Awareness</h3>
+                <p>
+                    Help share positive messages about compassion,
+                    education, and community well-being.
+                </p>
+                <a href="contact.html">Contact Us →</a>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="volunteer-form">
+        <div class="section-heading">
+            <span class="section-tag">VOLUNTEER WITH US</span>
+            <h2>Register Your Interest</h2>
+            <p>
+                Complete the form to express your interest in volunteering.
+                This demonstration form does not send information to a server.
+            </p>
+        </div>
+
+        <form id="volunteer-form-element" class="contact-form">
+            <div class="form-group">
+                <label for="volunteer-name">Full Name</label>
+                <input
+                    type="text"
+                    id="volunteer-name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="volunteer-email">Email Address</label>
+                <input
+                    type="email"
+                    id="volunteer-email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="volunteer-phone">Phone Number (Optional)</label>
+                <input
+                    type="tel"
+                    id="volunteer-phone"
+                    name="phone"
+                    placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-group">
+                <label for="volunteer-interest">Area of Interest</label>
+                <select id="volunteer-interest" name="interest" required>
+                    <option value="">Choose an area</option>
+                    <option value="Education">Education Support</option>
+                    <option value="Community Welfare">Community Welfare</option>
+                    <option value="Health Awareness">Health Awareness</option>
+                    <option value="Event Support">Event Support</option>
+                    <option value="Digital Skills">Digital Skills</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="volunteer-message">Why would you like to volunteer?</label>
+                <textarea
+                    id="volunteer-message"
+                    name="message"
+                    rows="5"
+                    placeholder="Tell us about your interests"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Interest</button>
+
+            <p id="volunteer-message" role="status" aria-live="polite"></p>
+        </form>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">LET'S CONNECT</span>
+            <h2>Have Another Idea?</h2>
+            <p>
+                If you have a question or another way you would like to
+                contribute, reach out through our contact page.
+            </p>
+            <a href="contact.html" class="btn btn-primary">Contact Us</a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    <p>Compassion • Dignity • Hope</p>
+</footer>
+
+</body>
+</html>
