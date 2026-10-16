@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the AASRA Foundation community photo gallery.">
+    <title>Gallery | AASRA Foundation</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="js/language.js" defer></script>
+    <script src="js/app.js" defer></script>
+
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 35px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .gallery-item img {
+            display: block;
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-caption {
+            padding: 18px;
+        }
+
+        .gallery-caption h3 {
+            margin: 0 0 8px;
+        }
+
+        .gallery-caption p {
+            margin: 0;
+        }
+
+        @media (max-width: 850px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 520px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item img {
+                height: 230px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="section-tag">OUR GALLERY</span>
+            <h1>Moments of <span>Care and Compassion</span></h1>
+            <p>
+                Explore photographs representing community support,
+                volunteering, education, and the spirit of helping others.
+            </p>
+            <a href="get-involved.html" class="btn btn-primary">Be Part of the Change</a>
+        </div>
+
+        <div class="hero-visual">
+            <img
+                src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1000&q=85"
+                alt="People coming together for a community activity">
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">PHOTO COLLECTION</span>
+            <h2>People. Purpose. Possibilities.</h2>
+            <p>
+                Illustrative photographs reflecting the values and
+                community initiatives AASRA Foundation aims to promote.
+            </p>
+        </div>
+
+        <div class="gallery-grid">
+
+            <article class="gallery-item">
+                <img
+                    src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=900&q=85"
+                    alt="People supporting a community initiative"
+                    loading="lazy">
+                <div class="gallery-caption">
+                    <h3>Community Support</h3>
+                    <p>Working together to encourage care and connection.</p>
+                </div>
+            </article>
+
+            <article class="gallery-item">
+                <img
+                    src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=85"
+                    alt="Students participating in learning"
+                    loading="lazy">
+                <div class="gallery-caption">
+                    <h3>Education and Learning</h3>
+                    <p>Celebrating knowledge and learning opportunities.</p>
+                </div>
+            </article>
+
+            <article class="gallery-item">
+                <img
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=900&q=85"
+                    alt="Volunteers working together"
+                    loading="lazy">
+                <div class="gallery-caption">
+                    <h3>Volunteer Spirit</h3>
+                    <p>Inspiring people to contribute their time and skills.</p>
+                </div>
+            </article>
+
+            <article class="gallery-item">
+                <img
+                    src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=900&q=85"
+                    alt="An adult spending time with children"
+                    loading="lazy">
+                <div class="gallery-caption">
+                    <h3>Care for Children</h3>
+                    <p>Promoting kindness, encouragement, and opportunity.</p>
+                </div>
+            </article>
+
+            <article class="gallery-item">
+                <img
+                    src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=900&q=85"
+                    alt="People enjoying time together"
+                    loading="lazy">
+                <div class="gallery-caption">
+                    <h3>Stronger Together</h3>
+                    <p>Building connections through shared community values.</p>
+                </div>
+            </article>
+
+            <article class="gallery-item">
+                <img
+                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85"
+                    alt="Healthcare professional working in a care setting"
+                    loading="lazy">
+                <div class="gallery-caption">
+                    <h3>Health Awareness</h3>
+                    <p>Encouraging awareness of health and well-being.</p>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">MAKE A DIFFERENCE</span>
+            <h2>Be Part of Our Story</h2>
+            <p>
+                Interested in supporting community-focused initiatives?
+                Explore how you could get involved.
+            </p>
+            <a href="get-involved.html" class="btn btn-primary">Get Involved</a>
+            <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    <p>Compassion • Dignity • Hope</p>
+</footer>
+
+</body>
+</html>
