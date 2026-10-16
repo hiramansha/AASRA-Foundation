@@ -1,23 +1,38 @@
 
+/* =========================================
+   AASRA FOUNDATION — RESPONSIVE STYLES
+   Mobile • Tablet • Desktop • RTL
+========================================= */
+
+/* Large desktop screens */
 @media (min-width: 1500px) {
   .hero,
   .section,
   .get-involved-section,
   .mission-strip {
-    padding-left: max(8%, calc((100% - 1250px) / 2));
-    padding-right: max(8%, calc((100% - 1250px) / 2));
+    padding-left: max(6%, calc((100% - 1250px) / 2));
+    padding-right: max(6%, calc((100% - 1250px) / 2));
+  }
+
+  .hero {
+    gap: 70px;
+  }
+
+  .hero-visual > img {
+    max-height: 620px;
   }
 }
 
+/* Laptops and smaller desktops */
 @media (max-width: 1100px) {
   .site-header {
     padding-left: 4%;
     padding-right: 4%;
-    gap: 18px;
+    gap: 16px;
   }
 
   .main-nav {
-    gap: 14px;
+    gap: 12px;
   }
 
   .main-nav a {
@@ -27,13 +42,11 @@
   .hero {
     padding-left: 5%;
     padding-right: 5%;
-    gap: 35px;
+    gap: 32px;
   }
 
-  .about-section,
-  .volunteer-section,
-  .contact-section {
-    gap: 45px;
+  .hero h1 {
+    font-size: clamp(36px, 4.5vw, 48px);
   }
 
   .section,
@@ -42,23 +55,33 @@
     padding-right: 6%;
   }
 
+  .about-section,
+  .volunteer-section,
+  .contact-section {
+    gap: 35px;
+  }
+
   .approach-content {
-    padding: 65px 40px;
+    padding: 55px 35px;
   }
 
   .involved-decoration {
-    font-size: 90px;
+    font-size: 85px;
   }
 }
 
+/* Tablets and compact laptops */
 @media (max-width: 850px) {
   .site-header {
+    position: sticky;
+    top: 0;
     min-height: 76px;
   }
 
   .menu-toggle {
     display: block;
     margin-left: auto;
+    flex-shrink: 0;
   }
 
   .main-nav {
@@ -67,6 +90,7 @@
     top: 100%;
     left: 0;
     right: 0;
+    z-index: 1000;
     padding: 18px 6% 24px;
     flex-direction: column;
     align-items: stretch;
@@ -81,7 +105,8 @@
   }
 
   .main-nav a {
-    padding: 12px 8px;
+    display: block;
+    padding: 13px 8px;
     font-size: 13px;
     border-bottom: 1px solid var(--border);
   }
@@ -93,18 +118,21 @@
   }
 
   .hero {
-    padding: 65px 6%;
     grid-template-columns: 1fr 0.85fr;
     gap: 25px;
     min-height: auto;
+    padding: 65px 6%;
   }
 
   .hero h1 {
-    font-size: clamp(36px, 5.4vw, 48px);
+    font-size: clamp(34px, 5vw, 45px);
+    line-height: 1.12;
   }
 
   .hero-visual > img {
-    height: 350px;
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
   }
 
   .image-caption {
@@ -121,32 +149,43 @@
   }
 
   .about-section {
-    gap: 40px;
+    gap: 35px;
   }
 
   .section-image img {
-    height: 390px;
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
   }
 
   .services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .approach-section {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .approach-image,
   .approach-image img {
-    min-height: 550px;
+    min-height: 480px;
+    height: 100%;
+    object-fit: cover;
   }
 
   .approach-content {
-    padding: 45px 28px;
+    padding: 38px 25px;
   }
 
   .programs-grid {
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
   }
 
   .program-card img {
-    height: 175px;
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
   }
 
   .program-body {
@@ -160,7 +199,7 @@
   .volunteer-section,
   .contact-section {
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 25px;
   }
 
   .contact-form {
@@ -172,96 +211,130 @@
   }
 }
 
+/* Mobile phones */
 @media (max-width: 600px) {
   html {
-    scroll-padding-top: 78px;
+    scroll-padding-top: 85px;
+  }
+
+  body {
+    overflow-wrap: break-word;
+  }
+
+  img {
+    max-width: 100%;
   }
 
   .topbar {
-    padding: 7px 4%;
-    font-size: 9px;
+    padding: 8px 4%;
+    font-size: 10px;
     gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .language-btn {
     font-size: 11px;
-    padding: 3px 10px;
+    padding: 4px 10px;
   }
 
   .site-header {
     padding: 12px 5%;
-    min-height: 72px;
+    min-height: 70px;
+    gap: 10px;
+  }
+
+  .brand {
+    min-width: 0;
   }
 
   .brand-symbol {
-    width: 39px;
-    height: 39px;
-    font-size: 25px;
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+    flex-shrink: 0;
   }
 
   .brand-copy strong {
-    font-size: 22px;
+    font-size: 21px;
   }
 
   .brand-copy small {
     font-size: 8px;
   }
 
+  .menu-toggle {
+    padding: 8px;
+    font-size: 22px;
+  }
+
   .hero {
-    grid-template-columns: 1fr;
-    padding: 52px 6% 60px;
-    gap: 42px;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 48px 6% 55px;
+    gap: 38px;
   }
 
   .hero h1 {
-    font-size: clamp(39px, 10vw, 53px);
+    font-size: clamp(37px, 10vw, 51px);
+    line-height: 1.12;
   }
 
   .hero-description {
     font-size: 13px;
-    margin: 19px 0 24px;
+    line-height: 1.8;
+    margin: 18px 0 24px;
   }
 
   .hero-actions {
     align-items: stretch;
     flex-direction: column;
+    gap: 12px;
   }
 
   .hero-actions .btn {
     width: 100%;
+    justify-content: center;
   }
 
   .hero-note {
     align-items: flex-start;
     font-size: 10px;
+    line-height: 1.7;
   }
 
   .hero-visual {
+    width: 100%;
     max-width: 440px;
     justify-self: center;
-    padding: 0 0 28px 15px;
+    padding: 0 0 28px 14px;
   }
 
   .hero-visual > img {
-    height: 340px;
-    border-radius: 150px 150px 8px 8px;
+    display: block;
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 140px 140px 8px 8px;
   }
 
   .floating-label {
-    top: 20px;
-    right: -5px;
+    top: 18px;
+    right: -4px;
+    max-width: 75%;
     font-size: 8px;
     padding: 9px 10px;
   }
 
   .image-caption {
     width: 94%;
-    min-height: 75px;
-    padding: 12px;
+    min-height: 70px;
+    padding: 11px;
+    gap: 10px;
   }
 
   .caption-heart {
-    font-size: 25px;
+    font-size: 24px;
+    flex-shrink: 0;
   }
 
   .image-caption strong {
@@ -270,13 +343,15 @@
 
   .image-caption small {
     font-size: 9px;
+    line-height: 1.5;
   }
 
   .mission-strip {
-    padding: 23px 6%;
+    padding: 24px 6%;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+    text-align: center;
   }
 
   .mission-label {
@@ -285,7 +360,8 @@
   }
 
   .mission-strip p {
-    font-size: 20px;
+    font-size: 19px;
+    line-height: 1.5;
   }
 
   .mission-flower {
@@ -294,90 +370,130 @@
 
   .section,
   .get-involved-section {
-    padding: 65px 6%;
+    padding: 58px 6%;
   }
 
   .about-section {
-    grid-template-columns: 1fr;
-    gap: 35px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
   }
 
   .section-image {
-    padding-right: 15px;
+    width: 100%;
+    padding-right: 12px;
   }
 
   .section-image img {
-    height: 330px;
-    border-radius: 8px 80px 8px 8px;
+    display: block;
+    width: 100%;
+    height: 310px;
+    object-fit: cover;
+    border-radius: 8px 75px 8px 8px;
   }
 
   .section-content h2,
   .approach-content h2,
   .contact-intro h2 {
-    font-size: 35px;
+    font-size: clamp(30px, 8vw, 36px);
+    line-height: 1.2;
   }
 
   .section-content > p,
   .approach-content > p,
   .contact-intro > p {
     font-size: 12px;
+    line-height: 1.85;
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 14px;
   }
 
   .service-card {
     min-height: auto;
-    padding: 25px 22px;
+    padding: 24px 21px;
   }
 
   .service-card h3 {
-    font-size: 21px;
+    font-size: 20px;
+  }
+
+  .service-card p {
+    font-size: 12px;
+    line-height: 1.8;
   }
 
   .section-heading {
-    margin-bottom: 32px;
+    margin-bottom: 30px;
   }
 
   .section-heading h2 {
-    font-size: 35px;
+    font-size: clamp(30px, 8vw, 36px);
+    line-height: 1.2;
   }
 
   .section-heading > p {
     font-size: 12px;
+    line-height: 1.8;
   }
 
   .approach-section {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .approach-image,
   .approach-image img {
+    width: 100%;
     min-height: 0;
-    height: 280px;
+    height: 275px;
+    object-fit: cover;
   }
 
   .approach-content {
-    padding: 45px 6%;
+    padding: 42px 6%;
+  }
+
+  .approach-step {
+    gap: 14px;
   }
 
   .approach-step strong {
-    font-size: 17px;
+    font-size: 16px;
+  }
+
+  .approach-step p {
+    font-size: 12px;
+    line-height: 1.8;
   }
 
   .programs-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 22px;
   }
 
+  .program-card {
+    min-width: 0;
+  }
+
   .program-card img {
+    display: block;
+    width: 100%;
     height: 220px;
+    object-fit: cover;
   }
 
   .program-body {
-    padding: 23px;
+    padding: 21px;
+  }
+
+  .program-card h3 {
+    font-size: 20px;
+  }
+
+  .program-card p {
+    font-size: 12px;
+    line-height: 1.8;
   }
 
   .get-involved-section {
@@ -385,40 +501,85 @@
   }
 
   .get-involved-section h2 {
-    font-size: 37px;
+    font-size: clamp(32px, 8.5vw, 38px);
+    line-height: 1.2;
+  }
+
+  .get-involved-section p {
+    font-size: 12px;
+    line-height: 1.8;
   }
 
   .involved-actions {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
+    margin-top: 22px;
   }
 
   .involved-actions .btn {
     width: 100%;
+    justify-content: center;
   }
 
   .involved-decoration {
-    margin-top: 25px;
+    margin-top: 22px;
     text-align: center;
-    font-size: 75px;
+    font-size: 72px;
   }
 
   .volunteer-section,
   .contact-section {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
   }
 
+  .volunteer-form,
   .contact-form {
+    width: 100%;
+    min-width: 0;
     padding: 22px 18px;
   }
 
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
+  }
+
+  .volunteer-form input,
+  .volunteer-form select,
+  .volunteer-form textarea,
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%;
+    min-width: 0;
+    font-size: 14px;
+  }
+
+  .volunteer-form button,
+  .contact-form button {
+    width: 100%;
+  }
+
+  .donate-section {
+    padding: 45px 6%;
+  }
+
   .donate-section h2 {
-    font-size: 34px;
+    font-size: clamp(30px, 8vw, 35px);
+    line-height: 1.2;
+  }
+
+  .donate-section p {
+    font-size: 12px;
+    line-height: 1.8;
   }
 
   .site-footer {
-    padding: 35px 6% 20px;
+    padding: 34px 6% 20px;
   }
 
   .footer-main {
@@ -429,25 +590,40 @@
 
   .footer-main > p {
     max-width: 100%;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .footer-bottom {
     flex-direction: column;
-    gap: 7px;
-    font-size: 9px;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  /* Right-to-left Urdu layout */
+  [dir="rtl"] .menu-toggle {
+    margin-left: 0;
+    margin-right: auto;
   }
 
   [dir="rtl"] .hero-visual {
-    padding: 0 15px 28px 0;
+    padding: 0 14px 28px 0;
   }
 
   [dir="rtl"] .floating-label {
-    left: -5px;
+    left: -4px;
     right: auto;
   }
 
   [dir="rtl"] .section-image {
-    padding-left: 15px;
+    padding-left: 12px;
     padding-right: 0;
   }
 
@@ -460,25 +636,63 @@
   [dir="rtl"] .involved-actions .btn {
     width: 100%;
   }
+
+  [dir="rtl"] .footer-main {
+    align-items: flex-start;
+  }
 }
 
+/* Very small phones */
 @media (max-width: 360px) {
+  .topbar {
+    font-size: 9px;
+  }
+
+  .brand-symbol {
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
   .brand-copy strong {
-    font-size: 19px;
+    font-size: 18px;
+  }
+
+  .brand-copy small {
+    font-size: 7px;
   }
 
   .hero h1 {
-    font-size: 36px;
+    font-size: 35px;
   }
 
   .hero-visual > img {
-    height: 290px;
+    height: 280px;
   }
 
   .section-content h2,
   .section-heading h2,
   .approach-content h2,
-  .contact-intro h2 {
-    font-size: 31px;
+  .contact-intro h2,
+  .donate-section h2 {
+    font-size: 29px;
+  }
+
+  .volunteer-form,
+  .contact-form {
+    padding: 18px 14px;
   }
 }
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
