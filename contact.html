@@ -1,157 +1,290 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact AASRA Foundation for questions and information.">
-    <title>Contact Us | AASRA Foundation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b3a">
+  <meta name="description" content="Contact AASRA Foundation for questions and information.">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+  <title>Contact Us | AASRA Foundation</title>
 
-    <script src="js/language.js" defer></script>
-    <script src="js/app.js" defer></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- JavaScript: load once only -->
+  <script src="js/language.js" defer></script>
+  <script src="js/app.js" defer></script>
 </head>
+
 <body>
 
-<header class="header">
-    <nav class="navbar">
-        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <p data-en="Lahore, Pakistan | Compassion, dignity and hope"
+       data-ur="لاہور، پاکستان | ہمدردی، عزت اور امید">
+      Lahore, Pakistan | Compassion, dignity and hope
+    </p>
 
-        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+    <button id="language-toggle" class="language-btn" type="button">
+      اردو
+    </button>
+  </div>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="programs.html">Programs</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html" class="active">Contact</a></li>
-            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
-        </ul>
+  <!-- HEADER / NAVBAR -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AASRA Foundation Home">
+      <span class="brand-symbol">A</span>
+      <span class="brand-copy">
+        <strong>AASRA</strong>
+        <small>FOUNDATION</small>
+      </span>
+    </a>
+
+    <button
+      id="menu-toggle"
+      class="menu-toggle"
+      type="button"
+      aria-label="Open navigation"
+      aria-expanded="false"
+      aria-controls="main-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="index.html" data-en="Home" data-ur="ہوم">Home</a>
+      <a href="about.html" data-en="About" data-ur="تعارف">About</a>
+      <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+      <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+      <a href="gallery.html" data-en="Gallery" data-ur="گیلری">Gallery</a>
+      <a href="contact.html" aria-current="page" data-en="Contact" data-ur="رابطہ">Contact</a>
+      <a href="get-involved.html" class="nav-cta" data-en="Get Involved" data-ur="ہمارا ساتھ دیں">Get Involved</a>
     </nav>
-</header>
+  </header>
 
-<main>
+  <main>
+
+    <!-- CONTACT HERO -->
     <section class="hero">
-        <div class="hero-content">
-            <span class="section-tag">LET'S CONNECT</span>
-            <h1>We Would Love to <span>Hear From You</span></h1>
-            <p>
-                Have a question, suggestion, or idea? Use the form below
-                to share your message with this demonstration website.
-            </p>
-            <a href="#contact-form-section" class="btn btn-primary">Send a Message</a>
-        </div>
+      <div class="hero-content">
+        <span class="eyebrow"
+          data-en="LET'S CONNECT"
+          data-ur="آئیے رابطہ کریں">
+          LET'S CONNECT
+        </span>
 
-        <div class="hero-visual">
-            <img
-                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85"
-                alt="People communicating and working together">
-        </div>
-    </section>
+        <h1 data-en="We Would Love to <em>Hear From You.</em>"
+            data-ur="ہم آپ کی بات <em>سننا چاہتے ہیں۔</em>">
+          We Would Love to <em>Hear From You.</em>
+        </h1>
 
-    <section class="section">
-        <div class="section-heading">
-            <span class="section-tag">GET IN TOUCH</span>
-            <h2>How Can We Help?</h2>
-            <p>
-                Choose the most relevant page for your needs, or send
-                a general message using the form below.
-            </p>
-        </div>
-
-        <div class="services-grid">
-            <article class="service-card">
-                <div class="service-icon">♡</div>
-                <h3>Request Support</h3>
-                <p>Visit the help request page to describe the information you need.</p>
-                <a href="help.html">Request Help →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">✦</div>
-                <h3>Volunteer With Us</h3>
-                <p>Explore ways to share your time, ideas, and skills.</p>
-                <a href="get-involved.html">Get Involved →</a>
-            </article>
-
-            <article class="service-card">
-                <div class="service-icon">▤</div>
-                <h3>Explore Programs</h3>
-                <p>Learn about the community initiative ideas featured on this website.</p>
-                <a href="programs.html">View Programs →</a>
-            </article>
-        </div>
-    </section>
-
-    <section class="section" id="contact-form-section">
-        <div class="section-heading">
-            <span class="section-tag">SEND A MESSAGE</span>
-            <h2>Contact Form</h2>
-            <p>Fill in the details below to submit a demo message.</p>
-        </div>
-
-        <form id="contact-form" class="contact-form">
-            <div class="form-group">
-                <label for="contact-name">Full Name</label>
-                <input
-                    type="text"
-                    id="contact-name"
-                    name="name"
-                    placeholder="Enter your name"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="contact-email">Email Address</label>
-                <input
-                    type="email"
-                    id="contact-email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="contact-subject">Subject</label>
-                <input
-                    type="text"
-                    id="contact-subject"
-                    name="subject"
-                    placeholder="What is your message about?"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="contact-content">Your Message</label>
-                <textarea
-                    id="contact-content"
-                    name="message"
-                    rows="6"
-                    placeholder="Write your message here..."
-                    required></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Send Message</button>
-
-            <p id="contact-message" role="status" aria-live="polite"></p>
-        </form>
-
-        <p class="section-note">
-            This is a demonstration website. Messages may be handled by
-            browser-based demo code and are not automatically sent to a
-            real organization.
+        <p class="hero-description"
+          data-en="Have a question, suggestion, or idea? Use the form below to share your message with this demonstration website."
+          data-ur="کیا آپ کے پاس کوئی سوال، تجویز یا خیال ہے؟ اس ڈیمو ویب سائٹ کے ذریعے اپنا پیغام بھیجنے کے لیے نیچے دیا گیا فارم استعمال کریں۔">
+          Have a question, suggestion, or idea? Use the form below to share your message with this demonstration website.
         </p>
-    </section>
-</main>
 
-<footer class="footer">
-    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
-    <p>Compassion • Dignity • Hope</p>
-</footer>
-<script src="js/language.js"></script>
-<script src="js/app.js"></script>
+        <div class="hero-actions">
+          <a href="#contact-form-section" class="btn btn-primary"
+            data-en="Send a Message ↗"
+            data-ur="پیغام بھیجیں ↗">
+            Send a Message ↗
+          </a>
+
+          <a href="services.html" class="btn btn-outline"
+            data-en="Explore Services"
+            data-ur="خدمات دیکھیں">
+            Explore Services
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img
+          src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85"
+          alt="People communicating and working together">
+      </div>
+    </section>
+
+    <!-- CONTACT OPTIONS -->
+    <section class="services-section section">
+      <div class="section-heading">
+        <span class="eyebrow"
+          data-en="GET IN TOUCH"
+          data-ur="رابطہ کریں">
+          GET IN TOUCH
+        </span>
+
+        <h2 data-en="How Can We <em>Help?</em>"
+            data-ur="ہم آپ کی <em>کیسے مدد کریں؟</em>">
+          How Can We <em>Help?</em>
+        </h2>
+
+        <p data-en="Choose the most relevant page for your needs, or send a general message below."
+           data-ur="اپنی ضرورت کے مطابق صفحہ منتخب کریں یا نیچے اپنا پیغام بھیجیں۔">
+          Choose the most relevant page for your needs, or send a general message below.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-icon">♡</div>
+          <span class="service-number">01</span>
+          <h3 data-en="Request Support" data-ur="مدد کی درخواست">Request Support</h3>
+          <p data-en="Visit the help request page to describe the information you need."
+             data-ur="اپنی ضرورت بتانے کے لیے مدد کی درخواست والا صفحہ دیکھیں۔">
+            Visit the help request page to describe the information you need.
+          </p>
+          <a href="help.html" data-en="Request Help →" data-ur="مدد کی درخواست →">Request Help →</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">✦</div>
+          <span class="service-number">02</span>
+          <h3 data-en="Volunteer With Us" data-ur="رضاکار بنیں">Volunteer With Us</h3>
+          <p data-en="Explore ways to share your time, ideas, and skills."
+             data-ur="اپنا وقت، خیالات اور مہارتیں بانٹنے کے طریقے دیکھیں۔">
+            Explore ways to share your time, ideas, and skills.
+          </p>
+          <a href="get-involved.html" data-en="Get Involved →" data-ur="ہمارا ساتھ دیں →">Get Involved →</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">▤</div>
+          <span class="service-number">03</span>
+          <h3 data-en="Explore Programs" data-ur="پروگرامز دیکھیں">Explore Programs</h3>
+          <p data-en="Learn about the community initiative ideas featured on this website."
+             data-ur="اس ویب سائٹ پر موجود مجوزہ سماجی منصوبوں کے بارے میں جانیں۔">
+            Learn about the community initiative ideas featured on this website.
+          </p>
+          <a href="programs.html" data-en="View Programs →" data-ur="پروگرامز دیکھیں →">View Programs →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="section" id="contact-form-section">
+      <div class="section-heading">
+        <span class="eyebrow"
+          data-en="SEND A MESSAGE"
+          data-ur="پیغام بھیجیں">
+          SEND A MESSAGE
+        </span>
+
+        <h2 data-en="We Are Here to <em>Listen.</em>"
+            data-ur="ہم آپ کی بات <em>سننے کے لیے موجود ہیں۔</em>">
+          We Are Here to <em>Listen.</em>
+        </h2>
+
+        <p data-en="Fill in the details below to submit a demo message."
+           data-ur="ڈیمو پیغام جمع کرانے کے لیے نیچے تفصیلات درج کریں۔">
+          Fill in the details below to submit a demo message.
+        </p>
+      </div>
+
+      <form id="contact-form" class="contact-form">
+        <div class="form-group">
+          <label for="contact-name" data-en="Full Name" data-ur="پورا نام">Full Name</label>
+          <input
+            type="text"
+            id="contact-name"
+            name="name"
+            placeholder="Enter your name"
+            autocomplete="name"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email" data-en="Email Address" data-ur="ای میل">Email Address</label>
+          <input
+            type="email"
+            id="contact-email"
+            name="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="contact-subject" data-en="Subject" data-ur="موضوع">Subject</label>
+          <input
+            type="text"
+            id="contact-subject"
+            name="subject"
+            placeholder="What is your message about?"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="contact-content" data-en="Your Message" data-ur="آپ کا پیغام">Your Message</label>
+          <textarea
+            id="contact-content"
+            name="message"
+            rows="6"
+            placeholder="Write your message here..."
+            required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+          data-en="Send Message →"
+          data-ur="پیغام بھیجیں →">
+          Send Message →
+        </button>
+
+        <p id="contact-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="section-note">
+        This is a demonstration website. Messages are saved in this browser
+        if local storage is available; they are not automatically sent to a
+        real organization.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <a class="brand footer-brand" href="index.html" aria-label="AASRA Foundation Home">
+        <span class="brand-symbol">A</span>
+        <span class="brand-copy">
+          <strong>AASRA</strong>
+          <small>FOUNDATION</small>
+        </span>
+      </a>
+
+      <p data-en="A little care can help open the door to a better tomorrow."
+         data-ur="تھوڑی سی توجہ بہتر کل کا دروازہ کھول سکتی ہے۔">
+        A little care can help open the door to a better tomorrow.
+      </p>
+
+      <div class="footer-links">
+        <a href="about.html" data-en="About" data-ur="تعارف">About</a>
+        <a href="services.html" data-en="Services" data-ur="خدمات">Services</a>
+        <a href="programs.html" data-en="Programs" data-ur="پروگرامز">Programs</a>
+        <a href="contact.html" data-en="Contact" data-ur="رابطہ">Contact</a>
+      </div>
+
+      <a href="index.html" class="back-top"
+        data-en="Home ↑" data-ur="ہوم ↑">Home ↑</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</span>
+      <span data-en="Har Insaan Ka Sahara · Lahore, Pakistan"
+            data-ur="ہر انسان کا سہارا · لاہور، پاکستان">
+        Har Insaan Ka Sahara · Lahore, Pakistan
+      </span>
+    </div>
+  </footer>
+
 </body>
 </html>
+
