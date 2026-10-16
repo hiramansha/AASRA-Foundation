@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AASRA Foundation help request page.">
+    <title>Request Help | AASRA Foundation</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="js/language.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">AASRA <span>Foundation</span></a>
+
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="get-involved.html" class="btn btn-primary">Get Involved</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="section-tag">WE ARE HERE TO LISTEN</span>
+            <h1>Request <span>Support</span></h1>
+            <p>
+                Use this form to describe the kind of support or information
+                you are looking for. Please avoid sharing sensitive personal
+                or financial information.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            <img
+                src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1000&q=85"
+                alt="Community members supporting one another">
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <span class="section-tag">HELP REQUEST FORM</span>
+            <h2>Tell Us How We Can Help</h2>
+            <p>
+                Complete the fields below to create a demonstration help
+                request on this website.
+            </p>
+        </div>
+
+        <form id="help-form" class="contact-form">
+            <div class="form-group">
+                <label for="help-name">Full Name</label>
+                <input
+                    type="text"
+                    id="help-name"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="help-email">Email Address</label>
+                <input
+                    type="email"
+                    id="help-email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="help-category">Type of Support</label>
+                <select id="help-category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="Education">Education Information</option>
+                    <option value="Family Support">Family Support</option>
+                    <option value="Health Awareness">Health Information</option>
+                    <option value="Community Resources">Community Resources</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="help-description">Describe Your Request</label>
+                <textarea
+                    id="help-description"
+                    name="description"
+                    rows="6"
+                    placeholder="Briefly describe the support or information you need"
+                    required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+
+            <p id="help-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="section-note">
+            This is a demonstration website. Submitting this form does not
+            contact a real support team or guarantee assistance.
+        </p>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <h2>Need to Ask a Question?</h2>
+            <p>Visit our contact page to explore the website's contact options.</p>
+            <a href="contact.html" class="btn btn-primary">Go to Contact Page</a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© <span id="current-year">2026</span> AASRA Foundation. All rights reserved.</p>
+    <p>Compassion • Dignity • Hope</p>
+</footer>
+
+</body>
+</html>
