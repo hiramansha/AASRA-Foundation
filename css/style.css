@@ -1080,4 +1080,25 @@ h1 em, h2 em {
     animation-iteration-count: 1 !important;
   }
 }
+/* Admin Dashboard Navbar Link */
+#main-nav a[href="admin.html"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #174b3a;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
 
+#main-nav a[href="admin.html"]:hover {
+  color: #d5a85c;
+}
+
+@media (max-width: 760px) {
+  #main-nav a[href="admin.html"] {
+    display: flex;
+    width: 100%;
+    padding: 12px 16px;
+  }
+}
