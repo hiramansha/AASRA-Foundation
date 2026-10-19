@@ -1,0 +1,556 @@
+
+/* ==========================================
+   AASRA FOUNDATION — PREMIUM DESIGN UPDATE
+   Har Insaan Ka Sahara
+   ========================================== */
+
+:root {
+  --aasra-green: #174b3a;
+  --aasra-green-dark: #10382c;
+  --aasra-green-light: #e7f0e9;
+  --aasra-cream: #f8f0e5;
+  --aasra-white: #ffffff;
+  --aasra-gold: #c99a50;
+  --aasra-text: #27352e;
+  --aasra-muted: #68746d;
+  --aasra-border: #e6e8e2;
+  --aasra-shadow: 0 12px 35px rgba(23, 75, 58, 0.09);
+  --aasra-radius: 18px;
+}
+
+/* General page styling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  color: var(--aasra-text);
+  background: #fffdf9;
+  font-family: "DM Sans", sans-serif;
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+
+img {
+  max-width: 100%;
+}
+
+img:not([width]) {
+  height: auto;
+}
+
+a {
+  transition: color 0.25s ease, background 0.25s ease,
+    border-color 0.25s ease, transform 0.25s ease;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--aasra-gold);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--aasra-green);
+  color: var(--aasra-white);
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--aasra-green-dark);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1,
+h2 {
+  font-family: "Playfair Display", serif;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Top information bar */
+.topbar {
+  background: var(--aasra-green-dark);
+  color: #f8f0e5;
+  font-size: 0.84rem;
+}
+
+.topbar a,
+.topbar button {
+  color: #f8f0e5;
+}
+
+/* Main header */
+header,
+.site-header,
+.main-header,
+.navbar {
+  z-index: 1000;
+}
+
+.site-header,
+.main-header,
+.navbar {
+  background: rgba(255, 253, 249, 0.97);
+  border-bottom: 1px solid rgba(23, 75, 58, 0.09);
+}
+
+.site-header,
+.main-header {
+  backdrop-filter: blur(14px);
+}
+
+.logo,
+.brand,
+.navbar-brand {
+  color: var(--aasra-green);
+}
+
+.logo:hover,
+.brand:hover,
+.navbar-brand:hover {
+  color: var(--aasra-gold);
+}
+
+nav a,
+.nav-links a,
+.navbar a {
+  text-decoration: none;
+}
+
+nav a:hover,
+.nav-links a:hover,
+.navbar a:hover {
+  color: var(--aasra-gold);
+}
+
+/* Buttons — retain existing class names */
+.btn,
+button.btn,
+button[type="submit"],
+input[type="submit"] {
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.btn-primary,
+.btn.btn-primary {
+  background: var(--aasra-green);
+  border-color: var(--aasra-green);
+  color: var(--aasra-cream);
+}
+
+.btn-primary:hover,
+.btn.btn-primary:hover {
+  background: var(--aasra-green-dark);
+  border-color: var(--aasra-green-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(23, 75, 58, 0.2);
+}
+
+.btn-secondary,
+.btn-outline,
+.btn-outline-primary {
+  border-color: var(--aasra-green);
+  color: var(--aasra-green);
+}
+
+.btn-secondary:hover,
+.btn-outline:hover,
+.btn-outline-primary:hover {
+  background: var(--aasra-green);
+  color: #fff;
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero h1 {
+  max-width: 850px;
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.hero p {
+  max-width: 650px;
+  color: var(--aasra-muted);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+}
+
+.hero img {
+  border-radius: var(--aasra-radius);
+  object-fit: cover;
+}
+
+.hero .btn {
+  margin-top: 8px;
+}
+
+/* Section spacing */
+section {
+  scroll-margin-top: 100px;
+}
+
+section h2 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: -0.025em;
+}
+
+section h3 {
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+}
+
+section p {
+  color: var(--aasra-muted);
+}
+
+.about,
+.services,
+.programs,
+.gallery,
+.impact,
+.get-involved,
+.contact,
+.donation,
+.faq {
+  padding-top: clamp(55px, 8vw, 100px);
+  padding-bottom: clamp(55px, 8vw, 100px);
+}
+
+/* Reusable cards */
+.card,
+.service-card,
+.program-card,
+.impact-card,
+.gallery-item,
+.stat-card {
+  border: 1px solid var(--aasra-border);
+  border-radius: var(--aasra-radius);
+  background: var(--aasra-white);
+  box-shadow: 0 5px 20px rgba(23, 75, 58, 0.035);
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.card:hover,
+.service-card:hover,
+.program-card:hover,
+.impact-card:hover,
+.gallery-item:hover,
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(201, 154, 80, 0.55);
+  box-shadow: var(--aasra-shadow);
+}
+
+.card img,
+.service-card img,
+.program-card img,
+.gallery-item img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card img,
+.service-card img,
+.program-card img {
+  aspect-ratio: 16 / 10;
+}
+
+.card-body,
+.service-card-content,
+.program-card-content {
+  padding: 22px;
+}
+
+/* Images */
+.about img,
+.about-image,
+.hero-image {
+  border-radius: var(--aasra-radius);
+}
+
+.gallery img {
+  transition: transform 0.45s ease;
+}
+
+.gallery a:hover img,
+.gallery-item:hover img {
+  transform: scale(1.035);
+}
+
+/* Impact / statistics */
+.impact,
+.stats,
+.impact-section {
+  background: var(--aasra-green);
+  color: var(--aasra-cream);
+}
+
+.impact h2,
+.impact h3,
+.impact h4,
+.stats h2,
+.stats h3,
+.impact-section h2,
+.impact-section h3 {
+  color: var(--aasra-cream);
+}
+
+.impact p,
+.stats p,
+.impact-section p {
+  color: rgba(248, 240, 229, 0.82);
+}
+
+.impact strong,
+.stat-number,
+.counter {
+  color: var(--aasra-gold);
+  font-weight: 800;
+}
+
+/* Forms */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #dce3dc;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--aasra-text);
+  padding: 12px 15px;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8a958d;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--aasra-green);
+  box-shadow: 0 0 0 3px rgba(23, 75, 58, 0.09);
+}
+
+label {
+  color: var(--aasra-green-dark);
+  font-weight: 600;
+}
+
+/* Contact and call-to-action areas */
+.cta,
+.cta-section,
+.volunteer-cta {
+  border-radius: 24px;
+  background: var(--aasra-green);
+  color: var(--aasra-cream);
+}
+
+.cta h2,
+.cta h3,
+.cta-section h2,
+.cta-section h3,
+.volunteer-cta h2 {
+  color: var(--aasra-cream);
+}
+
+.cta p,
+.cta-section p,
+.volunteer-cta p {
+  color: rgba(248, 240, 229, 0.85);
+}
+
+/* Footer */
+footer,
+.site-footer {
+  background: var(--aasra-green-dark);
+  color: var(--aasra-cream);
+}
+
+footer h2,
+footer h3,
+footer h4,
+footer a,
+.site-footer h2,
+.site-footer h3,
+.site-footer h4,
+.site-footer a {
+  color: var(--aasra-cream);
+}
+
+footer p,
+.site-footer p {
+  color: rgba(248, 240, 229, 0.76);
+}
+
+footer a:hover,
+.site-footer a:hover {
+  color: var(--aasra-gold);
+}
+
+footer a,
+.site-footer a {
+  text-decoration: none;
+}
+
+/* Language toggle */
+#language-toggle {
+  border: 1px solid rgba(201, 154, 80, 0.75);
+  border-radius: 999px;
+  padding: 7px 15px;
+  background: transparent;
+  color: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#language-toggle:hover {
+  background: var(--aasra-gold);
+  color: var(--aasra-green-dark);
+}
+
+/* Urdu readability */
+html[lang="ur"] body,
+html[lang="ur"] [data-ur],
+body.urdu,
+body[dir="rtl"] {
+  line-height: 1.95;
+}
+
+html[lang="ur"] h1,
+html[lang="ur"] h2,
+html[lang="ur"] h3,
+html[lang="ur"] p,
+html[lang="ur"] a,
+html[lang="ur"] button,
+body.urdu h1,
+body.urdu h2,
+body.urdu h3,
+body.urdu p {
+  line-height: 1.9;
+}
+
+/* Scrollbar */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--aasra-cream);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #8ca99a;
+    border: 2px solid var(--aasra-cream);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--aasra-green);
+  }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 80px;
+  }
+
+  section {
+    scroll-margin-top: 80px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 9vw, 3.5rem);
+  }
+
+  section h2 {
+    font-size: clamp(1.85rem, 7vw, 2.6rem);
+  }
+
+  .card,
+  .service-card,
+  .program-card,
+  .impact-card,
+  .gallery-item {
+    border-radius: 15px;
+  }
+
+  .card-body,
+  .service-card-content,
+  .program-card-content {
+    padding: 17px;
+  }
+
+  .btn,
+  button.btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .hero img,
+  .about img,
+  .about-image {
+    border-radius: 15px;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
