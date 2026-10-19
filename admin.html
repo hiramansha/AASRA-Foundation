@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,6 +99,7 @@
     .nav-icon { width: 20px; text-align: center; font-size: 17px; }
 
     .sidebar-bottom { margin-top: auto; padding-top: 25px; }
+
     .sidebar-note {
       background: #ffffff12;
       padding: 15px;
@@ -130,6 +132,7 @@
     .subtitle { color: var(--muted); font-size: 13px; margin-top: 8px; }
 
     .top-actions { display: flex; align-items: center; gap: 10px; }
+
     .admin-chip {
       border: 1px solid var(--border);
       background: white;
@@ -168,6 +171,8 @@
     .btn-outline:hover { background: var(--green-light); }
     .btn-danger { background: #fff0f0; color: var(--red); }
     .btn-danger:hover { background: #ffe2e2; }
+    .btn-gold { background: #d5a85c; color: #24352d; }
+    .btn-gold:hover { background: #e3bb78; }
 
     .notice {
       padding: 13px 16px;
@@ -200,6 +205,7 @@
 
     .stat-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .stat-label { color: var(--muted); font-size: 12px; }
+
     .stat-icon {
       width: 39px;
       height: 39px;
@@ -256,6 +262,7 @@
     }
 
     .quick-btn:hover { background: #f7faf7; border-color: #b9cfc0; }
+
     .quick-icon {
       width: 38px;
       height: 38px;
@@ -273,6 +280,7 @@
 
     .table-wrap { width: 100%; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
+
     th {
       background: #f8faf8;
       color: var(--muted);
@@ -305,9 +313,6 @@
       white-space: nowrap;
     }
 
-    .pill.gold { background: #fff4dd; color: #8a6525; }
-    .pill.red { background: #fff0f0; color: var(--red); }
-
     .toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -328,7 +333,10 @@
       font-size: 12px;
     }
 
-    .search:focus, .field:focus { border-color: #76a28a; outline: 2px solid #e3eee7; }
+    .search:focus, .field:focus {
+      border-color: #76a28a;
+      outline: 2px solid #e3eee7;
+    }
 
     .program-form {
       display: grid;
@@ -352,16 +360,36 @@
     }
 
     textarea.field { min-height: 85px; resize: vertical; }
+
     .program-card {
       border: 1px solid var(--border);
       padding: 16px;
       border-radius: 10px;
       margin-bottom: 10px;
+      overflow-wrap: anywhere;
     }
 
     .program-card h3 { font-size: 17px; color: var(--green); margin-bottom: 7px; }
     .program-card p { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
-    .program-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+    .program-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .program-action-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .editing-note {
+      display: none;
+      background: var(--green-light);
+      color: var(--green);
+      padding: 11px 13px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
 
     .mobile-menu { display: none; }
     .footer { text-align: center; color: var(--muted); font-size: 11px; padding: 20px 0 5px; }
@@ -373,10 +401,7 @@
 
     @media (max-width: 760px) {
       .layout { display: block; }
-      .sidebar {
-        width: 100%;
-        padding: 14px 16px;
-      }
+      .sidebar { width: 100%; padding: 14px 16px; }
 
       .brand {
         display: flex;
@@ -454,7 +479,7 @@
         <strong>Har Insaan Ka Sahara</strong><br>
         Every small act of kindness can make a difference.
       </div>
-      <button class="nav-btn" id="visit-site" style="margin-top:12px">↗ View Website</button>
+      <button class="nav-btn" id="visit-site" style="margin-top:12px" type="button">↗ View Website</button>
     </div>
   </aside>
 
@@ -520,7 +545,7 @@
             <button class="quick-btn" data-go="volunteers" type="button"><span class="quick-icon">♧</span><span><strong>View Volunteers</strong><small>Review saved volunteer forms</small></span><span class="arrow">→</span></button>
             <button class="quick-btn" data-go="help-requests" type="button"><span class="quick-icon">♡</span><span><strong>Help Requests</strong><small>Review assistance requests</small></span><span class="arrow">→</span></button>
             <button class="quick-btn" data-go="messages" type="button"><span class="quick-icon">✉</span><span><strong>Contact Messages</strong><small>Read contact form submissions</small></span><span class="arrow">→</span></button>
-            <button class="quick-btn" data-go="programs" type="button"><span class="quick-icon">▤</span><span><strong>Manage Programs</strong><small>Add or remove program entries</small></span><span class="arrow">→</span></button>
+            <button class="quick-btn" data-go="programs" type="button"><span class="quick-icon">▤</span><span><strong>Manage Programs</strong><small>Add, edit, or delete program entries</small></span><span class="arrow">→</span></button>
           </div>
         </div>
       </div>
@@ -565,8 +590,12 @@
 
     <section class="section" id="section-programs">
       <div class="panel">
-        <div class="panel-head"><div><h2>Program Management</h2><p>Add program entries stored in this browser</p></div><span class="pill" id="program-count">0 programs</span></div>
+        <div class="panel-head">
+          <div><h2>Program Management</h2><p>Add, edit and delete programs stored in this browser</p></div>
+          <span class="pill" id="program-count">0 programs</span>
+        </div>
         <div class="panel-body">
+          <div class="editing-note" id="editing-note">You are editing a program. Make your changes and select Update Program.</div>
           <form id="program-form" class="program-form">
             <div class="field-group">
               <label for="program-title">Program title</label>
@@ -586,7 +615,10 @@
               <label for="program-description">Description</label>
               <textarea class="field" id="program-description" name="description" required maxlength="500" placeholder="Describe the program..."></textarea>
             </div>
-            <div class="field-group full"><button class="btn" type="submit">+ Add Program</button></div>
+            <div class="field-group full" style="display:flex;flex-direction:row;flex-wrap:wrap;gap:9px">
+              <button class="btn" id="program-submit" type="submit">+ Add Program</button>
+              <button class="btn btn-outline" id="cancel-edit" type="button" hidden>Cancel Edit</button>
+            </div>
           </form>
           <div id="program-list"></div>
           <div class="empty" id="program-empty"><span>▤</span>No programs added in this browser yet.</div>
@@ -619,6 +651,7 @@
   };
 
   const $ = id => document.getElementById(id);
+  let editingProgramId = null;
 
   function read(key) {
     try {
@@ -659,7 +692,9 @@
     if (!value) return "—";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return safe(value);
-    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    return date.toLocaleDateString(undefined, {
+      year: "numeric", month: "short", day: "numeric"
+    });
   }
 
   function fieldText(record, names) {
@@ -677,7 +712,9 @@
 
   function renderVolunteers(query = "") {
     const data = read(STORAGE.volunteers);
-    const filtered = data.filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()));
+    const filtered = data.filter(item =>
+      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
+    );
     $("volunteer-count").textContent = filtered.length + " records";
 
     fillTable("volunteer-table", "volunteer-empty", filtered.map(item => tableRow([
@@ -693,7 +730,9 @@
 
   function renderHelp(query = "") {
     const data = read(STORAGE.help);
-    const filtered = data.filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()));
+    const filtered = data.filter(item =>
+      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
+    );
     $("help-count").textContent = filtered.length + " records";
 
     fillTable("help-table", "help-empty", filtered.map(item => tableRow([
@@ -709,7 +748,9 @@
 
   function renderMessages(query = "") {
     const data = read(STORAGE.messages);
-    const filtered = data.filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()));
+    const filtered = data.filter(item =>
+      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
+    );
     $("message-count").textContent = filtered.length + " records";
 
     fillTable("message-table", "message-empty", filtered.map(item => tableRow([
@@ -723,19 +764,32 @@
     $("stat-messages").textContent = data.length;
   }
 
+  function resetProgramForm() {
+    editingProgramId = null;
+    $("program-form").reset();
+    $("program-submit").textContent = "+ Add Program";
+    $("cancel-edit").hidden = true;
+    $("editing-note").style.display = "none";
+  }
+
   function renderPrograms() {
     const data = read(STORAGE.programs);
-    $("program-count").textContent = data.length + (data.length === 1 ? " program" : " programs");
+
+    $("program-count").textContent =
+      data.length + (data.length === 1 ? " program" : " programs");
     $("stat-programs").textContent = data.length;
 
-    $("program-list").innerHTML = data.map((item, index) => `
+    $("program-list").innerHTML = data.map(item => `
       <article class="program-card">
         <span class="pill">${safe(item.category || "Community")}</span>
         <h3 style="margin-top:10px">${safe(item.title)}</h3>
         <p>${safe(item.description)}</p>
         <div class="program-actions">
           <small style="color:var(--muted)">Saved locally</small>
-          <button class="btn btn-danger" type="button" data-delete-program="${index}">Delete</button>
+          <div class="program-action-buttons">
+            <button class="btn btn-gold" type="button" data-edit-program="${safe(item.id)}">Edit</button>
+            <button class="btn btn-danger" type="button" data-delete-program="${safe(item.id)}">Delete</button>
+          </div>
         </div>
       </article>
     `).join("");
@@ -743,18 +797,44 @@
     $("program-empty").style.display = data.length ? "none" : "block";
   }
 
+  function startEditProgram(id) {
+    const data = read(STORAGE.programs);
+    const item = data.find(program => program.id === id);
+
+    if (!item) {
+      alert("This program could not be found. Please refresh the dashboard.");
+      return;
+    }
+
+    editingProgramId = id;
+    $("program-title").value = item.title || "";
+    $("program-category").value = item.category || "Community";
+    $("program-description").value = item.description || "";
+    $("program-submit").textContent = "Update Program";
+    $("cancel-edit").hidden = false;
+    $("editing-note").style.display = "block";
+
+    $("program-form").scrollIntoView({ behavior: "smooth", block: "center" });
+    $("program-title").focus();
+  }
+
   function renderRecent() {
     const entries = [
       ...read(STORAGE.volunteers).map(item => ({ type: "Volunteer", item })),
       ...read(STORAGE.help).map(item => ({ type: "Help Request", item })),
       ...read(STORAGE.messages).map(item => ({ type: "Contact Message", item }))
-    ].sort((a, b) => new Date(b.item.savedAt || b.item.date || 0) - new Date(a.item.savedAt || a.item.date || 0)).slice(0, 7);
+    ].sort((a, b) =>
+      new Date(b.item.savedAt || b.item.date || 0) -
+      new Date(a.item.savedAt || a.item.date || 0)
+    ).slice(0, 7);
 
-    fillTable("recent-activity", "recent-empty", entries.map(({ type, item }) => tableRow([
-      `<span class="pill">${type}</span>`,
-      "<strong>" + fieldText(item, ["name", "fullName", "email"]) + "</strong>",
-      formatDate(item.savedAt || item.date || item.createdAt)
-    ])));
+    fillTable("recent-activity", "recent-empty", entries.map(({ type, item }) =>
+      tableRow([
+        `<span class="pill">${type}</span>`,
+        "<strong>" + fieldText(item, ["name", "fullName", "email"]) + "</strong>",
+        formatDate(item.savedAt || item.date || item.createdAt)
+      ])
+    ));
   }
 
   function renderAll() {
@@ -802,38 +882,105 @@
     window.open("https://hiramansha.github.io/AASRA-Foundation/", "_blank", "noopener");
   });
 
-  $("volunteer-search").addEventListener("input", event => renderVolunteers(event.target.value));
-  $("help-search").addEventListener("input", event => renderHelp(event.target.value));
-  $("message-search").addEventListener("input", event => renderMessages(event.target.value));
+  $("volunteer-search").addEventListener("input", event =>
+    renderVolunteers(event.target.value)
+  );
+  $("help-search").addEventListener("input", event =>
+    renderHelp(event.target.value)
+  );
+  $("message-search").addEventListener("input", event =>
+    renderMessages(event.target.value)
+  );
 
   $("program-form").addEventListener("submit", event => {
     event.preventDefault();
 
-    const data = read(STORAGE.programs);
-    data.unshift({
-      title: $("program-title").value.trim(),
-      category: $("program-category").value,
-      description: $("program-description").value.trim(),
-      savedAt: new Date().toISOString()
-    });
+    const title = $("program-title").value.trim();
+    const category = $("program-category").value;
+    const description = $("program-description").value.trim();
 
-    if (save(STORAGE.programs, data)) {
-      $("program-form").reset();
-      renderPrograms();
+    if (!title || !description) {
+      alert("Please complete all program fields.");
+      return;
+    }
+
+    const data = read(STORAGE.programs);
+
+    if (editingProgramId !== null) {
+      const index = data.findIndex(item => item.id === editingProgramId);
+
+      if (index === -1) {
+        alert("This program no longer exists. Your form has not been saved.");
+        resetProgramForm();
+        renderPrograms();
+        return;
+      }
+
+      data[index] = {
+        ...data[index],
+        title,
+        category,
+        description,
+        updatedAt: new Date().toISOString()
+      };
+
+      if (save(STORAGE.programs, data)) {
+        resetProgramForm();
+        renderPrograms();
+        alert("Program updated successfully!");
+      }
+    } else {
+      data.unshift({
+        id: (window.crypto && typeof window.crypto.randomUUID === "function")
+          ? window.crypto.randomUUID()
+          : "program-" + Date.now() + "-" + Math.random().toString(36).slice(2, 9),
+        title,
+        category,
+        description,
+        savedAt: new Date().toISOString()
+      });
+
+      if (save(STORAGE.programs, data)) {
+        resetProgramForm();
+        renderPrograms();
+        alert("Program added successfully!");
+      }
     }
   });
 
+  $("cancel-edit").addEventListener("click", () => {
+    resetProgramForm();
+  });
+
   $("program-list").addEventListener("click", event => {
-    const button = event.target.closest("[data-delete-program]");
-    if (!button) return;
+    const editButton = event.target.closest("[data-edit-program]");
+    const deleteButton = event.target.closest("[data-delete-program]");
 
-    const index = Number(button.dataset.deleteProgram);
-    const data = read(STORAGE.programs);
-    if (!Number.isInteger(index) || index < 0 || index >= data.length) return;
+    if (editButton) {
+      startEditProgram(editButton.dataset.editProgram);
+      return;
+    }
 
-    if (confirm("Delete this locally saved program?")) {
-      data.splice(index, 1);
-      if (save(STORAGE.programs, data)) renderPrograms();
+    if (deleteButton) {
+      const id = deleteButton.dataset.deleteProgram;
+      const data = read(STORAGE.programs);
+      const index = data.findIndex(item => item.id === id);
+
+      if (index === -1) {
+        alert("This program could not be found.");
+        renderPrograms();
+        return;
+      }
+
+      if (confirm("Are you sure you want to delete '" + data[index].title + "'?")) {
+        data.splice(index, 1);
+
+        if (save(STORAGE.programs, data)) {
+          if (editingProgramId === id) resetProgramForm();
+          renderPrograms();
+          alert("Program deleted successfully!");
+        }
+      }
     }
   });
 
@@ -858,7 +1005,9 @@
     }[type];
 
     if (!config) return;
+
     const data = read(config.key);
+
     if (!data.length) {
       alert("There are no records to export yet.");
       return;
@@ -866,10 +1015,15 @@
 
     const csv = [
       config.columns.map(csvEscape).join(","),
-      ...data.map(item => config.columns.map(key => csvEscape(item[key] ?? "")).join(","))
+      ...data.map(item =>
+        config.columns.map(key => csvEscape(item[key] ?? "")).join(",")
+      )
     ].join("\r\n");
 
-    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
