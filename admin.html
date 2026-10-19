@@ -2,1150 +2,675 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#174b3a">
-  <title>Admin Dashboard | AASRA Foundation</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --green: #174b3a;
-      --green-light: #e8f1eb;
-      --gold: #d5a85c;
-      --bg: #f5f7f5;
-      --text: #24352d;
-      --muted: #718078;
-      --border: #e5ebe6;
-      --white: #fff;
-      --red: #b84b4b;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: "DM Sans", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    button, input, textarea, select { font: inherit; }
-    button { cursor: pointer; }
-
-    .layout { display: flex; min-height: 100vh; }
-
-    .sidebar {
-      width: 250px;
-      background: var(--green);
-      color: white;
-      padding: 28px 18px;
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-    }
-
-    .brand {
-      padding: 0 12px 30px;
-      border-bottom: 1px solid #ffffff25;
-    }
-
-    .brand-mark {
-      display: inline-grid;
-      place-items: center;
-      width: 43px;
-      height: 43px;
-      border: 1px solid var(--gold);
-      border-radius: 12px;
-      color: var(--gold);
-      font-family: Georgia, serif;
-      font-size: 27px;
-      margin-bottom: 12px;
-    }
-
-    .brand h2 { font-size: 19px; letter-spacing: 2px; }
-    .brand p { font-size: 10px; letter-spacing: 2px; color: #d8e3dc; margin-top: 5px; }
-
-    .nav-label {
-      color: #a9c1b3;
-      font-size: 10px;
-      letter-spacing: 1.8px;
-      margin: 27px 12px 12px;
-      text-transform: uppercase;
-    }
-
-    .nav-btn {
-      width: 100%;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      border: 0;
-      background: transparent;
-      color: #e0ebe4;
-      padding: 13px 14px;
-      margin: 3px 0;
-      border-radius: 9px;
-      text-align: left;
-      font-size: 13px;
-      transition: .2s;
-    }
-
-    .nav-btn:hover, .nav-btn.active {
-      background: #ffffff18;
-      color: white;
-    }
-
-    .nav-btn.active { box-shadow: inset 3px 0 var(--gold); }
-    .nav-icon { width: 20px; text-align: center; font-size: 17px; }
-
-    .sidebar-bottom { margin-top: auto; padding-top: 25px; }
-
-    .sidebar-note {
-      background: #ffffff12;
-      padding: 15px;
-      border-radius: 10px;
-      color: #d7e4dc;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .main { flex: 1; min-width: 0; padding: 28px 34px; }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .eyebrow {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 7px;
-    }
-
-    h1, h2, h3 { font-family: "Playfair Display", Georgia, serif; }
-    h1 { font-size: clamp(25px, 3vw, 34px); color: var(--green); }
-    .subtitle { color: var(--muted); font-size: 13px; margin-top: 8px; }
-
-    .top-actions { display: flex; align-items: center; gap: 10px; }
-
-    .admin-chip {
-      border: 1px solid var(--border);
-      background: white;
-      border-radius: 30px;
-      padding: 10px 14px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--green-light);
-      color: var(--green);
-      font-weight: 700;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 8px;
-      background: var(--green);
-      color: white;
-      padding: 11px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      transition: .2s;
-    }
-
-    .btn:hover { background: #23664f; }
-    .btn-outline { background: white; color: var(--green); border: 1px solid var(--border); }
-    .btn-outline:hover { background: var(--green-light); }
-    .btn-danger { background: #fff0f0; color: var(--red); }
-    .btn-danger:hover { background: #ffe2e2; }
-    .btn-gold { background: #d5a85c; color: #24352d; }
-    .btn-gold:hover { background: #e3bb78; }
-
-    .notice {
-      padding: 13px 16px;
-      background: #fff8e9;
-      color: #755720;
-      border: 1px solid #f0dfb9;
-      border-radius: 10px;
-      font-size: 12px;
-      line-height: 1.7;
-      margin-bottom: 25px;
-    }
-
-    .section { display: none; }
-    .section.active { display: block; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 25px;
-    }
-
-    .stat-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 21px;
-      min-width: 0;
-    }
-
-    .stat-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .stat-label { color: var(--muted); font-size: 12px; }
-
-    .stat-icon {
-      width: 39px;
-      height: 39px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: var(--green-light);
-      font-size: 19px;
-    }
-
-    .stat-number { font-size: 31px; font-weight: 700; color: var(--green); margin-top: 17px; }
-    .stat-foot { color: var(--muted); font-size: 11px; margin-top: 5px; }
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
-      gap: 20px;
-    }
-
-    .panel {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .panel-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 22px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .panel-head h2 { color: var(--green); font-size: 19px; }
-    .panel-head p { color: var(--muted); font-size: 11px; margin-top: 5px; }
-    .panel-body { padding: 21px; }
-
-    .quick-list { display: grid; gap: 10px; }
-
-    .quick-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-      border: 1px solid var(--border);
-      background: white;
-      padding: 13px;
-      border-radius: 10px;
-      text-align: left;
-      color: var(--text);
-    }
-
-    .quick-btn:hover { background: #f7faf7; border-color: #b9cfc0; }
-
-    .quick-icon {
-      width: 38px;
-      height: 38px;
-      background: var(--green-light);
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .quick-btn strong { font-size: 12px; display: block; }
-    .quick-btn small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
-    .arrow { margin-left: auto; color: var(--muted); }
-
-    .table-wrap { width: 100%; overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-
-    th {
-      background: #f8faf8;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: .7px;
-      text-transform: uppercase;
-      padding: 14px 18px;
-      white-space: nowrap;
-    }
-
-    td {
-      padding: 15px 18px;
-      font-size: 12px;
-      border-top: 1px solid var(--border);
-      vertical-align: top;
-      line-height: 1.6;
-    }
-
-    td strong { color: var(--text); }
-    .empty { padding: 32px 20px; text-align: center; color: var(--muted); font-size: 12px; }
-    .empty span { display: block; font-size: 27px; margin-bottom: 9px; }
-
-    .pill {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 30px;
-      font-size: 10px;
-      background: var(--green-light);
-      color: var(--green);
-      white-space: nowrap;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 17px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .search {
-      flex: 1;
-      min-width: 180px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
-      outline: none;
-      background: white;
-      color: var(--text);
-      font-size: 12px;
-    }
-
-    .search:focus, .field:focus {
-      border-color: #76a28a;
-      outline: 2px solid #e3eee7;
-    }
-
-    .program-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 13px;
-      margin-bottom: 22px;
-    }
-
-    .field-group { display: flex; flex-direction: column; gap: 6px; }
-    .field-group.full { grid-column: 1 / -1; }
-    .field-group label { font-size: 11px; color: var(--muted); font-weight: 600; }
-
-    .field {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 11px 12px;
-      width: 100%;
-      background: white;
-      color: var(--text);
-      font-size: 12px;
-    }
-
-    textarea.field { min-height: 85px; resize: vertical; }
-
-    .program-card {
-      border: 1px solid var(--border);
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      overflow-wrap: anywhere;
-    }
-
-    .program-card h3 { font-size: 17px; color: var(--green); margin-bottom: 7px; }
-    .program-card p { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
-
-    .program-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .program-action-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
-    .editing-note {
-      display: none;
-      background: var(--green-light);
-      color: var(--green);
-      padding: 11px 13px;
-      border-radius: 8px;
-      font-size: 12px;
-      margin-bottom: 15px;
-    }
-
-    .mobile-menu { display: none; }
-    .footer { text-align: center; color: var(--muted); font-size: 11px; padding: 20px 0 5px; }
-
-    @media (max-width: 1100px) {
-      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .content-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 760px) {
-      .layout { display: block; }
-      .sidebar { width: 100%; padding: 14px 16px; }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 0;
-        border: 0;
-      }
-
-      .brand-mark { margin: 0; width: 38px; height: 38px; font-size: 23px; }
-      .brand h2 { font-size: 16px; }
-      .brand p { font-size: 9px; }
-      .nav-label, .sidebar-bottom { display: none; }
-
-      .nav-menu {
-        display: none;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 4px;
-        padding-top: 15px;
-      }
-
-      .nav-menu.open { display: grid; }
-      .nav-btn { font-size: 12px; padding: 11px 9px; margin: 0; }
-      .mobile-menu { display: inline-block; margin-left: auto; }
-      .main { padding: 24px 15px; }
-      .topbar { align-items: flex-start; }
-      .top-actions { flex-direction: column; align-items: flex-end; }
-      .admin-chip { padding: 7px 9px; }
-      .admin-chip .admin-label { display: none; }
-      .stats { gap: 10px; }
-      .stat-card { padding: 15px; }
-      .stat-number { font-size: 26px; }
-      .stat-icon { width: 32px; height: 32px; font-size: 16px; }
-      .panel-head { padding: 16px; }
-      .panel-body { padding: 16px; }
-      td, th { padding: 12px; }
-      .program-form { grid-template-columns: 1fr; }
-      .field-group.full { grid-column: auto; }
-    }
-
-    @media (max-width: 390px) {
-      .stats { grid-template-columns: 1fr 1fr; }
-      .stat-label { font-size: 10px; }
-      .stat-number { font-size: 23px; }
-      .topbar { gap: 8px; }
-      .top-actions .btn { padding: 9px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#174b3a">
+<title>Admin Dashboard | AASRA Foundation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green:#174b3a; --light:#e8f1eb; --gold:#d5a85c;
+  --bg:#f5f7f5; --text:#24352d; --muted:#718078;
+  --border:#e5ebe6; --red:#b84b4b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:250px;background:var(--green);color:white;padding:25px 18px;display:flex;flex-direction:column;flex-shrink:0}
+.brand{padding:0 12px 25px;border-bottom:1px solid #ffffff25}
+.brand-mark{display:inline-grid;place-items:center;width:43px;height:43px;border:1px solid var(--gold);border-radius:12px;color:var(--gold);font:27px Georgia;margin-bottom:12px}
+.brand h2{font-size:19px;letter-spacing:2px}.brand p{font-size:10px;letter-spacing:2px;color:#d8e3dc;margin-top:5px}
+.nav-label{color:#a9c1b3;font-size:10px;letter-spacing:1.8px;margin:25px 12px 12px;text-transform:uppercase}
+.nav-btn{width:100%;display:flex;gap:12px;align-items:center;border:0;background:transparent;color:#e0ebe4;padding:13px 14px;margin:3px 0;border-radius:9px;text-align:left;font-size:13px}
+.nav-btn:hover,.nav-btn.active{background:#ffffff18;color:white}.nav-btn.active{box-shadow:inset 3px 0 var(--gold)}
+.nav-icon{width:20px;text-align:center;font-size:17px}
+.sidebar-bottom{margin-top:auto;padding-top:25px}
+.sidebar-note{background:#ffffff12;padding:15px;border-radius:10px;color:#d7e4dc;font-size:11px;line-height:1.7}
+.main{flex:1;min-width:0;padding:28px 34px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:30px}
+.eyebrow{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif}
+h1{font-size:clamp(25px,3vw,34px);color:var(--green)}
+.subtitle{color:var(--muted);font-size:13px;margin-top:8px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.admin-chip{border:1px solid var(--border);background:white;border-radius:30px;padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:9px}
+.avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--light);color:var(--green);font-weight:700}
+.btn{border:0;border-radius:8px;background:var(--green);color:white;padding:10px 14px;font-size:12px;font-weight:600;transition:.2s}
+.btn:hover{background:#23664f}
+.btn-outline{background:white;color:var(--green);border:1px solid var(--border)}
+.btn-outline:hover{background:var(--light)}
+.btn-danger{background:#fff0f0;color:var(--red)}
+.btn-danger:hover{background:#ffe2e2}
+.btn-gold{background:var(--gold);color:var(--text)}
+.btn-gold:hover{background:#e3bb78}
+.notice{padding:13px 16px;background:#fff8e9;color:#755720;border:1px solid #f0dfb9;border-radius:10px;font-size:12px;line-height:1.7;margin-bottom:20px}
+.section{display:none}.section.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:25px}
+.stat-card{background:white;border:1px solid var(--border);border-radius:13px;padding:21px;min-width:0}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stat-label{color:var(--muted);font-size:12px}
+.stat-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:11px;background:var(--light);font-size:19px}
+.stat-number{font-size:31px;font-weight:700;color:var(--green);margin-top:17px}
+.stat-foot{color:var(--muted);font-size:11px;margin-top:5px}
+.content-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:20px}
+.panel{background:white;border:1px solid var(--border);border-radius:13px;overflow:hidden;margin-bottom:20px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 22px;border-bottom:1px solid var(--border)}
+.panel-head h2{color:var(--green);font-size:19px}
+.panel-head p{color:var(--muted);font-size:11px;margin-top:5px}
+.panel-body{padding:21px}
+.quick-list{display:grid;gap:10px}
+.quick-btn{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--border);background:white;padding:13px;border-radius:10px;text-align:left;color:var(--text)}
+.quick-btn:hover{background:#f7faf7;border-color:#b9cfc0}
+.quick-icon{width:38px;height:38px;background:var(--light);border-radius:9px;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.quick-btn strong{font-size:12px;display:block}.quick-btn small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.arrow{margin-left:auto;color:var(--muted)}
+.table-wrap{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;text-align:left}
+th{background:#f8faf8;color:var(--muted);font-size:10px;letter-spacing:.7px;text-transform:uppercase;padding:14px 18px;white-space:nowrap}
+td{padding:15px 18px;font-size:12px;border-top:1px solid var(--border);vertical-align:top;line-height:1.6;overflow-wrap:anywhere}
+td strong{color:var(--text)}
+.empty{padding:32px 20px;text-align:center;color:var(--muted);font-size:12px}
+.empty span{display:block;font-size:27px;margin-bottom:9px}
+.pill{display:inline-block;padding:5px 9px;border-radius:30px;font-size:10px;background:var(--light);color:var(--green);white-space:nowrap}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;padding:17px 20px;border-bottom:1px solid var(--border)}
+.search{flex:1;min-width:180px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;outline:none;background:white;color:var(--text);font-size:12px}
+.search:focus,.field:focus{border-color:#76a28a;outline:2px solid #e3eee7}
+.program-form{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:22px}
+.field-group{display:flex;flex-direction:column;gap:6px}
+.field-group.full{grid-column:1/-1}
+.field-group label{font-size:11px;color:var(--muted);font-weight:600}
+.field{border:1px solid var(--border);border-radius:8px;padding:11px 12px;width:100%;background:white;color:var(--text);font-size:12px}
+textarea.field{min-height:85px;resize:vertical}
+.program-card{border:1px solid var(--border);padding:16px;border-radius:10px;margin-bottom:10px;overflow-wrap:anywhere}
+.program-card h3{font-size:17px;color:var(--green);margin:10px 0 7px}
+.program-card p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.program-actions{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.program-action-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.editing-note{display:none;background:var(--light);color:var(--green);padding:11px 13px;border-radius:8px;font-size:12px;margin-bottom:15px}
+.mobile-menu{display:none}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px 0 5px}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}}
+@media(max-width:760px){
+.layout{display:block}.sidebar{width:100%;padding:14px 16px}
+.brand{display:flex;align-items:center;gap:12px;padding:0;border:0}
+.brand-mark{margin:0;width:38px;height:38px;font-size:23px}.brand h2{font-size:16px}.brand p{font-size:9px}
+.nav-label,.sidebar-bottom{display:none}
+.nav-menu{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding-top:15px}
+.nav-menu.open{display:grid}.nav-btn{font-size:12px;padding:11px 9px;margin:0}
+.mobile-menu{display:inline-block;margin-left:auto}.main{padding:24px 15px}
+.topbar{align-items:flex-start}.top-actions{flex-direction:column;align-items:flex-end}
+.admin-chip{padding:7px 9px}.admin-label{display:none}
+.stats{gap:10px}.stat-card{padding:15px}.stat-number{font-size:26px}
+.stat-icon{width:32px;height:32px;font-size:16px}
+.panel-head{padding:16px}.panel-body{padding:16px}
+td,th{padding:12px}.program-form{grid-template-columns:1fr}.field-group.full{grid-column:auto}
+}
+@media(max-width:390px){.stats{grid-template-columns:1fr 1fr}.stat-label{font-size:10px}.stat-number{font-size:23px}.topbar{gap:8px}.top-actions .btn{padding:9px}}
+</style>
 </head>
-
 <body>
 <div class="layout">
-  <aside class="sidebar">
-    <div class="brand">
-      <span class="brand-mark">A</span>
-      <div>
-        <h2>AASRA</h2>
-        <p>FOUNDATION ADMIN</p>
-      </div>
-      <button class="btn mobile-menu" id="mobile-menu" type="button" aria-label="Toggle menu">☰</button>
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">A</span>
+    <div><h2>AASRA</h2><p>FOUNDATION ADMIN</p></div>
+    <button class="btn mobile-menu" id="mobile-menu" type="button" aria-label="Toggle menu">☰</button>
+  </div>
+  <div class="nav-menu" id="nav-menu">
+    <p class="nav-label">Workspace</p>
+    <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+    <button class="nav-btn" data-section="volunteers"><span class="nav-icon">♧</span>Volunteers</button>
+    <button class="nav-btn" data-section="help-requests"><span class="nav-icon">♡</span>Help Requests</button>
+    <button class="nav-btn" data-section="messages"><span class="nav-icon">✉</span>Contact Messages</button>
+    <button class="nav-btn" data-section="donations"><span class="nav-icon">♡</span>Donations</button>
+    <button class="nav-btn" data-section="programs"><span class="nav-icon">▤</span>Programs</button>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="sidebar-note"><strong>Har Insaan Ka Sahara</strong><br>Every small act of kindness can make a difference.</div>
+    <button class="nav-btn" id="visit-site" type="button" style="margin-top:12px">↗ View Website</button>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div><p class="eyebrow">AASRA Foundation / Admin</p><h1 id="page-title">Dashboard Overview</h1><p class="subtitle" id="page-subtitle">Welcome to your foundation management workspace.</p></div>
+  <div class="top-actions"><div class="admin-chip"><span class="avatar">A</span><span class="admin-label">Administrator</span></div><button class="btn btn-outline" id="refresh-btn" type="button">↻ Refresh</button></div>
+</header>
+
+<section class="section active" id="section-dashboard">
+  <div class="stats">
+    <article class="stat-card"><div class="stat-top"><span class="stat-label">Volunteers</span><span class="stat-icon">♧</span></div><div class="stat-number" id="stat-volunteers">0</div><p class="stat-foot">Saved volunteer forms</p></article>
+    <article class="stat-card"><div class="stat-top"><span class="stat-label">Help Requests</span><span class="stat-icon">♡</span></div><div class="stat-number" id="stat-help">0</div><p class="stat-foot">Saved help request forms</p></article>
+    <article class="stat-card"><div class="stat-top"><span class="stat-label">Messages</span><span class="stat-icon">✉</span></div><div class="stat-number" id="stat-messages">0</div><p class="stat-foot">Saved contact forms</p></article>
+    <article class="stat-card"><div class="stat-top"><span class="stat-label">Programs</span><span class="stat-icon">▤</span></div><div class="stat-number" id="stat-programs">0</div><p class="stat-foot">Programs in this browser</p></article>
+  </div>
+  <div class="content-grid">
+    <div class="panel">
+      <div class="panel-head"><div><h2>Recent Activity</h2><p>Latest locally saved submissions</p></div><button class="btn btn-outline" data-go="messages" type="button">View messages</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Type</th><th>Details</th><th>Date</th></tr></thead><tbody id="recent-activity"></tbody></table></div>
+      <div class="empty" id="recent-empty"><span>☘</span>No saved submissions found in this browser yet.</div>
     </div>
-
-    <div class="nav-menu" id="nav-menu">
-      <p class="nav-label">Workspace</p>
-      <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">▦</span> Dashboard</button>
-      <button class="nav-btn" data-section="volunteers"><span class="nav-icon">♧</span> Volunteers</button>
-      <button class="nav-btn" data-section="help-requests"><span class="nav-icon">♡</span> Help Requests</button>
-      <button class="nav-btn" data-section="messages"><span class="nav-icon">✉</span> Contact Messages</button>
-      <button class="nav-btn" data-section="donations"><span class="nav-icon">♡</span> Donations</button>
-      <button class="nav-btn" data-section="programs"><span class="nav-icon">▤</span> Programs</button>
+    <div class="panel">
+      <div class="panel-head"><div><h2>Quick Actions</h2><p>Manage foundation activity</p></div></div>
+      <div class="panel-body quick-list">
+        <button class="quick-btn" data-go="volunteers"><span class="quick-icon">♧</span><span><strong>View Volunteers</strong><small>Review saved volunteer forms</small></span><span class="arrow">→</span></button>
+        <button class="quick-btn" data-go="help-requests"><span class="quick-icon">♡</span><span><strong>Help Requests</strong><small>Review assistance requests</small></span><span class="arrow">→</span></button>
+        <button class="quick-btn" data-go="messages"><span class="quick-icon">✉</span><span><strong>Contact Messages</strong><small>Read contact submissions</small></span><span class="arrow">→</span></button>
+        <button class="quick-btn" data-go="programs"><span class="quick-icon">▤</span><span><strong>Manage Programs</strong><small>Add, edit, or delete programs</small></span><span class="arrow">→</span></button>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="sidebar-bottom">
-      <div class="sidebar-note">
-        <strong>Har Insaan Ka Sahara</strong><br>
-        Every small act of kindness can make a difference.
-      </div>
-      <button class="nav-btn" id="visit-site" style="margin-top:12px" type="button">↗ View Website</button>
+<section class="section" id="section-volunteers">
+  <div class="panel">
+    <div class="panel-head"><div><h2>Volunteer Submissions</h2><p>Forms saved in this browser</p></div><span class="pill" id="volunteer-count">0 records</span></div>
+    <div class="toolbar"><input class="search" id="volunteer-search" placeholder="Search volunteers..." aria-label="Search volunteers"><button class="btn btn-outline" data-export="volunteers" type="button">Export CSV</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Interest</th><th>Submitted</th></tr></thead><tbody id="volunteer-table"></tbody></table></div>
+    <div class="empty" id="volunteer-empty"><span>♧</span>No volunteer submissions found.</div>
+  </div>
+</section>
+
+<section class="section" id="section-help-requests">
+  <div class="panel">
+    <div class="panel-head"><div><h2>Help Requests</h2><p>Review locally saved requests</p></div><span class="pill" id="help-count">0 records</span></div>
+    <div class="toolbar"><input class="search" id="help-search" placeholder="Search help requests..." aria-label="Search help requests"><button class="btn btn-outline" data-export="help" type="button">Export CSV</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Contact</th><th>Help Needed</th><th>Details</th><th>Submitted</th></tr></thead><tbody id="help-table"></tbody></table></div>
+    <div class="empty" id="help-empty"><span>♡</span>No help requests found.</div>
+  </div>
+</section>
+
+<section class="section" id="section-messages">
+  <div class="panel">
+    <div class="panel-head"><div><h2>Contact Messages</h2><p>Messages saved from the contact form in this browser</p></div><span class="pill" id="message-count">0 records</span></div>
+    <div class="toolbar">
+      <input class="search" id="message-search" placeholder="Search messages..." aria-label="Search messages">
+      <button class="btn btn-outline" data-export="messages" type="button">Export CSV</button>
+      <button class="btn btn-danger" id="delete-all-messages" type="button">Delete All Messages</button>
     </div>
-  </aside>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Submitted</th><th>Action</th></tr></thead><tbody id="message-table"></tbody></table></div>
+    <div class="empty" id="message-empty"><span>✉</span>No contact messages found.</div>
+  </div>
+</section>
 
-  <main class="main">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">AASRA Foundation / Admin</p>
-        <h1 id="page-title">Dashboard Overview</h1>
-        <p class="subtitle" id="page-subtitle">Welcome to your foundation management workspace.</p>
-      </div>
-      <div class="top-actions">
-        <div class="admin-chip"><span class="avatar">A</span><span class="admin-label">Administrator</span></div>
-        <button class="btn btn-outline" id="refresh-btn" type="button">↻ Refresh</button>
-      </div>
-    </header>
-    <section class="section active" id="section-dashboard">
-      <div class="stats">
-        <article class="stat-card">
-          <div class="stat-top"><span class="stat-label">Volunteers</span><span class="stat-icon">♧</span></div>
-          <div class="stat-number" id="stat-volunteers">0</div>
-          <p class="stat-foot">Saved volunteer forms</p>
-        </article>
-        <article class="stat-card">
-          <div class="stat-top"><span class="stat-label">Help Requests</span><span class="stat-icon">♡</span></div>
-          <div class="stat-number" id="stat-help">0</div>
-          <p class="stat-foot">Saved help request forms</p>
-        </article>
-        <article class="stat-card">
-          <div class="stat-top"><span class="stat-label">Messages</span><span class="stat-icon">✉</span></div>
-          <div class="stat-number" id="stat-messages">0</div>
-          <p class="stat-foot">Saved contact forms</p>
-        </article>
-        <article class="stat-card">
-          <div class="stat-top"><span class="stat-label">Programs</span><span class="stat-icon">▤</span></div>
-          <div class="stat-number" id="stat-programs">0</div>
-          <p class="stat-foot">Programs in this browser</p>
-        </article>
-      </div>
+<section class="section" id="section-donations">
+  <div class="panel">
+    <div class="panel-head"><div><h2>Donations</h2><p>Donation tracking status</p></div></div>
+    <div class="panel-body">
+      <div class="notice">No real payment gateway or verified donation database is connected. Donation amounts should not be treated as received payments. Connect a secure backend and payment provider before accepting real donations.</div>
+      <div class="empty"><span>♡</span>No verified donation records are available.</div>
+    </div>
+  </div>
+</section>
 
-      <div class="content-grid">
-        <div class="panel">
-          <div class="panel-head">
-            <div><h2>Recent Activity</h2><p>Latest locally saved submissions</p></div>
-            <button class="btn btn-outline" data-go="messages" type="button">View messages</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Type</th><th>Details</th><th>Date</th></tr></thead>
-              <tbody id="recent-activity"></tbody>
-            </table>
-          </div>
-          <div class="empty" id="recent-empty"><span>☘</span>No saved submissions found in this browser yet.</div>
-        </div>
+<section class="section" id="section-programs">
+  <div class="panel">
+    <div class="panel-head"><div><h2>Program Management</h2><p>Add, edit and delete programs stored in this browser</p></div><span class="pill" id="program-count">0 programs</span></div>
+    <div class="panel-body">
+      <div class="editing-note" id="editing-note">You are editing a program. Make your changes and select Update Program.</div>
+      <form id="program-form" class="program-form">
+        <div class="field-group"><label for="program-title">Program title</label><input class="field" id="program-title" name="title" required maxlength="100" placeholder="e.g. Community Food Support"></div>
+        <div class="field-group"><label for="program-category">Category</label><select class="field" id="program-category" name="category" required><option value="Food">Food & Essentials</option><option value="Education">Education</option><option value="Healthcare">Healthcare</option><option value="Shelter">Safe Accommodation</option><option value="Community">Community Support</option></select></div>
+        <div class="field-group full"><label for="program-description">Description</label><textarea class="field" id="program-description" name="description" required maxlength="500" placeholder="Describe the program..."></textarea></div>
+        <div class="field-group full" style="display:flex;flex-direction:row;flex-wrap:wrap;gap:9px"><button class="btn" id="program-submit" type="submit">+ Add Program</button><button class="btn btn-outline" id="cancel-edit" type="button" hidden>Cancel Edit</button></div>
+      </form>
+      <div id="program-list"></div>
+      <div class="empty" id="program-empty"><span>▤</span>No programs added in this browser yet.</div>
+    </div>
+  </div>
+</section>
 
-        <div class="panel">
-          <div class="panel-head"><div><h2>Quick Actions</h2><p>Manage foundation activity</p></div></div>
-          <div class="panel-body quick-list">
-            <button class="quick-btn" data-go="volunteers" type="button"><span class="quick-icon">♧</span><span><strong>View Volunteers</strong><small>Review saved volunteer forms</small></span><span class="arrow">→</span></button>
-            <button class="quick-btn" data-go="help-requests" type="button"><span class="quick-icon">♡</span><span><strong>Help Requests</strong><small>Review assistance requests</small></span><span class="arrow">→</span></button>
-            <button class="quick-btn" data-go="messages" type="button"><span class="quick-icon">✉</span><span><strong>Contact Messages</strong><small>Read contact form submissions</small></span><span class="arrow">→</span></button>
-            <button class="quick-btn" data-go="programs" type="button"><span class="quick-icon">▤</span><span><strong>Manage Programs</strong><small>Add, edit, or delete program entries</small></span><span class="arrow">→</span></button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="section-volunteers">
-      <div class="panel">
-        <div class="panel-head"><div><h2>Volunteer Submissions</h2><p>Forms saved in this browser</p></div><span class="pill" id="volunteer-count">0 records</span></div>
-        <div class="toolbar"><input class="search" id="volunteer-search" placeholder="Search volunteers..." aria-label="Search volunteers"><button class="btn btn-outline" data-export="volunteers" type="button">Export CSV</button></div>
-        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Interest</th><th>Submitted</th></tr></thead><tbody id="volunteer-table"></tbody></table></div>
-        <div class="empty" id="volunteer-empty"><span>♧</span>No volunteer submissions found.</div>
-      </div>
-    </section>
-
-    <section class="section" id="section-help-requests">
-      <div class="panel">
-        <div class="panel-head"><div><h2>Help Requests</h2><p>Review locally saved requests for assistance</p></div><span class="pill" id="help-count">0 records</span></div>
-        <div class="toolbar"><input class="search" id="help-search" placeholder="Search help requests..." aria-label="Search help requests"><button class="btn btn-outline" data-export="help" type="button">Export CSV</button></div>
-        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Contact</th><th>Help Needed</th><th>Details</th><th>Submitted</th></tr></thead><tbody id="help-table"></tbody></table></div>
-        <div class="empty" id="help-empty"><span>♡</span>No help requests found.</div>
-      </div>
-    </section>
-
-    <section class="section" id="section-messages">
-      <div class="panel">
-        <div class="panel-head"><div><h2>Contact Messages</h2><p>Messages saved from the contact form in this browser</p></div><span class="pill" id="message-count">0 records</span></div>
-        <div class="toolbar"><input class="search" id="message-search" placeholder="Search messages..." aria-label="Search messages"><button class="btn btn-outline" data-export="messages" type="button">Export CSV</button></div>
-        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Submitted</th></tr></thead><tbody id="message-table"></tbody></table></div>
-        <div class="empty" id="message-empty"><span>✉</span>No contact messages found.</div>
-      </div>
-    </section>
-
-    <section class="section" id="section-donations">
-      <div class="panel">
-        <div class="panel-head"><div><h2>Donations</h2><p>Donation tracking status</p></div></div>
-        <div class="panel-body">
-          <div class="notice">No real payment gateway or verified donation database is connected. Donation amounts should not be treated as received payments. Connect a secure backend and payment provider before accepting real donations.</div>
-          <div class="empty"><span>♡</span>No verified donation records are available.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="section-programs">
-      <div class="panel">
-        <div class="panel-head">
-          <div><h2>Program Management</h2><p>Add, edit and delete programs stored in this browser</p></div>
-          <span class="pill" id="program-count">0 programs</span>
-        </div>
-        <div class="panel-body">
-          <div class="editing-note" id="editing-note">You are editing a program. Make your changes and select Update Program.</div>
-          <form id="program-form" class="program-form">
-            <div class="field-group">
-              <label for="program-title">Program title</label>
-              <input class="field" id="program-title" name="title" required maxlength="100" placeholder="e.g. Community Food Support">
-            </div>
-            <div class="field-group">
-              <label for="program-category">Category</label>
-              <select class="field" id="program-category" name="category" required>
-                <option value="Food">Food & Essentials</option>
-                <option value="Education">Education</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Shelter">Safe Accommodation</option>
-                <option value="Community">Community Support</option>
-              </select>
-            </div>
-            <div class="field-group full">
-              <label for="program-description">Description</label>
-              <textarea class="field" id="program-description" name="description" required maxlength="500" placeholder="Describe the program..."></textarea>
-            </div>
-            <div class="field-group full" style="display:flex;flex-direction:row;flex-wrap:wrap;gap:9px">
-              <button class="btn" id="program-submit" type="submit">+ Add Program</button>
-              <button class="btn btn-outline" id="cancel-edit" type="button" hidden>Cancel Edit</button>
-            </div>
-          </form>
-          <div id="program-list"></div>
-          <div class="empty" id="program-empty"><span>▤</span>No programs added in this browser yet.</div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">AASRA Foundation · Har Insaan Ka Sahara · Admin Demo</footer>
-  </main>
+<footer class="footer">AASRA Foundation · Har Insaan Ka Sahara · Admin Demo</footer>
+</main>
 </div>
-
 
 <script>
 (() => {
-  "use strict";
+"use strict";
 
-  const STORAGE = {
-    volunteers: "aasra_volunteers",
-    help: "aasra_help_requests",
-    messages: "aasra_contact_messages",
-    programs: "aasra_admin_programs"
-  };
+const STORAGE = {
+  volunteers:"aasra_volunteers",
+  help:"aasra_help_requests",
+  messages:"aasra_contact_messages",
+  programs:"aasra_admin_programs"
+};
 
-  const titles = {
-    dashboard: ["Dashboard Overview", "Welcome to your foundation management workspace."],
-    volunteers: ["Volunteer Management", "Review volunteer submissions saved in this browser."],
-    "help-requests": ["Help Requests", "Review requests for assistance saved in this browser."],
-    messages: ["Contact Messages", "Review messages submitted through the contact form."],
-    donations: ["Donation Tracking", "View the current donation integration status."],
-    programs: ["Program Management", "Manage local program entries."]
-  };
+const titles = {
+  dashboard:["Dashboard Overview","Welcome to your foundation management workspace."],
+  volunteers:["Volunteer Management","Review volunteer submissions saved in this browser."],
+  "help-requests":["Help Requests","Review requests for assistance saved in this browser."],
+  messages:["Contact Messages","Review messages submitted through the contact form."],
+  donations:["Donation Tracking","View the current donation integration status."],
+  programs:["Program Management","Manage local program entries."]
+};
 
-  const $ = id => document.getElementById(id);
-  let editingProgramId = null;
+const $ = id => document.getElementById(id);
+let editingProgramId = null;
 
-  function createId() {
-    return window.crypto && typeof window.crypto.randomUUID === "function"
-      ? window.crypto.randomUUID()
-      : "program-" + Date.now() + "-" + Math.random().toString(36).slice(2, 12);
+function createId() {
+  return window.crypto && typeof window.crypto.randomUUID === "function"
+    ? window.crypto.randomUUID()
+    : "program-" + Date.now() + "-" + Math.random().toString(36).slice(2,12);
+}
+
+function read(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch(error) {
+    console.warn("Could not read local storage:",key,error);
+    return [];
   }
+}
 
-  function read(key) {
-    try {
-      const value = JSON.parse(localStorage.getItem(key) || "[]");
-      return Array.isArray(value) ? value : [];
-    } catch (error) {
-      console.warn("Could not read local storage:", key, error);
-      return [];
+function save(key,data) {
+  try {
+    localStorage.setItem(key,JSON.stringify(data));
+    return true;
+  } catch(error) {
+    alert("Browser storage is unavailable or full. Changes could not be saved.");
+    return false;
+  }
+}
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g,char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[char]);
+}
+
+function pick(record,names) {
+  for(const name of names) {
+    if(record && record[name] != null && String(record[name]).trim() !== "") {
+      return String(record[name]);
     }
   }
+  return "—";
+}
 
-  function save(key, data) {
-    try {
-      localStorage.setItem(key, JSON.stringify(data));
-      return true;
-    } catch (error) {
-      alert("Browser storage is unavailable or full. Changes could not be saved.");
-      return false;
-    }
-  }
+function formatDate(value) {
+  if(!value) return "—";
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return safe(value);
+  return date.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
+}
 
-  function safe(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    })[char]);
-  }
+function fieldText(record,names) {
+  return safe(pick(record,names));
+}
 
-  function pick(record, names) {
-    for (const name of names) {
-      if (record && record[name] != null && String(record[name]).trim() !== "") {
-        return String(record[name]);
-      }
-    }
-    return "—";
-  }
+function tableRow(values) {
+  return "<tr>" + values.map(value => "<td>" + value + "</td>").join("") + "</tr>";
+}
 
-  function formatDate(value) {
-    if (!value) return "—";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return safe(value);
+function fillTable(id,emptyId,rows) {
+  $(id).innerHTML = rows.join("");
+  $(emptyId).style.display = rows.length ? "none" : "block";
+}
 
-    return date.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    });
-  }
+function renderVolunteers(query="") {
+  const data = read(STORAGE.volunteers);
+  const filtered = data.filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()));
+  $("volunteer-count").textContent = filtered.length + " records";
+  fillTable("volunteer-table","volunteer-empty",filtered.map(item => tableRow([
+    "<strong>"+fieldText(item,["name","fullName","full_name"])+"</strong>",
+    fieldText(item,["email","emailAddress"]),
+    fieldText(item,["phone","contact","phoneNumber"]),
+    fieldText(item,["interest","area","volunteerInterest","message"]),
+    formatDate(item.savedAt || item.date || item.createdAt)
+  ])));
+  $("stat-volunteers").textContent = data.length;
+}
 
-  function fieldText(record, names) {
-    return safe(pick(record, names));
-  }
+function renderHelp(query="") {
+  const data = read(STORAGE.help);
+  const filtered = data.filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()));
+  $("help-count").textContent = filtered.length + " records";
+  fillTable("help-table","help-empty",filtered.map(item => tableRow([
+    "<strong>"+fieldText(item,["name","fullName","full_name"])+"</strong>",
+    fieldText(item,["phone","email","contact"]),
+    fieldText(item,["helpType","help_type","category","assistance","need","subject"]),
+    fieldText(item,["message","details","description"]),
+    formatDate(item.savedAt || item.date || item.createdAt)
+  ])));
+  $("stat-help").textContent = data.length;
+}
 
-  function tableRow(values) {
-    return "<tr>" + values.map(value => "<td>" + value + "</td>").join("") + "</tr>";
-  }
+/* Contact message rendering and individual deletion. */
+function renderMessages(query="") {
+  const data = read(STORAGE.messages);
+  const search = query.toLowerCase().trim();
+  const filtered = data.map((item,index)=>({item,index}))
+    .filter(({item})=>JSON.stringify(item).toLowerCase().includes(search));
 
-  function fillTable(id, emptyId, rows) {
-    $(id).innerHTML = rows.join("");
-    $(emptyId).style.display = rows.length ? "none" : "block";
-  }
+  $("message-count").textContent = filtered.length + " records";
 
-  function renderVolunteers(query = "") {
-    const data = read(STORAGE.volunteers);
-    const filtered = data.filter(item =>
-      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
-    );
+  fillTable("message-table","message-empty",filtered.map(({item,index})=>tableRow([
+    "<strong>"+fieldText(item,["name","fullName"])+"</strong>",
+    fieldText(item,["email","emailAddress"]),
+    fieldText(item,["subject","topic"]),
+    fieldText(item,["message","details","comment"]),
+    formatDate(item.savedAt || item.date || item.createdAt),
+    `<button class="btn btn-danger" type="button" data-delete-message="${index}">Delete</button>`
+  ])));
 
-    $("volunteer-count").textContent = filtered.length + " records";
+  $("stat-messages").textContent = data.length;
+}
 
-    fillTable("volunteer-table", "volunteer-empty", filtered.map(item => tableRow([
-      "<strong>" + fieldText(item, ["name", "fullName", "full_name"]) + "</strong>",
-      fieldText(item, ["email", "emailAddress"]),
-      fieldText(item, ["phone", "contact", "phoneNumber"]),
-      fieldText(item, ["interest", "area", "volunteerInterest", "message"]),
-      formatDate(item.savedAt || item.date || item.createdAt)
-    ])));
+/* Repair missing or duplicate IDs in older program records. */
+function getPrograms() {
+  const data = read(STORAGE.programs);
+  const usedIds = new Set();
+  let changed = false;
 
-    $("stat-volunteers").textContent = data.length;
-  }
-
-  function renderHelp(query = "") {
-    const data = read(STORAGE.help);
-    const filtered = data.filter(item =>
-      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
-    );
-
-    $("help-count").textContent = filtered.length + " records";
-
-    fillTable("help-table", "help-empty", filtered.map(item => tableRow([
-      "<strong>" + fieldText(item, ["name", "fullName", "full_name"]) + "</strong>",
-      fieldText(item, ["phone", "email", "contact"]),
-      fieldText(item, ["helpType", "help_type", "category", "assistance", "need", "subject"]),
-      fieldText(item, ["message", "details", "description"]),
-      formatDate(item.savedAt || item.date || item.createdAt)
-    ])));
-
-    $("stat-help").textContent = data.length;
-  }
-
-  function renderMessages(query = "") {
-    const data = read(STORAGE.messages);
-    const filtered = data.filter(item =>
-      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
-    );
-
-    $("message-count").textContent = filtered.length + " records";
-
-    fillTable("message-table", "message-empty", filtered.map(item => tableRow([
-      "<strong>" + fieldText(item, ["name", "fullName"]) + "</strong>",
-      fieldText(item, ["email", "emailAddress"]),
-      fieldText(item, ["subject", "topic"]),
-      fieldText(item, ["message", "details", "comment"]),
-      formatDate(item.savedAt || item.date || item.createdAt)
-    ])));
-
-    $("stat-messages").textContent = data.length;
-  }
-
-  // Repair missing or duplicate IDs in older program records.
-  function getPrograms() {
-    const data = read(STORAGE.programs);
-    const usedIds = new Set();
-    let changed = false;
-
-    const repaired = data.map(item => {
-      if (!item || typeof item !== "object" || Array.isArray(item)) {
-        changed = true;
-        return {
-          id: createId(),
-          title: "Untitled Program",
-          category: "Community",
-          description: ""
-        };
-      }
-
-      let id = item.id == null ? "" : String(item.id).trim();
-
-      if (!id || usedIds.has(id)) {
-        id = createId();
-        changed = true;
-      }
-
-      usedIds.add(id);
-
-      return id === item.id ? item : { ...item, id };
-    });
-
-    if (changed && !save(STORAGE.programs, repaired)) {
-      throw new Error("Could not repair program IDs in browser storage.");
+  const repaired = data.map(item => {
+    if(!item || typeof item !== "object" || Array.isArray(item)) {
+      changed = true;
+      return {id:createId(),title:"Untitled Program",category:"Community",description:""};
     }
 
-    return repaired;
-  }
+    let id = item.id == null ? "" : String(item.id).trim();
 
-  function resetProgramForm() {
-    editingProgramId = null;
-    $("program-form").reset();
-    $("program-submit").textContent = "+ Add Program";
-    $("cancel-edit").hidden = true;
-    $("editing-note").style.display = "none";
-  }
-
-  function renderPrograms() {
-    let data;
-
-    try {
-      data = getPrograms();
-    } catch (error) {
-      console.error(error);
-      alert("Programs could not be saved or repaired. Please check browser storage.");
-      return;
+    if(!id || usedIds.has(id)) {
+      id = createId();
+      changed = true;
     }
 
-    $("program-count").textContent =
-      data.length + (data.length === 1 ? " program" : " programs");
+    usedIds.add(id);
+    return id === item.id ? item : {...item,id};
+  });
 
-    $("stat-programs").textContent = data.length;
+  if(changed && !save(STORAGE.programs,repaired)) {
+    throw new Error("Could not repair program IDs in browser storage.");
+  }
+  return repaired;
+}
 
-    $("program-list").innerHTML = data.map(item => `
-      <article class="program-card">
-        <span class="pill">${safe(item.category || "Community")}</span>
-        <h3 style="margin-top:10px">${safe(item.title || "")}</h3>
-        <p>${safe(item.description || "")}</p>
-        <div class="program-actions">
-          <small style="color:var(--muted)">Saved locally</small>
-          <div class="program-action-buttons">
-            <button class="btn btn-gold" type="button"
-              data-edit-program="${safe(item.id)}">Edit</button>
-            <button class="btn btn-danger" type="button"
-              data-delete-program="${safe(item.id)}">Delete</button>
-          </div>
+function resetProgramForm() {
+  editingProgramId = null;
+  $("program-form").reset();
+  $("program-submit").textContent = "+ Add Program";
+  $("cancel-edit").hidden = true;
+  $("editing-note").style.display = "none";
+}
+
+function renderPrograms() {
+  let data;
+  try { data = getPrograms(); }
+  catch(error) {
+    console.error(error);
+    alert("Programs could not be saved or repaired. Please check browser storage.");
+    return;
+  }
+
+  $("program-count").textContent = data.length + (data.length===1 ? " program" : " programs");
+  $("stat-programs").textContent = data.length;
+
+  $("program-list").innerHTML = data.map(item=>`
+    <article class="program-card">
+      <span class="pill">${safe(item.category || "Community")}</span>
+      <h3>${safe(item.title || "")}</h3>
+      <p>${safe(item.description || "")}</p>
+      <div class="program-actions">
+        <small style="color:var(--muted)">Saved locally</small>
+        <div class="program-action-buttons">
+          <button class="btn btn-gold" type="button" data-edit-program="${safe(item.id)}">Edit</button>
+          <button class="btn btn-danger" type="button" data-delete-program="${safe(item.id)}">Delete</button>
         </div>
-      </article>
-    `).join("");
+      </div>
+    </article>`).join("");
 
-    $("program-empty").style.display = data.length ? "none" : "block";
-  }
+  $("program-empty").style.display = data.length ? "none" : "block";
+}
 
-  function startEditProgram(id) {
-    const data = getPrograms();
-    const item = data.find(program => String(program.id) === String(id));
-
-    if (!item) {
-      alert("This program could not be found. Please refresh the dashboard.");
-      renderPrograms();
-      return;
-    }
-
-    editingProgramId = String(item.id);
-    $("program-title").value = item.title || "";
-    $("program-category").value = item.category || "Community";
-    $("program-description").value = item.description || "";
-    $("program-submit").textContent = "Update Program";
-    $("cancel-edit").hidden = false;
-    $("editing-note").style.display = "block";
-
-    $("program-form").scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-    $("program-title").focus();
-  }
-
-  function renderRecent() {
-    const entries = [
-      ...read(STORAGE.volunteers).map(item => ({ type: "Volunteer", item })),
-      ...read(STORAGE.help).map(item => ({ type: "Help Request", item })),
-      ...read(STORAGE.messages).map(item => ({ type: "Contact Message", item }))
-    ].sort((a, b) =>
-      new Date(b.item.savedAt || b.item.date || 0) -
-      new Date(a.item.savedAt || a.item.date || 0)
-    ).slice(0, 7);
-
-    fillTable("recent-activity", "recent-empty", entries.map(({ type, item }) =>
-      tableRow([
-        `<span class="pill">${safe(type)}</span>`,
-        "<strong>" + fieldText(item, ["name", "fullName", "email"]) + "</strong>",
-        formatDate(item.savedAt || item.date || item.createdAt)
-      ])
-    ));
-  }
-
-  function renderAll() {
-    renderVolunteers($("volunteer-search").value);
-    renderHelp($("help-search").value);
-    renderMessages($("message-search").value);
+function startEditProgram(id) {
+  const item = getPrograms().find(program=>String(program.id)===String(id));
+  if(!item) {
+    alert("This program could not be found. Please refresh the dashboard.");
     renderPrograms();
+    return;
+  }
+
+  editingProgramId = String(item.id);
+  $("program-title").value = item.title || "";
+  $("program-category").value = item.category || "Community";
+  $("program-description").value = item.description || "";
+  $("program-submit").textContent = "Update Program";
+  $("cancel-edit").hidden = false;
+  $("editing-note").style.display = "block";
+  $("program-form").scrollIntoView({behavior:"smooth",block:"center"});
+  $("program-title").focus();
+}
+
+function renderRecent() {
+  const entries = [
+    ...read(STORAGE.volunteers).map(item=>({type:"Volunteer",item})),
+    ...read(STORAGE.help).map(item=>({type:"Help Request",item})),
+    ...read(STORAGE.messages).map(item=>({type:"Contact Message",item}))
+  ].sort((a,b)=>new Date(b.item.savedAt || b.item.date || 0)-new Date(a.item.savedAt || a.item.date || 0)).slice(0,7);
+
+  fillTable("recent-activity","recent-empty",entries.map(({type,item})=>tableRow([
+    `<span class="pill">${safe(type)}</span>`,
+    "<strong>"+fieldText(item,["name","fullName","email"])+"</strong>",
+    formatDate(item.savedAt || item.date || item.createdAt)
+  ])));
+}
+
+function renderAll() {
+  renderVolunteers($("volunteer-search").value);
+  renderHelp($("help-search").value);
+  renderMessages($("message-search").value);
+  renderPrograms();
+  renderRecent();
+}
+
+function navigate(section) {
+  if(!titles[section]) return;
+  document.querySelectorAll(".section").forEach(el=>el.classList.remove("active"));
+  document.querySelectorAll(".nav-btn[data-section]").forEach(el=>{
+    el.classList.toggle("active",el.dataset.section===section);
+  });
+  $("section-"+section).classList.add("active");
+  $("page-title").textContent=titles[section][0];
+  $("page-subtitle").textContent=titles[section][1];
+  $("nav-menu").classList.remove("open");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll("[data-section]").forEach(button=>{
+  button.addEventListener("click",()=>navigate(button.dataset.section));
+});
+document.querySelectorAll("[data-go]").forEach(button=>{
+  button.addEventListener("click",()=>navigate(button.dataset.go));
+});
+$("mobile-menu").addEventListener("click",()=>$("nav-menu").classList.toggle("open"));
+$("refresh-btn").addEventListener("click",()=>{
+  renderAll();
+  $("refresh-btn").textContent="✓ Refreshed";
+  setTimeout(()=>$("refresh-btn").textContent="↻ Refresh",1200);
+});
+$("visit-site").addEventListener("click",()=>{
+  window.open("https://hiramansha.github.io/AASRA-Foundation/","_blank","noopener");
+});
+
+$("volunteer-search").addEventListener("input",event=>renderVolunteers(event.target.value));
+$("help-search").addEventListener("input",event=>renderHelp(event.target.value));
+$("message-search").addEventListener("input",event=>renderMessages(event.target.value));
+
+/* Delete one message without confusing filtered row numbers with storage indexes. */
+$("message-table").addEventListener("click",event=>{
+  const button=event.target.closest("[data-delete-message]");
+  if(!button) return;
+
+  const index=Number(button.dataset.deleteMessage);
+  const data=read(STORAGE.messages);
+
+  if(!Number.isInteger(index)||index<0||index>=data.length) {
+    alert("Message not found. Please refresh the dashboard.");
+    renderMessages($("message-search").value);
+    return;
+  }
+
+  if(!confirm("Are you sure you want to delete this contact message?")) return;
+
+  data.splice(index,1);
+  if(save(STORAGE.messages,data)) {
+    renderMessages($("message-search").value);
     renderRecent();
+    alert("Contact message deleted successfully!");
+  }
+});
+
+/* Delete all contact messages after confirmation. */
+$("delete-all-messages").addEventListener("click",()=>{
+  const data=read(STORAGE.messages);
+
+  if(data.length===0) {
+    alert("There are no contact messages to delete.");
+    return;
   }
 
-  function navigate(section) {
-    if (!titles[section]) return;
+  if(!confirm(`Are you sure you want to delete all ${data.length} contact messages? This cannot be undone.`)) return;
 
-    document.querySelectorAll(".section").forEach(el =>
-      el.classList.remove("active")
-    );
+  if(save(STORAGE.messages,[])) {
+    renderMessages($("message-search").value);
+    renderRecent();
+    alert("All contact messages have been deleted.");
+  }
+});
 
-    document.querySelectorAll(".nav-btn[data-section]").forEach(el => {
-      el.classList.toggle("active", el.dataset.section === section);
-    });
+/* Add or update a program. */
+$("program-form").addEventListener("submit",event=>{
+  event.preventDefault();
 
-    $("section-" + section).classList.add("active");
-    $("page-title").textContent = titles[section][0];
-    $("page-subtitle").textContent = titles[section][1];
-    $("nav-menu").classList.remove("open");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const title=$("program-title").value.trim();
+  const category=$("program-category").value;
+  const description=$("program-description").value.trim();
+
+  if(!title||!description) {
+    alert("Please complete all program fields.");
+    return;
   }
 
-  document.querySelectorAll("[data-section]").forEach(button => {
-    button.addEventListener("click", () => navigate(button.dataset.section));
-  });
+  let data;
+  try { data=getPrograms(); }
+  catch(error) {
+    alert("Programs could not be loaded. Please refresh and try again.");
+    return;
+  }
 
-  document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => navigate(button.dataset.go));
-  });
-
-  $("mobile-menu").addEventListener("click", () => {
-    $("nav-menu").classList.toggle("open");
-  });
-
-  $("refresh-btn").addEventListener("click", () => {
-    renderAll();
-    $("refresh-btn").textContent = "✓ Refreshed";
-    setTimeout(() => {
-      $("refresh-btn").textContent = "↻ Refresh";
-    }, 1200);
-  });
-
-  $("visit-site").addEventListener("click", () => {
-    window.open(
-      "https://hiramansha.github.io/AASRA-Foundation/",
-      "_blank",
-      "noopener"
-    );
-  });
-
-  $("volunteer-search").addEventListener("input", event =>
-    renderVolunteers(event.target.value)
-  );
-
-  $("help-search").addEventListener("input", event =>
-    renderHelp(event.target.value)
-  );
-
-  $("message-search").addEventListener("input", event =>
-    renderMessages(event.target.value)
-  );
-
-  // Add a new program or update the selected program.
-  $("program-form").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const title = $("program-title").value.trim();
-    const category = $("program-category").value;
-    const description = $("program-description").value.trim();
-
-    if (!title || !description) {
-      alert("Please complete all program fields.");
-      return;
-    }
-
-    let data;
-
-    try {
-      data = getPrograms();
-    } catch (error) {
-      alert("Programs could not be loaded. Please refresh and try again.");
-      return;
-    }
-
-    if (editingProgramId !== null) {
-      const index = data.findIndex(
-        item => String(item.id) === editingProgramId
-      );
-
-      if (index === -1) {
-        alert("This program no longer exists. Your changes were not saved.");
-        resetProgramForm();
-        renderPrograms();
-        return;
-      }
-
-      data[index] = {
-        ...data[index],
-        title,
-        category,
-        description,
-        updatedAt: new Date().toISOString()
-      };
-
-      if (save(STORAGE.programs, data)) {
-        resetProgramForm();
-        renderAll();
-        alert("Program updated successfully!");
-      }
-    } else {
-      data.unshift({
-        id: createId(),
-        title,
-        category,
-        description,
-        savedAt: new Date().toISOString()
-      });
-
-      if (save(STORAGE.programs, data)) {
-        resetProgramForm();
-        renderAll();
-        alert("Program added successfully!");
-      }
-    }
-  });
-
-  $("cancel-edit").addEventListener("click", resetProgramForm);
-
-  // Handle Edit and Delete through one delegated click listener.
-  $("program-list").addEventListener("click", event => {
-    const editButton = event.target.closest("[data-edit-program]");
-    const deleteButton = event.target.closest("[data-delete-program]");
-
-    if (editButton) {
-      try {
-        startEditProgram(editButton.dataset.editProgram);
-      } catch (error) {
-        console.error(error);
-        alert("Could not open this program. Please refresh the dashboard.");
-      }
-      return;
-    }
-
-    if (!deleteButton) return;
-
-    const id = deleteButton.dataset.deleteProgram;
-
-    let data;
-
-    try {
-      data = getPrograms();
-    } catch (error) {
-      alert("Programs could not be loaded. Please refresh and try again.");
-      return;
-    }
-
-    const index = data.findIndex(
-      item => String(item.id) === String(id)
-    );
-
-    if (index === -1) {
-      alert("This program could not be found. The list has been refreshed.");
+  if(editingProgramId!==null) {
+    const index=data.findIndex(item=>String(item.id)===editingProgramId);
+    if(index===-1) {
+      alert("This program no longer exists. Your changes were not saved.");
+      resetProgramForm();
       renderPrograms();
       return;
     }
 
-    const programTitle = data[index].title || "this program";
-
-    if (!confirm("Are you sure you want to delete '" + programTitle + "'?")) {
-      return;
-    }
-
-    data.splice(index, 1);
-
-    if (save(STORAGE.programs, data)) {
-      if (editingProgramId === String(id)) {
-        resetProgramForm();
-      }
-
+    data[index]={...data[index],title,category,description,updatedAt:new Date().toISOString()};
+    if(save(STORAGE.programs,data)) {
+      resetProgramForm();
       renderAll();
-      alert("Program deleted successfully!");
+      alert("Program updated successfully!");
     }
-  });
+  } else {
+    data.unshift({id:createId(),title,category,description,savedAt:new Date().toISOString()});
+    if(save(STORAGE.programs,data)) {
+      resetProgramForm();
+      renderAll();
+      alert("Program added successfully!");
+    }
+  }
+});
 
-  function csvEscape(value) {
-    return '"' + String(value ?? "").replace(/"/g, '""') + '"';
+$("cancel-edit").addEventListener("click",resetProgramForm);
+
+$("program-list").addEventListener("click",event=>{
+  const editButton=event.target.closest("[data-edit-program]");
+  const deleteButton=event.target.closest("[data-delete-program]");
+
+  if(editButton) {
+    try { startEditProgram(editButton.dataset.editProgram); }
+    catch(error) {
+      console.error(error);
+      alert("Could not open this program. Please refresh the dashboard.");
+    }
+    return;
   }
 
-  function exportCSV(type) {
-    const config = {
-      volunteers: {
-        key: STORAGE.volunteers,
-        columns: ["name", "email", "phone", "interest", "savedAt"]
-      },
-      help: {
-        key: STORAGE.help,
-        columns: ["name", "email", "phone", "helpType", "message", "savedAt"]
-      },
-      messages: {
-        key: STORAGE.messages,
-        columns: ["name", "email", "subject", "message", "savedAt"]
-      }
-    }[type];
+  if(!deleteButton) return;
 
-    if (!config) return;
-
-    const data = read(config.key);
-
-    if (!data.length) {
-      alert("There are no records to export yet.");
-      return;
-    }
-
-    const csv = [
-      config.columns.map(csvEscape).join(","),
-      ...data.map(item =>
-        config.columns.map(key => csvEscape(item[key] ?? "")).join(",")
-      )
-    ].join("\r\n");
-
-    const blob = new Blob(["\uFEFF" + csv], {
-      type: "text/csv;charset=utf-8;"
-    });
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = "aasra-" + type + ".csv";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
+  let data;
+  try { data=getPrograms(); }
+  catch(error) {
+    alert("Programs could not be loaded. Please refresh and try again.");
+    return;
   }
 
-  document.querySelectorAll("[data-export]").forEach(button => {
-    button.addEventListener("click", () => exportCSV(button.dataset.export));
-  });
+  const id=deleteButton.dataset.deleteProgram;
+  const index=data.findIndex(item=>String(item.id)===String(id));
 
-  renderAll();
+  if(index===-1) {
+    alert("This program could not be found. The list has been refreshed.");
+    renderPrograms();
+    return;
+  }
+
+  const programTitle=data[index].title || "this program";
+  if(!confirm("Are you sure you want to delete '"+programTitle+"'?")) return;
+
+  data.splice(index,1);
+  if(save(STORAGE.programs,data)) {
+    if(editingProgramId===String(id)) resetProgramForm();
+    renderAll();
+    alert("Program deleted successfully!");
+  }
+});
+
+function csvEscape(value) {
+  return '"'+String(value??"").replace(/"/g,'""')+'"';
+}
+
+function exportCSV(type) {
+  const config={
+    volunteers:{key:STORAGE.volunteers,columns:["name","email","phone","interest","savedAt"]},
+    help:{key:STORAGE.help,columns:["name","email","phone","helpType","message","savedAt"]},
+    messages:{key:STORAGE.messages,columns:["name","email","subject","message","savedAt"]}
+  }[type];
+
+  if(!config) return;
+  const data=read(config.key);
+  if(!data.length) {
+    alert("There are no records to export yet.");
+    return;
+  }
+
+  const csv=[
+    config.columns.map(csvEscape).join(","),
+    ...data.map(item=>config.columns.map(key=>csvEscape(item[key]??"")).join(","))
+  ].join("\r\n");
+
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download="aasra-"+type+".csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+document.querySelectorAll("[data-export]").forEach(button=>{
+  button.addEventListener("click",()=>exportCSV(button.dataset.export));
+});
+
+renderAll();
 })();
 </script>
-
 </body>
 </html>
+
