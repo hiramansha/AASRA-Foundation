@@ -72,24 +72,29 @@
       margin: 28px 10px 12px;
     }
 
-    .nav-button {
-      border: 0;
-      background: transparent;
-      color: #e3eee7;
-      padding: 13px 12px;
-      border-radius: 9px;
-      text-align: left;
-      margin-bottom: 5px;
-      width: 100%;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+.nav-button {
+  border: 0;
+  background: transparent;
+  color: #e3eee7;
+  padding: 13px 12px;
+  border-radius: 9px;
+  text-align: left;
+  margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-    .nav-button:hover, .nav-button.active {
-      background: #ffffff19;
-      color: white;
-    }
+.nav-button:hover,
+.nav-button.active {
+  background: #ffffff;
+  color: #174b3a;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
 
     .sidebar-note {
       margin-top: auto;
