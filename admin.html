@@ -625,6 +625,7 @@
   </main>
 </div>
 
+
 <script>
 (() => {
   "use strict";
@@ -648,6 +649,12 @@
   const $ = id => document.getElementById(id);
   let editingProgramId = null;
 
+  function createId() {
+    return window.crypto && typeof window.crypto.randomUUID === "function"
+      ? window.crypto.randomUUID()
+      : "program-" + Date.now() + "-" + Math.random().toString(36).slice(2, 12);
+  }
+
   function read(key) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "[]");
@@ -670,7 +677,11 @@
 
   function safe(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
     })[char]);
   }
 
@@ -687,8 +698,11 @@
     if (!value) return "—";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return safe(value);
+
     return date.toLocaleDateString(undefined, {
-      year: "numeric", month: "short", day: "numeric"
+      year: "numeric",
+      month: "short",
+      day: "numeric"
     });
   }
 
@@ -710,6 +724,7 @@
     const filtered = data.filter(item =>
       JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
     );
+
     $("volunteer-count").textContent = filtered.length + " records";
 
     fillTable("volunteer-table", "volunteer-empty", filtered.map(item => tableRow([
@@ -728,6 +743,7 @@
     const filtered = data.filter(item =>
       JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
     );
+
     $("help-count").textContent = filtered.length + " records";
 
     fillTable("help-table", "help-empty", filtered.map(item => tableRow([
@@ -746,6 +762,7 @@
     const filtered = data.filter(item =>
       JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
     );
+
     $("message-count").textContent = filtered.length + " records";
 
     fillTable("message-table", "message-empty", filtered.map(item => tableRow([
@@ -759,6 +776,42 @@
     $("stat-messages").textContent = data.length;
   }
 
+  // Repair missing or duplicate IDs in older program records.
+  function getPrograms() {
+    const data = read(STORAGE.programs);
+    const usedIds = new Set();
+    let changed = false;
+
+    const repaired = data.map(item => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        changed = true;
+        return {
+          id: createId(),
+          title: "Untitled Program",
+          category: "Community",
+          description: ""
+        };
+      }
+
+      let id = item.id == null ? "" : String(item.id).trim();
+
+      if (!id || usedIds.has(id)) {
+        id = createId();
+        changed = true;
+      }
+
+      usedIds.add(id);
+
+      return id === item.id ? item : { ...item, id };
+    });
+
+    if (changed && !save(STORAGE.programs, repaired)) {
+      throw new Error("Could not repair program IDs in browser storage.");
+    }
+
+    return repaired;
+  }
+
   function resetProgramForm() {
     editingProgramId = null;
     $("program-form").reset();
@@ -768,22 +821,33 @@
   }
 
   function renderPrograms() {
-    const data = read(STORAGE.programs);
+    let data;
+
+    try {
+      data = getPrograms();
+    } catch (error) {
+      console.error(error);
+      alert("Programs could not be saved or repaired. Please check browser storage.");
+      return;
+    }
 
     $("program-count").textContent =
       data.length + (data.length === 1 ? " program" : " programs");
+
     $("stat-programs").textContent = data.length;
 
     $("program-list").innerHTML = data.map(item => `
       <article class="program-card">
         <span class="pill">${safe(item.category || "Community")}</span>
-        <h3 style="margin-top:10px">${safe(item.title)}</h3>
-        <p>${safe(item.description)}</p>
+        <h3 style="margin-top:10px">${safe(item.title || "")}</h3>
+        <p>${safe(item.description || "")}</p>
         <div class="program-actions">
           <small style="color:var(--muted)">Saved locally</small>
           <div class="program-action-buttons">
-            <button class="btn btn-gold" type="button" data-edit-program="${safe(item.id)}">Edit</button>
-            <button class="btn btn-danger" type="button" data-delete-program="${safe(item.id)}">Delete</button>
+            <button class="btn btn-gold" type="button"
+              data-edit-program="${safe(item.id)}">Edit</button>
+            <button class="btn btn-danger" type="button"
+              data-delete-program="${safe(item.id)}">Delete</button>
           </div>
         </div>
       </article>
@@ -793,15 +857,16 @@
   }
 
   function startEditProgram(id) {
-    const data = read(STORAGE.programs);
-    const item = data.find(program => program.id === id);
+    const data = getPrograms();
+    const item = data.find(program => String(program.id) === String(id));
 
     if (!item) {
       alert("This program could not be found. Please refresh the dashboard.");
+      renderPrograms();
       return;
     }
 
-    editingProgramId = id;
+    editingProgramId = String(item.id);
     $("program-title").value = item.title || "";
     $("program-category").value = item.category || "Community";
     $("program-description").value = item.description || "";
@@ -809,7 +874,10 @@
     $("cancel-edit").hidden = false;
     $("editing-note").style.display = "block";
 
-    $("program-form").scrollIntoView({ behavior: "smooth", block: "center" });
+    $("program-form").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
     $("program-title").focus();
   }
 
@@ -825,7 +893,7 @@
 
     fillTable("recent-activity", "recent-empty", entries.map(({ type, item }) =>
       tableRow([
-        `<span class="pill">${type}</span>`,
+        `<span class="pill">${safe(type)}</span>`,
         "<strong>" + fieldText(item, ["name", "fullName", "email"]) + "</strong>",
         formatDate(item.savedAt || item.date || item.createdAt)
       ])
@@ -843,7 +911,10 @@
   function navigate(section) {
     if (!titles[section]) return;
 
-    document.querySelectorAll(".section").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(el =>
+      el.classList.remove("active")
+    );
+
     document.querySelectorAll(".nav-btn[data-section]").forEach(el => {
       el.classList.toggle("active", el.dataset.section === section);
     });
@@ -870,23 +941,32 @@
   $("refresh-btn").addEventListener("click", () => {
     renderAll();
     $("refresh-btn").textContent = "✓ Refreshed";
-    setTimeout(() => $("refresh-btn").textContent = "↻ Refresh", 1200);
+    setTimeout(() => {
+      $("refresh-btn").textContent = "↻ Refresh";
+    }, 1200);
   });
 
   $("visit-site").addEventListener("click", () => {
-    window.open("https://hiramansha.github.io/AASRA-Foundation/", "_blank", "noopener");
+    window.open(
+      "https://hiramansha.github.io/AASRA-Foundation/",
+      "_blank",
+      "noopener"
+    );
   });
 
   $("volunteer-search").addEventListener("input", event =>
     renderVolunteers(event.target.value)
   );
+
   $("help-search").addEventListener("input", event =>
     renderHelp(event.target.value)
   );
+
   $("message-search").addEventListener("input", event =>
     renderMessages(event.target.value)
   );
 
+  // Add a new program or update the selected program.
   $("program-form").addEventListener("submit", event => {
     event.preventDefault();
 
@@ -899,13 +979,22 @@
       return;
     }
 
-    const data = read(STORAGE.programs);
+    let data;
+
+    try {
+      data = getPrograms();
+    } catch (error) {
+      alert("Programs could not be loaded. Please refresh and try again.");
+      return;
+    }
 
     if (editingProgramId !== null) {
-      const index = data.findIndex(item => item.id === editingProgramId);
+      const index = data.findIndex(
+        item => String(item.id) === editingProgramId
+      );
 
       if (index === -1) {
-        alert("This program no longer exists. Your form has not been saved.");
+        alert("This program no longer exists. Your changes were not saved.");
         resetProgramForm();
         renderPrograms();
         return;
@@ -921,14 +1010,12 @@
 
       if (save(STORAGE.programs, data)) {
         resetProgramForm();
-        renderPrograms();
+        renderAll();
         alert("Program updated successfully!");
       }
     } else {
       data.unshift({
-        id: (window.crypto && typeof window.crypto.randomUUID === "function")
-          ? window.crypto.randomUUID()
-          : "program-" + Date.now() + "-" + Math.random().toString(36).slice(2, 9),
+        id: createId(),
         title,
         category,
         description,
@@ -937,45 +1024,67 @@
 
       if (save(STORAGE.programs, data)) {
         resetProgramForm();
-        renderPrograms();
+        renderAll();
         alert("Program added successfully!");
       }
     }
   });
 
-  $("cancel-edit").addEventListener("click", () => {
-    resetProgramForm();
-  });
+  $("cancel-edit").addEventListener("click", resetProgramForm);
 
+  // Handle Edit and Delete through one delegated click listener.
   $("program-list").addEventListener("click", event => {
     const editButton = event.target.closest("[data-edit-program]");
     const deleteButton = event.target.closest("[data-delete-program]");
 
     if (editButton) {
-      startEditProgram(editButton.dataset.editProgram);
+      try {
+        startEditProgram(editButton.dataset.editProgram);
+      } catch (error) {
+        console.error(error);
+        alert("Could not open this program. Please refresh the dashboard.");
+      }
       return;
     }
 
-    if (deleteButton) {
-      const id = deleteButton.dataset.deleteProgram;
-      const data = read(STORAGE.programs);
-      const index = data.findIndex(item => item.id === id);
+    if (!deleteButton) return;
 
-      if (index === -1) {
-        alert("This program could not be found.");
-        renderPrograms();
-        return;
+    const id = deleteButton.dataset.deleteProgram;
+
+    let data;
+
+    try {
+      data = getPrograms();
+    } catch (error) {
+      alert("Programs could not be loaded. Please refresh and try again.");
+      return;
+    }
+
+    const index = data.findIndex(
+      item => String(item.id) === String(id)
+    );
+
+    if (index === -1) {
+      alert("This program could not be found. The list has been refreshed.");
+      renderPrograms();
+      return;
+    }
+
+    const programTitle = data[index].title || "this program";
+
+    if (!confirm("Are you sure you want to delete '" + programTitle + "'?")) {
+      return;
+    }
+
+    data.splice(index, 1);
+
+    if (save(STORAGE.programs, data)) {
+      if (editingProgramId === String(id)) {
+        resetProgramForm();
       }
 
-      if (confirm("Are you sure you want to delete '" + data[index].title + "'?")) {
-        data.splice(index, 1);
-
-        if (save(STORAGE.programs, data)) {
-          if (editingProgramId === id) resetProgramForm();
-          renderPrograms();
-          alert("Program deleted successfully!");
-        }
-      }
+      renderAll();
+      alert("Program deleted successfully!");
     }
   });
 
@@ -1021,6 +1130,7 @@
 
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
+
     link.href = url;
     link.download = "aasra-" + type + ".csv";
     document.body.appendChild(link);
@@ -1036,5 +1146,6 @@
   renderAll();
 })();
 </script>
+
 </body>
 </html>
