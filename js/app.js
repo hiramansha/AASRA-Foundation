@@ -169,7 +169,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.setItem(storageKey, JSON.stringify(savedData));
 
-        messageElement.textContent = successMessage;
+        const currentLanguage = localStorage.getItem("aasra-language") || "en";
+
+const messages = {
+  en: {
+    "help-message": "Your demo help request has been saved in this browser.",
+    "volunteer-message": "Your demo volunteer information has been saved in this browser.",
+    "contact-message": "Your demo contact message has been saved in this browser."
+  },
+  ur: {
+    "help-message": "آپ کی مدد کی درخواست اس براؤزر میں محفوظ ہو گئی ہے۔",
+    "volunteer-message": "آپ کی رضاکارانہ معلومات اس براؤزر میں محفوظ ہو گئی ہیں۔",
+    "contact-message": "آپ کا پیغام اس براؤزر میں محفوظ ہو گیا ہے۔"
+  }
+};
+
+messageElement.textContent =
+  messages[currentLanguage]?.[messageId] || successMessage;
+
+messageElement.setAttribute("dir", currentLanguage === "ur" ? "rtl" : "ltr");
         form.reset();
       } catch (error) {
         console.error("AASRA LocalStorage error:", error);
