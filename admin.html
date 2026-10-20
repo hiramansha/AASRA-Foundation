@@ -886,9 +886,26 @@
       button.addEventListener("click", () => switchPage(button.dataset.page));
     });
 
-    $("#menu-toggle").addEventListener("click", () => {
-      $("#sidebar").classList.toggle("open");
-    });
+const adminMenuToggle = $("#menu-toggle");
+const adminSidebar = $("#sidebar");
+
+adminMenuToggle.addEventListener("click", () => {
+  const isOpen = adminSidebar.classList.toggle("open");
+
+  adminMenuToggle.setAttribute("aria-expanded", String(isOpen));
+  adminMenuToggle.setAttribute(
+    "aria-label",
+    isOpen ? "Close menu" : "Open menu"
+  );
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    adminSidebar.classList.remove("open");
+    adminMenuToggle.setAttribute("aria-expanded", "false");
+    adminMenuToggle.setAttribute("aria-label", "Open menu");
+  }
+});
 
     $("#view-website").addEventListener("click", () => {
       window.open("./index.html", "_blank", "noopener");
