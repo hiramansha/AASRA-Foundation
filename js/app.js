@@ -192,8 +192,7 @@ messageElement.setAttribute("dir", currentLanguage === "ur" ? "rtl" : "ltr");
       } catch (error) {
         console.error("AASRA LocalStorage error:", error);
 
-        messageElement.textContent =
-          messageElement.textContent =
+       messageElement.textContent =
   (localStorage.getItem("aasra-language") || "en") === "ur"
     ? "آپ کی معلومات محفوظ نہیں ہو سکیں۔ براہِ کرم دوبارہ کوشش کریں۔"
     : "Could not save your information in this browser. Please try again.";
