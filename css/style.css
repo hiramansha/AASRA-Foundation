@@ -1102,3 +1102,190 @@ h1 em, h2 em {
     padding: 12px 16px;
   }
 }
+
+/* =========================================
+   AASRA FOUNDATION — FINAL DESIGN POLISH
+========================================= */
+
+:root {
+  --shadow: 0 18px 45px rgba(16, 56, 44, 0.11);
+  --radius: 14px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px;
+}
+
+section {
+  scroll-margin-top: 110px;
+}
+
+img {
+  height: auto;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 7px;
+  transition: transform 0.25s ease,
+              box-shadow 0.25s ease,
+              background 0.25s ease;
+}
+
+.btn:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #c5a46d;
+  outline-offset: 4px;
+}
+
+/* Hero image */
+.hero-visual > img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-visual,
+.section-image,
+.approach-image {
+  isolation: isolate;
+}
+
+/* Service cards */
+.service-card {
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(16, 56, 44, 0.025);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(16, 56, 44, 0.10);
+}
+
+.service-icon {
+  transition: transform 0.25s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.06);
+}
+
+/* Program cards */
+.program-card {
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(16, 56, 44, 0.035);
+}
+
+.program-card img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Forms */
+.contact-form {
+  border-radius: 14px;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  border-radius: 7px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(23, 75, 58, 0.10);
+}
+
+/* Images */
+.section-image img,
+.approach-image img,
+.program-card img {
+  object-fit: cover;
+}
+
+/* Navigation */
+.main-nav a {
+  transition: color 0.2s ease;
+}
+
+.main-nav a:not(.nav-cta):hover {
+  color: var(--gold);
+}
+
+/* Footer */
+.site-footer a {
+  transition: color 0.2s ease;
+}
+
+.site-footer a:hover {
+  color: #e5d0a7;
+}
+
+/* Urdu text */
+body[dir="rtl"] {
+  overflow-wrap: anywhere;
+}
+
+body[dir="rtl"] .contact-form input,
+body[dir="rtl"] .contact-form textarea {
+  text-align: right;
+}
+
+/* Prevent horizontal overflow */
+body,
+.site-header,
+.hero,
+.section {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    gap: 35px;
+    padding-top: 50px;
+    padding-bottom: 60px;
+  }
+
+  .hero-visual > img {
+    height: 340px;
+  }
+
+  .section {
+    padding: 65px 6%;
+  }
+
+  .service-card,
+  .program-card {
+    min-width: 0;
+  }
+
+  .contact-form {
+    padding: 22px;
+  }
+
+  .get-involved-section {
+    padding: 60px 6%;
+  }
+
+  .involved-decoration {
+    display: none;
+  }
+
+  .footer-bottom {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
