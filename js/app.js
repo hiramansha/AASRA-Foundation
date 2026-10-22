@@ -315,11 +315,11 @@ document.addEventListener("DOMContentLoaded", () => {
             );
           }
 
-          showMessage(
-            contactMessage,
-            "Your message reached the API. Database storage is not configured yet.",
-            "آپ کا پیغام API تک پہنچ گیا ہے۔ ڈیٹابیس میں محفوظ کرنے کی سہولت ابھی ترتیب نہیں دی گئی۔"
-          );
+         showMessage(
+  contactMessage,
+  result.message || "Your message has been submitted successfully.",
+  "آپ کا پیغام کامیابی سے جمع ہو گیا ہے۔"
+);
 
           contactForm.reset();
         } catch (error) {
