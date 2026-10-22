@@ -4,5 +4,13 @@
   "name": "aasra-foundation",
   "main": "./worker.js",
   "compatibility_date": "2026-10-20",
-  "workers_dev": true
+  "workers_dev": true,
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+      "persist": true
+    }
+  }
 }
+
