@@ -1,6 +1,4 @@
 
-import { MongoClient } from "mongodb";
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -28,8 +26,10 @@ export default {
       });
     }
 
-    if (request.method === "GET" &&
-        (url.pathname === "/" || url.pathname === "/api/health")) {
+    if (
+      request.method === "GET" &&
+      (url.pathname === "/" || url.pathname === "/api/health")
+    ) {
       return jsonResponse({
         success: true,
         status: "healthy",
@@ -37,8 +37,7 @@ export default {
       });
     }
 
-    if (url.pathname !== "/api/contact" ||
-        request.method !== "POST") {
+    if (url.pathname !== "/api/contact" || request.method !== "POST") {
       return jsonResponse({
         success: false,
         message: "API endpoint not found."
@@ -56,17 +55,9 @@ export default {
       }, 400);
     }
 
-    const name = typeof body.name === "string"
-      ? body.name.trim()
-      : "";
-
-    const email = typeof body.email === "string"
-      ? body.email.trim()
-      : "";
-
-    const message = typeof body.message === "string"
-      ? body.message.trim()
-      : "";
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const email = typeof body.email === "string" ? body.email.trim() : "";
+    const message = typeof body.message === "string" ? body.message.trim() : "";
 
     if (!name || !email || !message) {
       return jsonResponse({
@@ -93,28 +84,16 @@ export default {
       }, 400);
     }
 
-    if (!env.MONGODB_URI) {
-      return jsonResponse({
-        success: false,
-        message: "Database configuration is missing."
-      }, 500);
-    }
-
-    let client;
-
     try {
-      client = new MongoClient(env.MONGODB_URI);
-      await client.connect();
-
-      await client
-        .db("aasra")
-        .collection("contacts")
-        .insertOne({
-          name,
-          email,
-          message,
-          createdAt: new Date()
-        });
+      await env.DB.prepare(
+        `INSERT INTO contacts (name, email, message, created_at)
+         VALUES (?, ?, ?, ?)`
+      ).bind(
+        name,
+        email,
+        message,
+        new Date().toISOString()
+      ).run();
 
       return jsonResponse({
         success: true,
@@ -127,14 +106,6 @@ export default {
         success: false,
         message: "Unable to save your message. Please try again later."
       }, 500);
-    } finally {
-      if (client) {
-        try {
-          await client.close();
-        } catch (error) {
-          console.error("Database connection close failed:", error);
-        }
-      }
     }
   }
 };
