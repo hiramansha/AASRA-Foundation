@@ -1,6 +1,8 @@
 
+import { MongoClient } from "mongodb";
+
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
 
     const corsHeaders = {
@@ -89,10 +91,41 @@ export default {
         }, 400);
       }
 
-      return jsonResponse({
-        success: true,
-        message: "Contact form data received. Database storage is not configured yet."
-      }, 202);
+      let client;
+
+      try {
+        client = new MongoClient(env.MONGODB_URI, {
+          serverSelectionTimeoutMS: 5000
+        });
+
+        await client.connect();
+
+        await client
+          .db("aasra")
+          .collection("contacts")
+          .insertOne({
+            name,
+            email,
+            message,
+            createdAt: new Date()
+          });
+
+        return jsonResponse({
+          success: true,
+          message: "Thank you! Your message has been saved successfully."
+        }, 201);
+      } catch (error) {
+        console.error("Contact database operation failed.");
+
+        return jsonResponse({
+          success: false,
+          message: "We could not save your message. Please try again later."
+        }, 500);
+      } finally {
+        if (client) {
+          await client.close().catch(() => {});
+        }
+      }
     }
 
     return jsonResponse({
