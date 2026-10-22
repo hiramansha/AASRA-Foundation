@@ -1,10 +1,34 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
   /* =========================================
      AASRA FOUNDATION
-     Frontend + LocalStorage
+     Frontend + Cloudflare API
   ========================================= */
+
+  const API_BASE_URL =
+    "https://aasra-foundation.23-st-028.workers.dev";
+
+  // BILINGUAL MESSAGES
+  function getLanguage() {
+    return localStorage.getItem("aasra-language") === "ur"
+      ? "ur"
+      : "en";
+  }
+
+  function showMessage(element, english, urdu, isError = false) {
+    if (!element) return;
+
+    const language = getLanguage();
+
+    element.textContent = language === "ur" ? urdu : english;
+    element.setAttribute("dir", language === "ur" ? "rtl" : "ltr");
+    element.setAttribute("role", "status");
+    element.setAttribute("aria-live", "polite");
+
+    element.classList.toggle("error", isError);
+  }
 
   // MOBILE NAVIGATION
   const menuToggle = document.getElementById("menu-toggle");
@@ -61,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     yearElement.textContent = new Date().getFullYear();
   }
 
-  // SMOOTH SCROLLING — FOR LINKS ON THE SAME PAGE
+  // SMOOTH SCROLLING
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href");
@@ -89,14 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // LOCAL STORAGE FORM HANDLER
+  // SHARED LOCALSTORAGE FORM HANDLER
+  // Used by Help and Volunteer forms only.
   function setupLocalStorageForm(
     formIds,
     messageId,
     storageKey,
     successMessage
   ) {
-    // Support alternative form IDs without attaching duplicate handlers.
     const ids = Array.isArray(formIds) ? formIds : [formIds];
 
     const form = ids
@@ -105,19 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const messageElement = document.getElementById(messageId);
 
-    if (!form || !messageElement) {
-      console.info(
-        `AASRA form not found: ${ids.join(" / ")} or #${messageId}`
-      );
-      return;
-    }
+    if (!form || !messageElement) return;
 
-    // Prevent accidental duplicate event listeners.
     if (form.dataset.localStorageReady === "true") return;
     form.dataset.localStorageReady = "true";
-
-    messageElement.setAttribute("role", "status");
-    messageElement.setAttribute("aria-live", "polite");
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -125,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!form.reportValidity()) return;
 
-      // Basic email validation.
       const emailField = form.querySelector('input[type="email"]');
 
       if (emailField && emailField.value.trim()) {
@@ -143,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Collect named form fields.
       const formData = {};
 
       new FormData(form).forEach((value, key) => {
@@ -153,15 +166,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       try {
-        // Read existing entries safely.
         const existingValue = localStorage.getItem(storageKey);
-        const savedData = existingValue ? JSON.parse(existingValue) : [];
+        const savedData = existingValue
+          ? JSON.parse(existingValue)
+          : [];
 
         if (!Array.isArray(savedData)) {
-          throw new Error("Saved data is not in the expected format.");
+          throw new Error("Unexpected saved data format.");
         }
 
-        // Save this submission.
         savedData.push({
           ...formData,
           savedAt: new Date().toISOString(),
@@ -169,33 +182,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.setItem(storageKey, JSON.stringify(savedData));
 
-        const currentLanguage = localStorage.getItem("aasra-language") || "en";
+        const messages = {
+          en: {
+            "help-message":
+              "Your demo help request has been saved in this browser.",
+            "volunteer-message":
+              "Your demo volunteer information has been saved in this browser.",
+          },
+          ur: {
+            "help-message":
+              "آپ کی مدد کی درخواست اس براؤزر میں محفوظ ہو گئی ہے۔",
+            "volunteer-message":
+              "آپ کی رضاکارانہ معلومات اس براؤزر میں محفوظ ہو گئی ہیں۔",
+          },
+        };
 
-const messages = {
-  en: {
-    "help-message": "Your demo help request has been saved in this browser.",
-    "volunteer-message": "Your demo volunteer information has been saved in this browser.",
-    "contact-message": "Your demo contact message has been saved in this browser."
-  },
-  ur: {
-    "help-message": "آپ کی مدد کی درخواست اس براؤزر میں محفوظ ہو گئی ہے۔",
-    "volunteer-message": "آپ کی رضاکارانہ معلومات اس براؤزر میں محفوظ ہو گئی ہیں۔",
-    "contact-message": "آپ کا پیغام اس براؤزر میں محفوظ ہو گیا ہے۔"
-  }
-};
+        const language = getLanguage();
 
-messageElement.textContent =
-  messages[currentLanguage]?.[messageId] || successMessage;
+        showMessage(
+          messageElement,
+          messages.en[messageId] || successMessage,
+          messages.ur[messageId] || successMessage
+        );
 
-messageElement.setAttribute("dir", currentLanguage === "ur" ? "rtl" : "ltr");
         form.reset();
       } catch (error) {
-        console.error("AASRA LocalStorage error:", error);
+        console.error("AASRA local storage error:", error);
 
-       messageElement.textContent =
-  (localStorage.getItem("aasra-language") || "en") === "ur"
-    ? "آپ کی معلومات محفوظ نہیں ہو سکیں۔ براہِ کرم دوبارہ کوشش کریں۔"
-    : "Could not save your information in this browser. Please try again.";
+        showMessage(
+          messageElement,
+          "Could not save your information in this browser. Please try again.",
+          "آپ کی معلومات محفوظ نہیں ہو سکیں۔ براہِ کرم دوبارہ کوشش کریں۔",
+          true
+        );
       }
     });
   }
@@ -209,7 +228,6 @@ messageElement.setAttribute("dir", currentLanguage === "ur" ? "rtl" : "ltr");
   );
 
   // VOLUNTEER FORM
-  // Supports either ID if your HTML uses one of these.
   setupLocalStorageForm(
     ["volunteer-form-element", "volunteer-form"],
     "volunteer-message",
@@ -217,13 +235,115 @@ messageElement.setAttribute("dir", currentLanguage === "ur" ? "rtl" : "ltr");
     "Your demo volunteer information has been saved in this browser."
   );
 
-  // CONTACT FORM
-  setupLocalStorageForm(
-    ["contact-form"],
-    "contact-message",
-    "aasra_contact_messages",
-    "Your demo contact message has been saved in this browser."
-  );
+  // CONTACT FORM — CLOUDFLARE API
+  const contactForm = document.getElementById("contact-form");
+  const contactMessage = document.getElementById("contact-message");
+
+  if (contactForm && contactMessage) {
+    contactMessage.setAttribute("role", "status");
+    contactMessage.setAttribute("aria-live", "polite");
+
+    if (contactForm.dataset.apiReady !== "true") {
+      contactForm.dataset.apiReady = "true";
+
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        contactMessage.textContent = "";
+
+        if (!contactForm.reportValidity()) return;
+
+        const formData = new FormData(contactForm);
+
+        // The API expects these exact property names.
+        const name = String(formData.get("name") || "").trim();
+        const email = String(formData.get("email") || "").trim();
+        const message = String(formData.get("message") || "").trim();
+
+        if (!name || !email || !message) {
+          showMessage(
+            contactMessage,
+            "Please complete your name, email, and message.",
+            "براہِ کرم اپنا نام، ای میل اور پیغام مکمل درج کریں۔",
+            true
+          );
+          return;
+        }
+
+        const submitButton = contactForm.querySelector(
+          'button[type="submit"], input[type="submit"]'
+        );
+
+        const originalButtonText = submitButton
+          ? submitButton.textContent
+          : "";
+
+        if (submitButton) {
+          submitButton.disabled = true;
+
+          if (submitButton.tagName === "BUTTON") {
+            submitButton.textContent =
+              getLanguage() === "ur" ? "بھیجا جا رہا ہے..." : "Sending...";
+          }
+        }
+
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}/api/contact`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name,
+                email,
+                message,
+              }),
+            }
+          );
+
+          let result;
+
+          try {
+            result = await response.json();
+          } catch {
+            throw new Error("The server returned an invalid response.");
+          }
+
+          if (!response.ok || !result.success) {
+            throw new Error(
+              result.message || "Could not send your message."
+            );
+          }
+
+          showMessage(
+            contactMessage,
+            "Your message reached the API. Database storage is not configured yet.",
+            "آپ کا پیغام API تک پہنچ گیا ہے۔ ڈیٹابیس میں محفوظ کرنے کی سہولت ابھی ترتیب نہیں دی گئی۔"
+          );
+
+          contactForm.reset();
+        } catch (error) {
+          console.error("AASRA contact API error:", error);
+
+          showMessage(
+            contactMessage,
+            "We could not send your message. Please try again later.",
+            "آپ کا پیغام نہیں بھیجا جا سکا۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔",
+            true
+          );
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+
+            if (submitButton.tagName === "BUTTON") {
+              submitButton.textContent = originalButtonText;
+            }
+          }
+        }
+      });
+    }
+  }
 
   // ESCAPE KEY: REMOVE FOCUS FROM INPUTS
   document.querySelectorAll("input, textarea").forEach((element) => {
