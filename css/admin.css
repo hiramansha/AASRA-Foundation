@@ -384,44 +384,64 @@ button:disabled {
   }
 }
 
-/* AASRA Admin Login Layout Fix */
+
+/* Final AASRA Admin Login Layout */
 #login-section {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 520px);
-  align-items: center;
-  gap: 48px;
-  max-width: 1250px;
   min-height: 100vh;
-  margin: 0 auto;
-  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: center;
+  justify-items: center;
+  gap: 24px;
+  padding: 40px 20px;
 }
 
 #login-section > h1 {
+  width: 100%;
+  max-width: 520px;
   margin: 0;
-  font-size: clamp(32px, 4vw, 52px);
-  line-height: 1.2;
   text-align: center;
+  font-size: clamp(34px, 5vw, 48px);
+  line-height: 1.15;
 }
 
 #login-section form {
   width: 100%;
-  max-width: 520px;
+  max-width: 460px;
   margin: 0;
+  padding: 34px;
+  border: 1px solid #e3ebe5;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 18px 55px rgba(23, 75, 58, 0.10);
 }
 
-@media (max-width: 760px) {
+#login-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+#login-section input {
+  width: 100%;
+  min-height: 52px;
+}
+
+#login-section button {
+  min-height: 52px;
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
   #login-section {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 24px;
+    padding: 24px 16px;
   }
 
   #login-section > h1 {
-    font-size: 32px;
+    font-size: 34px;
   }
 
   #login-section form {
-    max-width: 100%;
+    padding: 25px 20px;
   }
 }
-
