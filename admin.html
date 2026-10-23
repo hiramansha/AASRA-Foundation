@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +12,11 @@
   <div id="login-section">
     <h1>AASRA Foundation</h1>
     <h2>Admin Login</h2>
+
     <form id="login-form">
       <label for="admin-password">Admin Password</label>
-      <input id="admin-password" type="password" autocomplete="current-password" required>
+      <input id="admin-password" type="password"
+             autocomplete="current-password" required>
       <button type="submit" id="login-button">Sign In</button>
       <p id="login-error" role="alert"></p>
     </form>
@@ -37,9 +40,18 @@
     <main>
       <section id="page-overview">
         <h2>Welcome to AASRA Dashboard</h2>
-        <p>Manage your foundation's contact messages and review website activity.</p>
-        <p>Total contact messages: <strong id="overview-message-count">0</strong></p>
+        <p>Manage contact messages and review volunteer applications.</p>
+
+        <p>Total contact messages:
+          <strong id="overview-message-count">0</strong>
+        </p>
+
+        <p>Total volunteers:
+          <strong id="overview-volunteer-count">0</strong>
+        </p>
+
         <button type="button" data-page="messages">View Messages</button>
+        <button type="button" data-page="volunteers">View Volunteers</button>
       </section>
 
       <section id="page-messages" hidden>
@@ -50,7 +62,8 @@
         <button id="export-messages" type="button">Export CSV</button>
 
         <label for="message-search">Search messages</label>
-        <input id="message-search" type="search" placeholder="Search name, email or message">
+        <input id="message-search" type="search"
+               placeholder="Search name, email or message">
 
         <p id="message-status" role="status"></p>
         <p>Total messages: <strong id="message-count">0</strong></p>
@@ -75,7 +88,34 @@
 
       <section id="page-volunteers" hidden>
         <h2>Volunteer Applications</h2>
-        <p>Volunteer backend integration has not been added yet.</p>
+        <p>Review applications submitted through the AASRA website.</p>
+
+        <button id="refresh-volunteers" type="button">
+          Refresh Volunteers
+        </button>
+
+        <p id="volunteer-status" role="status"></p>
+        <p>Total volunteers: <strong id="volunteer-count">0</strong></p>
+
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Interest / Skills</th>
+                <th>Availability</th>
+                <th>Message</th>
+                <th>Submitted</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="volunteer-table">
+              <tr><td colspan="8">Please sign in to load volunteers.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="page-donations" hidden>
@@ -92,11 +132,11 @@
 
   <script>
     const API_BASE = "https://aasra-foundation.23-st-028.workers.dev";
-
     const $ = selector => document.querySelector(selector);
 
     let adminToken = "";
     let messages = [];
+    let volunteers = [];
 
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, character => ({
@@ -110,7 +150,6 @@
 
     function formatDate(value) {
       if (!value) return "—";
-
       const date = new Date(value);
 
       return Number.isNaN(date.getTime())
@@ -120,7 +159,7 @@
 
     async function apiRequest(path, options = {}) {
       const headers = {
-        "Content-Type": "application/json",
+        ...(options.body ? { "Content-Type": "application/json" } : {}),
         ...(options.headers || {})
       };
 
@@ -133,19 +172,20 @@
         headers
       });
 
-      let data;
+      let data = {};
 
       try {
         data = await response.json();
       } catch {
-        data = {};
+        // The server may return an empty response.
       }
 
       if (response.status === 401 || response.status === 403) {
         adminToken = "";
         $("#dashboard").hidden = true;
         $("#login-section").hidden = false;
-        $("#login-error").textContent = "Your session is invalid. Please sign in again.";
+        $("#login-error").textContent =
+          "Your session is invalid. Please sign in again.";
         throw new Error("Your session has expired or is not authorized.");
       }
 
@@ -161,9 +201,8 @@
         section.hidden = section.id !== `page-${pageName}`;
       });
 
-      if (pageName === "messages") {
-        loadMessages();
-      }
+      if (pageName === "messages") loadMessages();
+      if (pageName === "volunteers") loadVolunteers();
     }
 
     document.querySelectorAll("[data-page]").forEach(button => {
@@ -199,7 +238,9 @@
         $("#dashboard").hidden = false;
 
         showPage("overview");
-        await loadMessages();
+
+        // Load both sets of records after a successful login.
+        await Promise.allSettled([loadMessages(), loadVolunteers()]);
       } catch (err) {
         error.textContent = err.message || "Unable to sign in. Please try again.";
       } finally {
@@ -211,16 +252,29 @@
     $("#logout-button").addEventListener("click", () => {
       adminToken = "";
       messages = [];
+      volunteers = [];
+
       $("#dashboard").hidden = true;
       $("#login-section").hidden = false;
       $("#login-error").textContent = "";
       $("#admin-password").value = "";
-      $("#message-table").innerHTML = "";
+
+      $("#message-table").innerHTML =
+        '<tr><td colspan="5">Please sign in to load messages.</td></tr>';
+      $("#volunteer-table").innerHTML =
+        '<tr><td colspan="8">Please sign in to load volunteers.</td></tr>';
+
       $("#message-count").textContent = "0";
+      $("#volunteer-count").textContent = "0";
       $("#overview-message-count").textContent = "0";
+      $("#overview-volunteer-count").textContent = "0";
+      $("#message-status").textContent = "";
+      $("#volunteer-status").textContent = "";
     });
 
     async function loadMessages() {
+      if (!adminToken) return;
+
       const status = $("#message-status");
       const table = $("#message-table");
 
@@ -231,17 +285,16 @@
         const result = await apiRequest("/api/admin/messages");
 
         if (!Array.isArray(result.messages)) {
-          throw new Error("Unexpected server response. Check the Worker API response format.");
+          throw new Error("Unexpected response from the messages API.");
         }
 
         messages = result.messages;
         renderMessages();
-        status.textContent = `Loaded ${messages.length} message(s) from the database.`;
+        status.textContent = `Loaded ${messages.length} message(s).`;
       } catch (err) {
-        if (adminToken) {
-          status.textContent = err.message || "Could not load messages.";
-          table.innerHTML = `<tr><td colspan="5">${escapeHTML(status.textContent)}</td></tr>`;
-        }
+        status.textContent = err.message || "Could not load messages.";
+        table.innerHTML =
+          `<tr><td colspan="5">${escapeHTML(status.textContent)}</td></tr>`;
       } finally {
         $("#refresh-messages").disabled = false;
       }
@@ -250,17 +303,9 @@
     function renderMessages() {
       const query = $("#message-search").value.trim().toLowerCase();
 
-      const filtered = messages.filter(item => {
-        const searchable = [
-          item.name,
-          item.email,
-          item.message,
-          item.subject,
-          item.created_at
-        ].join(" ").toLowerCase();
-
-        return searchable.includes(query);
-      });
+      const filtered = messages.filter(item => [
+        item.name, item.email, item.message, item.subject, item.created_at
+      ].join(" ").toLowerCase().includes(query));
 
       $("#message-count").textContent = filtered.length;
       $("#overview-message-count").textContent = messages.length;
@@ -278,22 +323,19 @@
           <td>${escapeHTML(item.message || "—")}</td>
           <td>${formatDate(item.created_at)}</td>
           <td>
-            <button
-              type="button"
-              data-delete-message="${Number(item.id)}"
-            >Delete</button>
+            <button type="button" data-delete-message="${Number(item.id)}">
+              Delete
+            </button>
           </td>
         </tr>
       `).join("");
     }
 
     $("#message-search").addEventListener("input", renderMessages);
-
     $("#refresh-messages").addEventListener("click", loadMessages);
 
     $("#message-table").addEventListener("click", async event => {
       const button = event.target.closest("[data-delete-message]");
-
       if (!button) return;
 
       const id = Number(button.dataset.deleteMessage);
@@ -303,20 +345,15 @@
         return;
       }
 
-      if (!confirm("Permanently delete this message from the database?")) {
-        return;
-      }
+      if (!confirm("Permanently delete this message from the database?")) return;
 
       button.disabled = true;
 
       try {
-        await apiRequest(`/api/admin/messages/${id}`, {
-          method: "DELETE"
-        });
-
+        await apiRequest(`/api/admin/messages/${id}`, { method: "DELETE" });
         messages = messages.filter(item => Number(item.id) !== id);
         renderMessages();
-        $("#message-status").textContent = "Message deleted from the database.";
+        $("#message-status").textContent = "Message deleted successfully.";
       } catch (err) {
         alert(err.message || "Could not delete the message.");
         button.disabled = false;
@@ -356,9 +393,98 @@
 
       link.href = url;
       link.download = `aasra-messages-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
       link.click();
-
+      link.remove();
       URL.revokeObjectURL(url);
+    });
+
+    async function loadVolunteers() {
+      if (!adminToken) return;
+
+      const status = $("#volunteer-status");
+      const table = $("#volunteer-table");
+
+      status.textContent = "Loading volunteer applications...";
+      $("#refresh-volunteers").disabled = true;
+
+      try {
+        const result = await apiRequest("/api/admin/volunteers");
+
+        if (!Array.isArray(result.volunteers)) {
+          throw new Error("Unexpected response from the volunteers API.");
+        }
+
+        volunteers = result.volunteers;
+        renderVolunteers();
+        status.textContent = `Loaded ${volunteers.length} volunteer application(s).`;
+      } catch (err) {
+        status.textContent = err.message || "Could not load volunteers.";
+        table.innerHTML =
+          `<tr><td colspan="8">${escapeHTML(status.textContent)}</td></tr>`;
+      } finally {
+        $("#refresh-volunteers").disabled = false;
+      }
+    }
+
+    function renderVolunteers() {
+      $("#volunteer-count").textContent = volunteers.length;
+      $("#overview-volunteer-count").textContent = volunteers.length;
+
+      if (!volunteers.length) {
+        $("#volunteer-table").innerHTML =
+          '<tr><td colspan="8">No volunteer applications found.</td></tr>';
+        return;
+      }
+
+      $("#volunteer-table").innerHTML = volunteers.map(item => `
+        <tr>
+          <td>${escapeHTML(item.name || "—")}</td>
+          <td>${escapeHTML(item.email || "—")}</td>
+          <td>${escapeHTML(item.phone || "—")}</td>
+          <td>${escapeHTML(item.skills || "—")}</td>
+          <td>${escapeHTML(item.availability || "—")}</td>
+          <td>${escapeHTML(item.message || "—")}</td>
+          <td>${formatDate(item.created_at)}</td>
+          <td>
+            <button type="button" data-delete-volunteer="${Number(item.id)}">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    $("#refresh-volunteers").addEventListener("click", loadVolunteers);
+
+    $("#volunteer-table").addEventListener("click", async event => {
+      const button = event.target.closest("[data-delete-volunteer]");
+      if (!button) return;
+
+      const id = Number(button.dataset.deleteVolunteer);
+
+      if (!Number.isSafeInteger(id) || id < 1) {
+        alert("Invalid volunteer ID.");
+        return;
+      }
+
+      if (!confirm("Permanently delete this volunteer application?")) return;
+
+      button.disabled = true;
+
+      try {
+        await apiRequest(`/api/admin/volunteers/${id}`, {
+          method: "DELETE"
+        });
+
+        volunteers = volunteers.filter(item => Number(item.id) !== id);
+        renderVolunteers();
+        $("#volunteer-status").textContent =
+          "Volunteer application deleted successfully.";
+      } catch (err) {
+        alert(err.message || "Could not delete the volunteer application.");
+        button.disabled = false;
+      }
     });
   </script>
 </body>
