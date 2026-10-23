@@ -2,15 +2,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
-  /* =========================================
-     AASRA FOUNDATION
-     Frontend + Cloudflare API
-  ========================================= */
-
   const API_BASE_URL =
     "https://aasra-foundation.23-st-028.workers.dev";
 
-  // BILINGUAL MESSAGES
+  // LANGUAGE
   function getLanguage() {
     return localStorage.getItem("aasra-language") === "ur"
       ? "ur"
@@ -20,13 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function showMessage(element, english, urdu, isError = false) {
     if (!element) return;
 
-    const language = getLanguage();
+    element.textContent =
+      getLanguage() === "ur" ? urdu : english;
 
-    element.textContent = language === "ur" ? urdu : english;
-    element.setAttribute("dir", language === "ur" ? "rtl" : "ltr");
+    element.setAttribute("dir", getLanguage() === "ur" ? "rtl" : "ltr");
     element.setAttribute("role", "status");
     element.setAttribute("aria-live", "polite");
     element.classList.toggle("error", isError);
+  }
+
+  function validEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
   // MOBILE NAVIGATION
@@ -46,12 +45,12 @@ document.addEventListener("DOMContentLoaded", () => {
     menuToggle.setAttribute("aria-controls", "main-nav");
 
     menuToggle.addEventListener("click", () => {
-      const isOpen = mainNav.classList.toggle("is-open");
+      const opened = mainNav.classList.toggle("is-open");
 
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-expanded", String(opened));
       menuToggle.setAttribute(
         "aria-label",
-        isOpen ? "Close navigation" : "Open navigation"
+        opened ? "Close navigation" : "Open navigation"
       );
     });
 
@@ -88,21 +87,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href");
-
       if (!targetId || targetId === "#") return;
 
       const target = document.querySelector(targetId);
-
       if (!target) return;
 
       event.preventDefault();
 
-      const reduceMotion = window.matchMedia(
+      const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
       target.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
+        behavior: reducedMotion ? "auto" : "smooth",
         block: "start"
       });
 
@@ -112,129 +109,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // LOCALSTORAGE FORM HANDLER
-  // Used by the Help Request form only.
-  function setupLocalStorageForm(
-    formIds,
-    messageId,
-    storageKey,
-    successMessage
-  ) {
-    const ids = Array.isArray(formIds) ? formIds : [formIds];
-
-    const form = ids
-      .map((id) => document.getElementById(id))
-      .find(Boolean);
-
-    const messageElement = document.getElementById(messageId);
-
-    if (!form || !messageElement) return;
-
-    if (form.dataset.localStorageReady === "true") return;
-    form.dataset.localStorageReady = "true";
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      messageElement.textContent = "";
-
-      if (!form.reportValidity()) return;
-
-      const emailField = form.querySelector('input[type="email"]');
-
-      if (emailField && emailField.value.trim()) {
-        const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-          emailField.value.trim()
-        );
-
-        if (!validEmail) {
-          emailField.setCustomValidity(
-            "Please enter a valid email address."
-          );
-          emailField.reportValidity();
-          emailField.setCustomValidity("");
-          return;
-        }
-      }
-
-      const formData = {};
-
-      new FormData(form).forEach((value, key) => {
-        if (typeof value === "string") {
-          formData[key] = value.trim();
-        }
-      });
-
-      try {
-        const existingValue = localStorage.getItem(storageKey);
-        const savedData = existingValue
-          ? JSON.parse(existingValue)
-          : [];
-
-        if (!Array.isArray(savedData)) {
-          throw new Error("Unexpected saved data format.");
-        }
-
-        savedData.push({
-          ...formData,
-          savedAt: new Date().toISOString()
-        });
-
-        localStorage.setItem(storageKey, JSON.stringify(savedData));
-
-        const messages = {
-          en: "Your demo help request has been saved in this browser.",
-          ur: "آپ کی مدد کی درخواست اس براؤزر میں محفوظ ہو گئی ہے۔"
-        };
-
-        showMessage(
-          messageElement,
-          messages.en || successMessage,
-          messages.ur || successMessage
-        );
-
-        form.reset();
-      } catch (error) {
-        console.error("AASRA local storage error:", error);
-
-        showMessage(
-          messageElement,
-          "Could not save your information in this browser. Please try again.",
-          "آپ کی معلومات محفوظ نہیں ہو سکیں۔ براہِ کرم دوبارہ کوشش کریں۔",
-          true
-        );
-      }
-    });
-  }
-
-  // HELP REQUEST FORM
-  setupLocalStorageForm(
-    ["help-form"],
-    "help-message",
-    "aasra_help_requests",
-    "Your demo help request has been saved in this browser."
-  );
-
-  // SHARED API FORM SUBMISSION HELPER
+  // SHARED API SUBMISSION
   async function submitToAPI({
     form,
     messageElement,
     endpoint,
     payload,
-    submitButton,
     successEnglish,
     successUrdu,
     errorEnglish,
     errorUrdu
   }) {
-    const originalButtonText = submitButton
-      ? submitButton.textContent
+    const button = form.querySelector(
+      'button[type="submit"], input[type="submit"]'
+    );
+
+    const originalText = button
+      ? button.textContent
       : "";
 
-    if (submitButton) {
-      submitButton.disabled = true;
-
-      if (submitButton.tagName === "BUTTON") {
-        submitButton.textContent =
+    if (button) {
+      button.disabled = true;
+      if (button.tagName === "BUTTON") {
+        button.textContent =
           getLanguage() === "ur" ? "بھیجا جا رہا ہے..." : "Sending...";
       }
     }
@@ -253,11 +150,11 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         result = await response.json();
       } catch {
-        throw new Error("The server returned an invalid response.");
+        throw new Error("Invalid server response");
       }
 
       if (!response.ok || !result.success) {
-        throw new Error(result.message || "Request failed.");
+        throw new Error(result.message || "Request failed");
       }
 
       showMessage(
@@ -277,11 +174,11 @@ document.addEventListener("DOMContentLoaded", () => {
         true
       );
     } finally {
-      if (submitButton) {
-        submitButton.disabled = false;
+      if (button) {
+        button.disabled = false;
 
-        if (submitButton.tagName === "BUTTON") {
-          submitButton.textContent = originalButtonText;
+        if (button.tagName === "BUTTON") {
+          button.textContent = originalText;
         }
       }
     }
@@ -293,78 +190,64 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("volunteer-form")
   ].find(Boolean);
 
-  const volunteerMessage = document.getElementById("volunteer-message");
+  const volunteerMessage =
+    document.getElementById("volunteer-message");
 
   if (volunteerForm && volunteerMessage) {
-    if (volunteerForm.dataset.apiReady !== "true") {
-      volunteerForm.dataset.apiReady = "true";
+    volunteerForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      volunteerMessage.textContent = "";
 
-      volunteerForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        volunteerMessage.textContent = "";
+      if (!volunteerForm.reportValidity()) return;
 
-        if (!volunteerForm.reportValidity()) return;
+      const data = new FormData(volunteerForm);
 
-        const formData = new FormData(volunteerForm);
+      const payload = {
+        name: String(data.get("name") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+        phone: String(data.get("phone") || "").trim(),
+        skills: String(
+          data.get("interest") || data.get("skills") || ""
+        ).trim(),
+        availability: String(data.get("availability") || "").trim(),
+        message: String(data.get("message") || "").trim()
+      };
 
-        const payload = {
-          name: String(formData.get("name") || "").trim(),
-          email: String(formData.get("email") || "").trim(),
-          phone: String(formData.get("phone") || "").trim(),
-          skills: String(formData.get("skills") || "").trim(),
-          availability: String(
-            formData.get("availability") || ""
-          ).trim(),
-          message: String(formData.get("message") || "").trim()
-        };
-
-        if (
-          !payload.name ||
-          !payload.email ||
-          !payload.phone ||
-          !payload.skills ||
-          !payload.availability
-        ) {
-          showMessage(
-            volunteerMessage,
-            "Please complete all required fields.",
-            "براہِ کرم تمام ضروری خانے پُر کریں۔",
-            true
-          );
-          return;
-        }
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-          showMessage(
-            volunteerMessage,
-            "Please enter a valid email address.",
-            "براہِ کرم درست ای میل ایڈریس درج کریں۔",
-            true
-          );
-          return;
-        }
-
-        const submitButton = volunteerForm.querySelector(
-          'button[type="submit"], input[type="submit"]'
+      if (!payload.name || !payload.email || !payload.skills) {
+        showMessage(
+          volunteerMessage,
+          "Please enter your name, email, and area of interest.",
+          "براہِ کرم اپنا نام، ای میل اور دلچسپی کا شعبہ درج کریں۔",
+          true
         );
+        return;
+      }
 
-        await submitToAPI({
-          form: volunteerForm,
-          messageElement: volunteerMessage,
-          endpoint: "/api/volunteer",
-          payload,
-          submitButton,
-          successEnglish:
-            "Thank you for volunteering! Your application was submitted successfully.",
-          successUrdu:
-            "رضاکار بننے کا شکریہ! آپ کی درخواست کامیابی سے جمع ہو گئی ہے۔",
-          errorEnglish:
-            "We could not submit your volunteer application. Please try again later.",
-          errorUrdu:
-            "آپ کی رضاکارانہ درخواست جمع نہیں ہو سکی۔ براہِ کرم دوبارہ کوشش کریں۔"
-        });
+      if (!validEmail(payload.email)) {
+        showMessage(
+          volunteerMessage,
+          "Please enter a valid email address.",
+          "براہِ کرم درست ای میل ایڈریس درج کریں۔",
+          true
+        );
+        return;
+      }
+
+      await submitToAPI({
+        form: volunteerForm,
+        messageElement: volunteerMessage,
+        endpoint: "/api/volunteer",
+        payload,
+        successEnglish:
+          "Thank you for volunteering! Your application was submitted successfully.",
+        successUrdu:
+          "رضاکار بننے کا شکریہ! آپ کی درخواست کامیابی سے جمع ہو گئی ہے۔",
+        errorEnglish:
+          "We could not submit your volunteer application. Please try again later.",
+        errorUrdu:
+          "آپ کی رضاکارانہ درخواست جمع نہیں ہو سکی۔ براہِ کرم دوبارہ کوشش کریں۔"
       });
-    }
+    });
   }
 
   // CONTACT FORM — CLOUDFLARE API
@@ -372,67 +255,113 @@ document.addEventListener("DOMContentLoaded", () => {
   const contactMessage = document.getElementById("contact-message");
 
   if (contactForm && contactMessage) {
-    contactMessage.setAttribute("role", "status");
-    contactMessage.setAttribute("aria-live", "polite");
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      contactMessage.textContent = "";
 
-    if (contactForm.dataset.apiReady !== "true") {
-      contactForm.dataset.apiReady = "true";
+      if (!contactForm.reportValidity()) return;
 
-      contactForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        contactMessage.textContent = "";
+      const data = new FormData(contactForm);
 
-        if (!contactForm.reportValidity()) return;
+      const payload = {
+        name: String(data.get("name") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+        message: String(data.get("message") || "").trim()
+      };
 
-        const formData = new FormData(contactForm);
+      if (!payload.name || !payload.email || !payload.message) {
+        showMessage(
+          contactMessage,
+          "Please complete your name, email, and message.",
+          "براہِ کرم اپنا نام، ای میل اور پیغام مکمل درج کریں۔",
+          true
+        );
+        return;
+      }
 
-        const payload = {
-          name: String(formData.get("name") || "").trim(),
-          email: String(formData.get("email") || "").trim(),
-          message: String(formData.get("message") || "").trim()
-        };
+      if (!validEmail(payload.email)) {
+        showMessage(
+          contactMessage,
+          "Please enter a valid email address.",
+          "براہِ کرم درست ای میل ایڈریس درج کریں۔",
+          true
+        );
+        return;
+      }
 
-        if (!payload.name || !payload.email || !payload.message) {
-          showMessage(
-            contactMessage,
-            "Please complete your name, email, and message.",
-            "براہِ کرم اپنا نام، ای میل اور پیغام مکمل درج کریں۔",
-            true
-          );
-          return;
-        }
+      await submitToAPI({
+        form: contactForm,
+        messageElement: contactMessage,
+        endpoint: "/api/contact",
+        payload,
+        successEnglish:
+          "Your message has been submitted successfully.",
+        successUrdu:
+          "آپ کا پیغام کامیابی سے جمع ہو گیا ہے۔",
+        errorEnglish:
+          "We could not send your message. Please try again later.",
+        errorUrdu:
+          "آپ کا پیغام نہیں بھیجا جا سکا۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔"
+      });
+    });
+  }
 
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-          showMessage(
-            contactMessage,
-            "Please enter a valid email address.",
-            "براہِ کرم درست ای میل ایڈریس درج کریں۔",
-            true
-          );
-          return;
-        }
+  // HELP REQUEST FORM
+  // Kept as a local demo until its API endpoint is configured.
+  const helpForm = document.getElementById("help-form");
+  const helpMessage = document.getElementById("help-message");
 
-        const submitButton = contactForm.querySelector(
-          'button[type="submit"], input[type="submit"]'
+  if (helpForm && helpMessage) {
+    helpForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      helpMessage.textContent = "";
+
+      if (!helpForm.reportValidity()) return;
+
+      try {
+        const data = new FormData(helpForm);
+        const entry = {};
+
+        data.forEach((value, key) => {
+          entry[key] = String(value).trim();
+        });
+
+        const saved = JSON.parse(
+          localStorage.getItem("aasra_help_requests") || "[]"
         );
 
-        await submitToAPI({
-          form: contactForm,
-          messageElement: contactMessage,
-          endpoint: "/api/contact",
-          payload,
-          submitButton,
-          successEnglish:
-            "Your message has been submitted successfully.",
-          successUrdu:
-            "آپ کا پیغام کامیابی سے جمع ہو گیا ہے۔",
-          errorEnglish:
-            "We could not send your message. Please try again later.",
-          errorUrdu:
-            "آپ کا پیغام نہیں بھیجا جا سکا۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔"
+        if (!Array.isArray(saved)) {
+          throw new Error("Invalid saved data");
+        }
+
+        saved.push({
+          ...entry,
+          savedAt: new Date().toISOString()
         });
-      });
-    }
+
+        localStorage.setItem(
+          "aasra_help_requests",
+          JSON.stringify(saved)
+        );
+
+        showMessage(
+          helpMessage,
+          "Your help request has been saved in this browser demo.",
+          "آپ کی مدد کی درخواست اس براؤزر کے ڈیمو میں محفوظ ہو گئی ہے۔"
+        );
+
+        helpForm.reset();
+      } catch (error) {
+        console.error("AASRA help form error:", error);
+
+        showMessage(
+          helpMessage,
+          "Could not save your request in this browser.",
+          "آپ کی درخواست اس براؤزر میں محفوظ نہیں ہو سکی۔",
+          true
+        );
+      }
+    });
   }
 
   // ESCAPE KEY: REMOVE FOCUS FROM INPUTS
