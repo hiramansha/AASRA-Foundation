@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
@@ -25,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     element.setAttribute("dir", language === "ur" ? "rtl" : "ltr");
     element.setAttribute("role", "status");
     element.setAttribute("aria-live", "polite");
-
     element.classList.toggle("error", isError);
   }
 
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       target.scrollIntoView({
         behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
+        block: "start"
       });
 
       if (window.location.hash !== targetId) {
@@ -112,8 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // SHARED LOCALSTORAGE FORM HANDLER
-  // Used by Help and Volunteer forms only.
+  // LOCALSTORAGE FORM HANDLER
+  // Used by the Help Request form only.
   function setupLocalStorageForm(
     formIds,
     messageId,
@@ -176,32 +176,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         savedData.push({
           ...formData,
-          savedAt: new Date().toISOString(),
+          savedAt: new Date().toISOString()
         });
 
         localStorage.setItem(storageKey, JSON.stringify(savedData));
 
         const messages = {
-          en: {
-            "help-message":
-              "Your demo help request has been saved in this browser.",
-            "volunteer-message":
-              "Your demo volunteer information has been saved in this browser.",
-          },
-          ur: {
-            "help-message":
-              "آپ کی مدد کی درخواست اس براؤزر میں محفوظ ہو گئی ہے۔",
-            "volunteer-message":
-              "آپ کی رضاکارانہ معلومات اس براؤزر میں محفوظ ہو گئی ہیں۔",
-          },
+          en: "Your demo help request has been saved in this browser.",
+          ur: "آپ کی مدد کی درخواست اس براؤزر میں محفوظ ہو گئی ہے۔"
         };
-
-        const language = getLanguage();
 
         showMessage(
           messageElement,
-          messages.en[messageId] || successMessage,
-          messages.ur[messageId] || successMessage
+          messages.en || successMessage,
+          messages.ur || successMessage
         );
 
         form.reset();
@@ -226,13 +214,158 @@ document.addEventListener("DOMContentLoaded", () => {
     "Your demo help request has been saved in this browser."
   );
 
-  // VOLUNTEER FORM
-  setupLocalStorageForm(
-    ["volunteer-form-element", "volunteer-form"],
-    "volunteer-message",
-    "aasra_volunteers",
-    "Your demo volunteer information has been saved in this browser."
-  );
+  // SHARED API FORM SUBMISSION HELPER
+  async function submitToAPI({
+    form,
+    messageElement,
+    endpoint,
+    payload,
+    submitButton,
+    successEnglish,
+    successUrdu,
+    errorEnglish,
+    errorUrdu
+  }) {
+    const originalButtonText = submitButton
+      ? submitButton.textContent
+      : "";
+
+    if (submitButton) {
+      submitButton.disabled = true;
+
+      if (submitButton.tagName === "BUTTON") {
+        submitButton.textContent =
+          getLanguage() === "ur" ? "بھیجا جا رہا ہے..." : "Sending...";
+      }
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      let result;
+
+      try {
+        result = await response.json();
+      } catch {
+        throw new Error("The server returned an invalid response.");
+      }
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Request failed.");
+      }
+
+      showMessage(
+        messageElement,
+        result.message || successEnglish,
+        successUrdu
+      );
+
+      form.reset();
+    } catch (error) {
+      console.error(`AASRA API error (${endpoint}):`, error);
+
+      showMessage(
+        messageElement,
+        errorEnglish,
+        errorUrdu,
+        true
+      );
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+
+        if (submitButton.tagName === "BUTTON") {
+          submitButton.textContent = originalButtonText;
+        }
+      }
+    }
+  }
+
+  // VOLUNTEER FORM — CLOUDFLARE API
+  const volunteerForm = [
+    document.getElementById("volunteer-form-element"),
+    document.getElementById("volunteer-form")
+  ].find(Boolean);
+
+  const volunteerMessage = document.getElementById("volunteer-message");
+
+  if (volunteerForm && volunteerMessage) {
+    if (volunteerForm.dataset.apiReady !== "true") {
+      volunteerForm.dataset.apiReady = "true";
+
+      volunteerForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        volunteerMessage.textContent = "";
+
+        if (!volunteerForm.reportValidity()) return;
+
+        const formData = new FormData(volunteerForm);
+
+        const payload = {
+          name: String(formData.get("name") || "").trim(),
+          email: String(formData.get("email") || "").trim(),
+          phone: String(formData.get("phone") || "").trim(),
+          skills: String(formData.get("skills") || "").trim(),
+          availability: String(
+            formData.get("availability") || ""
+          ).trim(),
+          message: String(formData.get("message") || "").trim()
+        };
+
+        if (
+          !payload.name ||
+          !payload.email ||
+          !payload.phone ||
+          !payload.skills ||
+          !payload.availability
+        ) {
+          showMessage(
+            volunteerMessage,
+            "Please complete all required fields.",
+            "براہِ کرم تمام ضروری خانے پُر کریں۔",
+            true
+          );
+          return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+          showMessage(
+            volunteerMessage,
+            "Please enter a valid email address.",
+            "براہِ کرم درست ای میل ایڈریس درج کریں۔",
+            true
+          );
+          return;
+        }
+
+        const submitButton = volunteerForm.querySelector(
+          'button[type="submit"], input[type="submit"]'
+        );
+
+        await submitToAPI({
+          form: volunteerForm,
+          messageElement: volunteerMessage,
+          endpoint: "/api/volunteer",
+          payload,
+          submitButton,
+          successEnglish:
+            "Thank you for volunteering! Your application was submitted successfully.",
+          successUrdu:
+            "رضاکار بننے کا شکریہ! آپ کی درخواست کامیابی سے جمع ہو گئی ہے۔",
+          errorEnglish:
+            "We could not submit your volunteer application. Please try again later.",
+          errorUrdu:
+            "آپ کی رضاکارانہ درخواست جمع نہیں ہو سکی۔ براہِ کرم دوبارہ کوشش کریں۔"
+        });
+      });
+    }
+  }
 
   // CONTACT FORM — CLOUDFLARE API
   const contactForm = document.getElementById("contact-form");
@@ -253,12 +386,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const formData = new FormData(contactForm);
 
-        // The API expects these exact property names.
-        const name = String(formData.get("name") || "").trim();
-        const email = String(formData.get("email") || "").trim();
-        const message = String(formData.get("message") || "").trim();
+        const payload = {
+          name: String(formData.get("name") || "").trim(),
+          email: String(formData.get("email") || "").trim(),
+          message: String(formData.get("message") || "").trim()
+        };
 
-        if (!name || !email || !message) {
+        if (!payload.name || !payload.email || !payload.message) {
           showMessage(
             contactMessage,
             "Please complete your name, email, and message.",
@@ -268,78 +402,35 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+          showMessage(
+            contactMessage,
+            "Please enter a valid email address.",
+            "براہِ کرم درست ای میل ایڈریس درج کریں۔",
+            true
+          );
+          return;
+        }
+
         const submitButton = contactForm.querySelector(
           'button[type="submit"], input[type="submit"]'
         );
 
-        const originalButtonText = submitButton
-          ? submitButton.textContent
-          : "";
-
-        if (submitButton) {
-          submitButton.disabled = true;
-
-          if (submitButton.tagName === "BUTTON") {
-            submitButton.textContent =
-              getLanguage() === "ur" ? "بھیجا جا رہا ہے..." : "Sending...";
-          }
-        }
-
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}/api/contact`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name,
-                email,
-                message,
-              }),
-            }
-          );
-
-          let result;
-
-          try {
-            result = await response.json();
-          } catch {
-            throw new Error("The server returned an invalid response.");
-          }
-
-          if (!response.ok || !result.success) {
-            throw new Error(
-              result.message || "Could not send your message."
-            );
-          }
-
-         showMessage(
-  contactMessage,
-  result.message || "Your message has been submitted successfully.",
-  "آپ کا پیغام کامیابی سے جمع ہو گیا ہے۔"
-);
-
-          contactForm.reset();
-        } catch (error) {
-          console.error("AASRA contact API error:", error);
-
-          showMessage(
-            contactMessage,
+        await submitToAPI({
+          form: contactForm,
+          messageElement: contactMessage,
+          endpoint: "/api/contact",
+          payload,
+          submitButton,
+          successEnglish:
+            "Your message has been submitted successfully.",
+          successUrdu:
+            "آپ کا پیغام کامیابی سے جمع ہو گیا ہے۔",
+          errorEnglish:
             "We could not send your message. Please try again later.",
-            "آپ کا پیغام نہیں بھیجا جا سکا۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔",
-            true
-          );
-        } finally {
-          if (submitButton) {
-            submitButton.disabled = false;
-
-            if (submitButton.tagName === "BUTTON") {
-              submitButton.textContent = originalButtonText;
-            }
-          }
-        }
+          errorUrdu:
+            "آپ کا پیغام نہیں بھیجا جا سکا۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔"
+        });
       });
     }
   }
@@ -351,4 +442,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
