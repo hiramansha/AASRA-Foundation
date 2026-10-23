@@ -118,6 +118,7 @@ export default {
         }, 400);
       }
 
+     ```js
       if (name.length > 100 || email.length > 254 || message.length > 3000 ||
           !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return jsonResponse({
@@ -145,12 +146,89 @@ export default {
       }
     }
 
+    // Submit volunteer application
+    if (path === "/api/volunteer" && request.method === "POST") {
+      let body;
+
+      try {
+        body = await request.json();
+      } catch {
+        return jsonResponse({
+          success: false,
+          message: "Invalid JSON."
+        }, 400);
+      }
+
+      const name = typeof body.name === "string" ? body.name.trim() : "";
+      const email = typeof body.email === "string" ? body.email.trim() : "";
+      const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+      const skills = typeof body.skills === "string" ? body.skills.trim() : "";
+      const availability =
+        typeof body.availability === "string"
+          ? body.availability.trim()
+          : "";
+      const message =
+        typeof body.message === "string" ? body.message.trim() : "";
+
+      if (!name || !email || !phone || !skills || !availability) {
+        return jsonResponse({
+          success: false,
+          message: "Please complete all required fields."
+        }, 400);
+      }
+
+      if (
+        name.length > 100 ||
+        email.length > 254 ||
+        phone.length > 30 ||
+        skills.length > 500 ||
+        availability.length > 100 ||
+        message.length > 2000 ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      ) {
+        return jsonResponse({
+          success: false,
+          message: "Please check your details and try again."
+        }, 400);
+      }
+
+      try {
+        await env.DB.prepare(
+          `INSERT INTO volunteers
+           (name, email, phone, skills, availability, message, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?)`
+        ).bind(
+          name,
+          email,
+          phone,
+          skills,
+          availability,
+          message,
+          new Date().toISOString()
+        ).run();
+
+        return jsonResponse({
+          success: true,
+          message: "Thank you for volunteering! Your application was submitted successfully."
+        }, 201);
+      } catch (error) {
+        console.error("Volunteer submission failed:", error);
+        return jsonResponse({
+          success: false,
+          message: "Unable to submit your application. Please try again later."
+        }, 500);
+      }
+    }
+
     if (path === "/api/admin/login" && request.method === "POST") {
       let body;
       try {
         body = await request.json();
       } catch {
-        return jsonResponse({ success: false, message: "Invalid request." }, 400);
+        return jsonResponse({
+          success: false,
+          message: "Invalid request."
+        }, 400);
       }
 
       if (!env.ADMIN_PASSWORD || typeof body.password !== "string") {
@@ -170,32 +248,6 @@ export default {
         token: await createToken(env)
       });
     }
-
-  ```js
-    if (path.startsWith("/api/admin/")) {
-      if (!(await verifyToken(request, env))) return unauthorized();
-
-      // Get contact messages
-      if (path === "/api/admin/messages" && request.method === "GET") {
-        try {
-          const result = await env.DB.prepare(
-            `SELECT id, name, email, message, created_at
-             FROM contacts ORDER BY id DESC LIMIT 200`
-          ).all();
-
-          return jsonResponse({
-            success: true,
-            messages: result.results || []
-          });
-        } catch (error) {
-          console.error("Admin messages read failed:", error);
-          return jsonResponse({
-            success: false,
-            message: "Could not load messages."
-          }, 500);
-        }
-      }
-
       // Get volunteer applications
       if (path === "/api/admin/volunteers" && request.method === "GET") {
         try {
