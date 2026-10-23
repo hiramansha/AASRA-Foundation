@@ -26,22 +26,27 @@ function unauthorized() {
 async function verifyToken(request, env) {
   const auth = request.headers.get("Authorization") || "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+
   if (!token || !env.ADMIN_PASSWORD) return false;
 
-  const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
     "raw",
-    encoder.encode(env.ADMIN_PASSWORD),
+    new TextEncoder().encode(env.ADMIN_PASSWORD),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
   );
 
   const expected = new Uint8Array(
-    await crypto.subtle.sign("HMAC", key, encoder.encode("aasra-admin-session"))
+    await crypto.subtle.sign(
+      "HMAC",
+      key,
+      new TextEncoder().encode("aasra-admin-session")
+    )
   );
 
   let supplied;
+
   try {
     supplied = Uint8Array.from(
       atob(token.replace(/-/g, "+").replace(/_/g, "/")),
@@ -54,9 +59,11 @@ async function verifyToken(request, env) {
   if (supplied.length !== expected.length) return false;
 
   let difference = 0;
+
   for (let i = 0; i < expected.length; i++) {
     difference |= expected[i] ^ supplied[i];
   }
+
   return difference === 0;
 }
 
@@ -68,6 +75,7 @@ async function createToken(env) {
     false,
     ["sign"]
   );
+
   const signature = new Uint8Array(
     await crypto.subtle.sign(
       "HMAC",
@@ -75,6 +83,7 @@ async function createToken(env) {
       new TextEncoder().encode("aasra-admin-session")
     )
   );
+
   return btoa(String.fromCharCode(...signature))
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
@@ -87,11 +96,17 @@ export default {
     const path = url.pathname;
 
     if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders
+      });
     }
 
-    if (request.method === "GET" &&
-        (path === "/" || path === "/api/health")) {
+    // Health check
+    if (
+      request.method === "GET" &&
+      (path === "/" || path === "/api/health")
+    ) {
       return jsonResponse({
         success: true,
         status: "healthy",
@@ -99,17 +114,23 @@ export default {
       });
     }
 
+    // Contact form submission
     if (path === "/api/contact" && request.method === "POST") {
       let body;
+
       try {
         body = await request.json();
       } catch {
-        return jsonResponse({ success: false, message: "Invalid JSON." }, 400);
+        return jsonResponse({
+          success: false,
+          message: "Invalid JSON."
+        }, 400);
       }
 
       const name = typeof body.name === "string" ? body.name.trim() : "";
       const email = typeof body.email === "string" ? body.email.trim() : "";
-      const message = typeof body.message === "string" ? body.message.trim() : "";
+      const message =
+        typeof body.message === "string" ? body.message.trim() : "";
 
       if (!name || !email || !message) {
         return jsonResponse({
@@ -118,8 +139,12 @@ export default {
         }, 400);
       }
 
-      if (name.length > 100 || email.length > 254 || message.length > 3000 ||
-          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (
+        name.length > 100 ||
+        email.length > 254 ||
+        message.length > 3000 ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      ) {
         return jsonResponse({
           success: false,
           message: "Please check your details and try again."
@@ -130,7 +155,12 @@ export default {
         await env.DB.prepare(
           `INSERT INTO contacts (name, email, message, created_at)
            VALUES (?, ?, ?, ?)`
-        ).bind(name, email, message, new Date().toISOString()).run();
+        ).bind(
+          name,
+          email,
+          message,
+          new Date().toISOString()
+        ).run();
 
         return jsonResponse({
           success: true,
@@ -138,6 +168,7 @@ export default {
         }, 201);
       } catch (error) {
         console.error("Contact submission failed:", error);
+
         return jsonResponse({
           success: false,
           message: "Unable to save your message. Please try again later."
@@ -145,7 +176,7 @@ export default {
       }
     }
 
-    // Submit volunteer application
+    // Volunteer application submission
     if (path === "/api/volunteer" && request.method === "POST") {
       let body;
 
@@ -212,6 +243,7 @@ export default {
         }, 201);
       } catch (error) {
         console.error("Volunteer submission failed:", error);
+
         return jsonResponse({
           success: false,
           message: "Unable to submit your application. Please try again later."
@@ -219,8 +251,10 @@ export default {
       }
     }
 
+    // Admin login
     if (path === "/api/admin/login" && request.method === "POST") {
       let body;
+
       try {
         body = await request.json();
       } catch {
@@ -234,12 +268,19 @@ export default {
         return unauthorized();
       }
 
-      const a = new TextEncoder().encode(body.password);
-      const b = new TextEncoder().encode(env.ADMIN_PASSWORD);
-      if (a.length !== b.length) return unauthorized();
+      const suppliedPassword = new TextEncoder().encode(body.password);
+      const actualPassword = new TextEncoder().encode(env.ADMIN_PASSWORD);
+
+      if (suppliedPassword.length !== actualPassword.length) {
+        return unauthorized();
+      }
 
       let difference = 0;
-      for (let i = 0; i < a.length; i++) difference |= a[i] ^ b[i];
+
+      for (let i = 0; i < suppliedPassword.length; i++) {
+        difference |= suppliedPassword[i] ^ actualPassword[i];
+      }
+
       if (difference !== 0) return unauthorized();
 
       return jsonResponse({
@@ -247,6 +288,37 @@ export default {
         token: await createToken(env)
       });
     }
+
+    // Protect all other admin routes
+    if (path.startsWith("/api/admin/")) {
+      if (!(await verifyToken(request, env))) {
+        return unauthorized();
+      }
+
+      // Get contact messages
+      if (path === "/api/admin/messages" && request.method === "GET") {
+        try {
+          const result = await env.DB.prepare(
+            `SELECT id, name, email, message, created_at
+             FROM contacts
+             ORDER BY id DESC
+             LIMIT 200`
+          ).all();
+
+          return jsonResponse({
+            success: true,
+            messages: result.results || []
+          });
+        } catch (error) {
+          console.error("Admin messages read failed:", error);
+
+          return jsonResponse({
+            success: false,
+            message: "Could not load contact messages."
+          }, 500);
+        }
+      }
+
       // Get volunteer applications
       if (path === "/api/admin/volunteers" && request.method === "GET") {
         try {
@@ -264,6 +336,7 @@ export default {
           });
         } catch (error) {
           console.error("Admin volunteers read failed:", error);
+
           return jsonResponse({
             success: false,
             message: "Could not load volunteer applications."
@@ -295,6 +368,7 @@ export default {
           });
         } catch (error) {
           console.error("Volunteer delete failed:", error);
+
           return jsonResponse({
             success: false,
             message: "Could not delete volunteer application."
@@ -303,13 +377,15 @@ export default {
       }
 
       // Delete contact message
-      const match = path.match(/^\/api\/admin\/messages\/(\d+)$/);
+      const messageMatch = path.match(
+        /^\/api\/admin\/messages\/(\d+)$/
+      );
 
-      if (match && request.method === "DELETE") {
+      if (messageMatch && request.method === "DELETE") {
         try {
           const result = await env.DB.prepare(
             "DELETE FROM contacts WHERE id = ?"
-          ).bind(Number(match[1])).run();
+          ).bind(Number(messageMatch[1])).run();
 
           if (!result.meta?.changes) {
             return jsonResponse({
@@ -324,6 +400,7 @@ export default {
           });
         } catch (error) {
           console.error("Admin message delete failed:", error);
+
           return jsonResponse({
             success: false,
             message: "Could not delete message."
