@@ -118,7 +118,6 @@ export default {
         }, 400);
       }
 
-     ```js
       if (name.length > 100 || email.length > 254 || message.length > 3000 ||
           !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return jsonResponse({
