@@ -171,9 +171,11 @@ export default {
       });
     }
 
+  ```js
     if (path.startsWith("/api/admin/")) {
       if (!(await verifyToken(request, env))) return unauthorized();
 
+      // Get contact messages
       if (path === "/api/admin/messages" && request.method === "GET") {
         try {
           const result = await env.DB.prepare(
@@ -194,7 +196,64 @@ export default {
         }
       }
 
+      // Get volunteer applications
+      if (path === "/api/admin/volunteers" && request.method === "GET") {
+        try {
+          const result = await env.DB.prepare(
+            `SELECT id, name, email, phone, skills, availability,
+                    message, created_at
+             FROM volunteers
+             ORDER BY id DESC
+             LIMIT 200`
+          ).all();
+
+          return jsonResponse({
+            success: true,
+            volunteers: result.results || []
+          });
+        } catch (error) {
+          console.error("Admin volunteers read failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not load volunteer applications."
+          }, 500);
+        }
+      }
+
+      // Delete volunteer application
+      const volunteerMatch = path.match(
+        /^\/api\/admin\/volunteers\/(\d+)$/
+      );
+
+      if (volunteerMatch && request.method === "DELETE") {
+        try {
+          const result = await env.DB.prepare(
+            "DELETE FROM volunteers WHERE id = ?"
+          ).bind(Number(volunteerMatch[1])).run();
+
+          if (!result.meta?.changes) {
+            return jsonResponse({
+              success: false,
+              message: "Volunteer application not found."
+            }, 404);
+          }
+
+          return jsonResponse({
+            success: true,
+            message: "Volunteer application deleted."
+          });
+        } catch (error) {
+          console.error("Volunteer delete failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not delete volunteer application."
+          }, 500);
+        }
+      }
+
+      // Delete contact message
       const match = path.match(/^\/api\/admin\/messages\/(\d+)$/);
+
       if (match && request.method === "DELETE") {
         try {
           const result = await env.DB.prepare(
@@ -208,7 +267,10 @@ export default {
             }, 404);
           }
 
-          return jsonResponse({ success: true, message: "Message deleted." });
+          return jsonResponse({
+            success: true,
+            message: "Message deleted."
+          });
         } catch (error) {
           console.error("Admin message delete failed:", error);
           return jsonResponse({
