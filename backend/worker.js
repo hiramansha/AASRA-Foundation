@@ -1,7 +1,7 @@
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
 
@@ -48,8 +48,9 @@ async function verifyToken(request, env) {
   let supplied;
 
   try {
+    const normalized = token.replace(/-/g, "+").replace(/_/g, "/");
     supplied = Uint8Array.from(
-      atob(token.replace(/-/g, "+").replace(/_/g, "/")),
+      atob(normalized),
       c => c.charCodeAt(0)
     );
   } catch {
@@ -90,6 +91,64 @@ async function createToken(env) {
     .replace(/=+$/, "");
 }
 
+async function readJson(request) {
+  try {
+    return { body: await request.json(), error: null };
+  } catch {
+    return { body: null, error: "Invalid JSON request." };
+  }
+}
+
+function cleanString(value, maxLength) {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, maxLength);
+}
+
+function validateProgram(body, partial = false) {
+  const fields = {};
+
+  if (!partial || body.title !== undefined) {
+    fields.title = cleanString(body.title, 150);
+    if (!fields.title) return { error: "Program title is required." };
+  }
+
+  if (!partial || body.description !== undefined) {
+    fields.description = cleanString(body.description, 3000);
+    if (!fields.description) {
+      return { error: "Program description is required." };
+    }
+  }
+
+  if (!partial || body.category !== undefined) {
+    fields.category = cleanString(body.category, 100) || "Community";
+  }
+
+  if (!partial || body.image_url !== undefined) {
+    fields.image_url = cleanString(body.image_url, 1000);
+
+    if (fields.image_url) {
+      try {
+        const imageUrl = new URL(fields.image_url);
+        if (!["https:", "http:"].includes(imageUrl.protocol)) {
+          return { error: "Image URL must use HTTP or HTTPS." };
+        }
+      } catch {
+        return { error: "Please enter a valid image URL." };
+      }
+    }
+  }
+
+  if (!partial || body.status !== undefined) {
+    fields.status = cleanString(body.status, 20) || "active";
+
+    if (!["active", "inactive"].includes(fields.status)) {
+      return { error: "Status must be active or inactive." };
+    }
+  }
+
+  return { fields, error: null };
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -114,40 +173,50 @@ export default {
       });
     }
 
+    // Public programs: only active programs are displayed
+    if (path === "/api/programs" && request.method === "GET") {
+      try {
+        const result = await env.DB.prepare(
+          `SELECT id, title, description, category, image_url, status, created_at
+           FROM programs
+           WHERE status = 'active'
+           ORDER BY id ASC`
+        ).all();
+
+        return jsonResponse({
+          success: true,
+          programs: result.results || []
+        });
+      } catch (error) {
+        console.error("Public programs read failed:", error);
+        return jsonResponse({
+          success: false,
+          message: "Could not load programs."
+        }, 500);
+      }
+    }
+
     // Contact form submission
     if (path === "/api/contact" && request.method === "POST") {
-      let body;
+      const { body, error } = await readJson(request);
 
-      try {
-        body = await request.json();
-      } catch {
-        return jsonResponse({
-          success: false,
-          message: "Invalid JSON."
-        }, 400);
+      if (error) {
+        return jsonResponse({ success: false, message: error }, 400);
       }
 
-      const name = typeof body.name === "string" ? body.name.trim() : "";
-      const email = typeof body.email === "string" ? body.email.trim() : "";
-      const message =
-        typeof body.message === "string" ? body.message.trim() : "";
-
-      if (!name || !email || !message) {
-        return jsonResponse({
-          success: false,
-          message: "Name, email, and message are required."
-        }, 400);
-      }
+      const name = cleanString(body?.name, 100);
+      const email = cleanString(body?.email, 254);
+      const message = cleanString(body?.message, 3000);
 
       if (
-        name.length > 100 ||
-        email.length > 254 ||
-        message.length > 3000 ||
+        !name ||
+        !email ||
+        !message ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       ) {
         return jsonResponse({
           success: false,
-          message: "Please check your details and try again."
+          message: "Please provide a valid name, email, and message."
         }, 400);
       }
 
@@ -155,12 +224,7 @@ export default {
         await env.DB.prepare(
           `INSERT INTO contacts (name, email, message, created_at)
            VALUES (?, ?, ?, ?)`
-        ).bind(
-          name,
-          email,
-          message,
-          new Date().toISOString()
-        ).run();
+        ).bind(name, email, message, new Date().toISOString()).run();
 
         return jsonResponse({
           success: true,
@@ -168,7 +232,6 @@ export default {
         }, 201);
       } catch (error) {
         console.error("Contact submission failed:", error);
-
         return jsonResponse({
           success: false,
           message: "Unable to save your message. Please try again later."
@@ -178,47 +241,28 @@ export default {
 
     // Volunteer application submission
     if (path === "/api/volunteer" && request.method === "POST") {
-      let body;
+      const { body, error } = await readJson(request);
 
-      try {
-        body = await request.json();
-      } catch {
-        return jsonResponse({
-          success: false,
-          message: "Invalid JSON."
-        }, 400);
+      if (error) {
+        return jsonResponse({ success: false, message: error }, 400);
       }
 
-      const name = typeof body.name === "string" ? body.name.trim() : "";
-      const email = typeof body.email === "string" ? body.email.trim() : "";
-      const phone = typeof body.phone === "string" ? body.phone.trim() : "";
-      const skills = typeof body.skills === "string" ? body.skills.trim() : "";
-      const availability =
-        typeof body.availability === "string"
-          ? body.availability.trim()
-          : "";
-      const message =
-        typeof body.message === "string" ? body.message.trim() : "";
-
-      if (!name || !email || !phone || !skills || !availability) {
-        return jsonResponse({
-          success: false,
-          message: "Please complete all required fields."
-        }, 400);
-      }
+      const name = cleanString(body?.name, 100);
+      const email = cleanString(body?.email, 254);
+      const phone = cleanString(body?.phone, 30);
+      const skills = cleanString(body?.skills, 500);
+      const availability = cleanString(body?.availability, 100);
+      const message = cleanString(body?.message, 2000);
 
       if (
-        name.length > 100 ||
-        email.length > 254 ||
-        phone.length > 30 ||
-        skills.length > 500 ||
-        availability.length > 100 ||
-        message.length > 2000 ||
+        !name ||
+        !email ||
+        !skills ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       ) {
         return jsonResponse({
           success: false,
-          message: "Please check your details and try again."
+          message: "Please provide your name, valid email, and skills."
         }, 400);
       }
 
@@ -243,7 +287,6 @@ export default {
         }, 201);
       } catch (error) {
         console.error("Volunteer submission failed:", error);
-
         return jsonResponse({
           success: false,
           message: "Unable to submit your application. Please try again later."
@@ -253,32 +296,25 @@ export default {
 
     // Admin login
     if (path === "/api/admin/login" && request.method === "POST") {
-      let body;
+      const { body, error } = await readJson(request);
 
-      try {
-        body = await request.json();
-      } catch {
-        return jsonResponse({
-          success: false,
-          message: "Invalid request."
-        }, 400);
+      if (error) {
+        return jsonResponse({ success: false, message: error }, 400);
       }
 
-      if (!env.ADMIN_PASSWORD || typeof body.password !== "string") {
+      if (!env.ADMIN_PASSWORD || typeof body?.password !== "string") {
         return unauthorized();
       }
 
-      const suppliedPassword = new TextEncoder().encode(body.password);
-      const actualPassword = new TextEncoder().encode(env.ADMIN_PASSWORD);
+      const supplied = new TextEncoder().encode(body.password);
+      const actual = new TextEncoder().encode(env.ADMIN_PASSWORD);
 
-      if (suppliedPassword.length !== actualPassword.length) {
-        return unauthorized();
-      }
+      if (supplied.length !== actual.length) return unauthorized();
 
       let difference = 0;
 
-      for (let i = 0; i < suppliedPassword.length; i++) {
-        difference |= suppliedPassword[i] ^ actualPassword[i];
+      for (let i = 0; i < supplied.length; i++) {
+        difference |= supplied[i] ^ actual[i];
       }
 
       if (difference !== 0) return unauthorized();
@@ -289,7 +325,7 @@ export default {
       });
     }
 
-    // Protect all other admin routes
+    // Protect all remaining admin routes
     if (path.startsWith("/api/admin/")) {
       if (!(await verifyToken(request, env))) {
         return unauthorized();
@@ -311,7 +347,6 @@ export default {
           });
         } catch (error) {
           console.error("Admin messages read failed:", error);
-
           return jsonResponse({
             success: false,
             message: "Could not load contact messages."
@@ -336,10 +371,168 @@ export default {
           });
         } catch (error) {
           console.error("Admin volunteers read failed:", error);
-
           return jsonResponse({
             success: false,
             message: "Could not load volunteer applications."
+          }, 500);
+        }
+      }
+
+      // Get all programs for admin, including inactive ones
+      if (path === "/api/admin/programs" && request.method === "GET") {
+        try {
+          const result = await env.DB.prepare(
+            `SELECT id, title, description, category, image_url, status, created_at
+             FROM programs
+             ORDER BY id DESC
+             LIMIT 500`
+          ).all();
+
+          return jsonResponse({
+            success: true,
+            programs: result.results || []
+          });
+        } catch (error) {
+          console.error("Admin programs read failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not load programs."
+          }, 500);
+        }
+      }
+
+      // Create a program
+      if (path === "/api/admin/programs" && request.method === "POST") {
+        const { body, error } = await readJson(request);
+
+        if (error) {
+          return jsonResponse({ success: false, message: error }, 400);
+        }
+
+        const validation = validateProgram(body || {});
+
+        if (validation.error) {
+          return jsonResponse({
+            success: false,
+            message: validation.error
+          }, 400);
+        }
+
+        const { title, description, category, image_url, status } =
+          validation.fields;
+
+        try {
+          const result = await env.DB.prepare(
+            `INSERT INTO programs
+             (title, description, category, image_url, status, created_at)
+             VALUES (?, ?, ?, ?, ?, ?)`
+          ).bind(
+            title,
+            description,
+            category,
+            image_url,
+            status,
+            new Date().toISOString()
+          ).run();
+
+          return jsonResponse({
+            success: true,
+            message: "Program created successfully.",
+            id: result.meta?.last_row_id
+          }, 201);
+        } catch (error) {
+          console.error("Program creation failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not create program."
+          }, 500);
+        }
+      }
+
+      // Update a program
+      const programMatch = path.match(/^\/api\/admin\/programs\/(\d+)$/);
+
+      if (programMatch && request.method === "PUT") {
+        const id = Number(programMatch[1]);
+        const { body, error } = await readJson(request);
+
+        if (error) {
+          return jsonResponse({ success: false, message: error }, 400);
+        }
+
+        const validation = validateProgram(body || {}, true);
+
+        if (validation.error) {
+          return jsonResponse({
+            success: false,
+            message: validation.error
+          }, 400);
+        }
+
+        const fields = validation.fields;
+        const allowedFields = [
+          "title", "description", "category", "image_url", "status"
+        ];
+        const keys = allowedFields.filter(key => fields[key] !== undefined);
+
+        if (!keys.length) {
+          return jsonResponse({
+            success: false,
+            message: "No program fields were provided."
+          }, 400);
+        }
+
+        const assignments = keys.map(key => `${key} = ?`).join(", ");
+        const values = keys.map(key => fields[key]);
+
+        try {
+          const result = await env.DB.prepare(
+            `UPDATE programs SET ${assignments} WHERE id = ?`
+          ).bind(...values, id).run();
+
+          if (!result.meta?.changes) {
+            return jsonResponse({
+              success: false,
+              message: "Program not found or no changes were made."
+            }, 404);
+          }
+
+          return jsonResponse({
+            success: true,
+            message: "Program updated successfully."
+          });
+        } catch (error) {
+          console.error("Program update failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not update program."
+          }, 500);
+        }
+      }
+
+      // Delete a program
+      if (programMatch && request.method === "DELETE") {
+        try {
+          const result = await env.DB.prepare(
+            "DELETE FROM programs WHERE id = ?"
+          ).bind(Number(programMatch[1])).run();
+
+          if (!result.meta?.changes) {
+            return jsonResponse({
+              success: false,
+              message: "Program not found."
+            }, 404);
+          }
+
+          return jsonResponse({
+            success: true,
+            message: "Program deleted successfully."
+          });
+        } catch (error) {
+          console.error("Program deletion failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not delete program."
           }, 500);
         }
       }
@@ -368,7 +561,6 @@ export default {
           });
         } catch (error) {
           console.error("Volunteer delete failed:", error);
-
           return jsonResponse({
             success: false,
             message: "Could not delete volunteer application."
@@ -400,7 +592,6 @@ export default {
           });
         } catch (error) {
           console.error("Admin message delete failed:", error);
-
           return jsonResponse({
             success: false,
             message: "Could not delete message."
