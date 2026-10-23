@@ -49,10 +49,7 @@ async function verifyToken(request, env) {
 
   try {
     const normalized = token.replace(/-/g, "+").replace(/_/g, "/");
-    supplied = Uint8Array.from(
-      atob(normalized),
-      c => c.charCodeAt(0)
-    );
+    supplied = Uint8Array.from(atob(normalized), c => c.charCodeAt(0));
   } catch {
     return false;
   }
@@ -60,7 +57,6 @@ async function verifyToken(request, env) {
   if (supplied.length !== expected.length) return false;
 
   let difference = 0;
-
   for (let i = 0; i < expected.length; i++) {
     difference |= expected[i] ^ supplied[i];
   }
@@ -155,10 +151,7 @@ export default {
     const path = url.pathname;
 
     if (request.method === "OPTIONS") {
-      return new Response(null, {
-        status: 204,
-        headers: corsHeaders
-      });
+      return new Response(null, { status: 204, headers: corsHeaders });
     }
 
     // Health check
@@ -173,14 +166,12 @@ export default {
       });
     }
 
-    // Public programs: only active programs are displayed
+    // Public active programs
     if (path === "/api/programs" && request.method === "GET") {
       try {
         const result = await env.DB.prepare(
           `SELECT id, title, description, category, image_url, status, created_at
-           FROM programs
-           WHERE status = 'active'
-           ORDER BY id ASC`
+           FROM programs WHERE status = 'active' ORDER BY id ASC`
         ).all();
 
         return jsonResponse({
@@ -196,7 +187,62 @@ export default {
       }
     }
 
-    // Contact form submission
+    // Public donation pledge submission (no payment is processed)
+    if (path === "/api/donations" && request.method === "POST") {
+      const { body, error } = await readJson(request);
+
+      if (error) {
+        return jsonResponse({ success: false, message: error }, 400);
+      }
+
+      const donorName = cleanString(body?.donor_name, 100);
+      const email = cleanString(body?.email, 254);
+      const amount = Number(body?.amount);
+      const currency = cleanString(body?.currency, 10) || "PKR";
+      const message = cleanString(body?.message, 1000);
+
+      if (
+        !donorName ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+        !Number.isFinite(amount) ||
+        amount <= 0 ||
+        amount > 100000000 ||
+        !["PKR"].includes(currency)
+      ) {
+        return jsonResponse({
+          success: false,
+          message: "Please provide a name, valid email, and a positive donation amount in PKR."
+        }, 400);
+      }
+
+      try {
+        await env.DB.prepare(
+          `INSERT INTO donations
+           (donor_name, email, amount, currency, message, status, created_at)
+           VALUES (?, ?, ?, ?, ?, 'pending', ?)`
+        ).bind(
+          donorName,
+          email,
+          amount,
+          currency,
+          message,
+          new Date().toISOString()
+        ).run();
+
+        return jsonResponse({
+          success: true,
+          message: "Thank you! Your donation pledge has been received. No payment has been processed."
+        }, 201);
+      } catch (error) {
+        console.error("Donation submission failed:", error);
+        return jsonResponse({
+          success: false,
+          message: "Unable to save your donation pledge. Please try again later."
+        }, 500);
+      }
+    }
+
+    // Contact form
     if (path === "/api/contact" && request.method === "POST") {
       const { body, error } = await readJson(request);
 
@@ -209,9 +255,7 @@ export default {
       const message = cleanString(body?.message, 3000);
 
       if (
-        !name ||
-        !email ||
-        !message ||
+        !name || !message ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       ) {
         return jsonResponse({
@@ -239,7 +283,7 @@ export default {
       }
     }
 
-    // Volunteer application submission
+    // Volunteer application
     if (path === "/api/volunteer" && request.method === "POST") {
       const { body, error } = await readJson(request);
 
@@ -255,9 +299,7 @@ export default {
       const message = cleanString(body?.message, 2000);
 
       if (
-        !name ||
-        !email ||
-        !skills ||
+        !name || !skills ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       ) {
         return jsonResponse({
@@ -272,12 +314,7 @@ export default {
            (name, email, phone, skills, availability, message, created_at)
            VALUES (?, ?, ?, ?, ?, ?, ?)`
         ).bind(
-          name,
-          email,
-          phone,
-          skills,
-          availability,
-          message,
+          name, email, phone, skills, availability, message,
           new Date().toISOString()
         ).run();
 
@@ -312,7 +349,6 @@ export default {
       if (supplied.length !== actual.length) return unauthorized();
 
       let difference = 0;
-
       for (let i = 0; i < supplied.length; i++) {
         difference |= supplied[i] ^ actual[i];
       }
@@ -325,20 +361,67 @@ export default {
       });
     }
 
-    // Protect all remaining admin routes
+    // All admin routes require authentication
     if (path.startsWith("/api/admin/")) {
-      if (!(await verifyToken(request, env))) {
-        return unauthorized();
+      if (!(await verifyToken(request, env))) return unauthorized();
+
+      // Admin donations list
+      if (path === "/api/admin/donations" && request.method === "GET") {
+        try {
+          const result = await env.DB.prepare(
+            `SELECT id, donor_name, email, amount, currency, message,
+                    status, created_at
+             FROM donations ORDER BY id DESC LIMIT 500`
+          ).all();
+
+          return jsonResponse({
+            success: true,
+            donations: result.results || []
+          });
+        } catch (error) {
+          console.error("Admin donations read failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not load donation pledges."
+          }, 500);
+        }
       }
 
-      // Get contact messages
+      // Delete a donation pledge
+      const donationMatch = path.match(/^\/api\/admin\/donations\/(\d+)$/);
+
+      if (donationMatch && request.method === "DELETE") {
+        try {
+          const result = await env.DB.prepare(
+            "DELETE FROM donations WHERE id = ?"
+          ).bind(Number(donationMatch[1])).run();
+
+          if (!result.meta?.changes) {
+            return jsonResponse({
+              success: false,
+              message: "Donation pledge not found."
+            }, 404);
+          }
+
+          return jsonResponse({
+            success: true,
+            message: "Donation pledge deleted."
+          });
+        } catch (error) {
+          console.error("Donation deletion failed:", error);
+          return jsonResponse({
+            success: false,
+            message: "Could not delete donation pledge."
+          }, 500);
+        }
+      }
+
+      // Contact messages
       if (path === "/api/admin/messages" && request.method === "GET") {
         try {
           const result = await env.DB.prepare(
             `SELECT id, name, email, message, created_at
-             FROM contacts
-             ORDER BY id DESC
-             LIMIT 200`
+             FROM contacts ORDER BY id DESC LIMIT 200`
           ).all();
 
           return jsonResponse({
@@ -354,15 +437,13 @@ export default {
         }
       }
 
-      // Get volunteer applications
+      // Volunteer applications
       if (path === "/api/admin/volunteers" && request.method === "GET") {
         try {
           const result = await env.DB.prepare(
             `SELECT id, name, email, phone, skills, availability,
                     message, created_at
-             FROM volunteers
-             ORDER BY id DESC
-             LIMIT 200`
+             FROM volunteers ORDER BY id DESC LIMIT 200`
           ).all();
 
           return jsonResponse({
@@ -378,14 +459,12 @@ export default {
         }
       }
 
-      // Get all programs for admin, including inactive ones
+      // All programs for admin
       if (path === "/api/admin/programs" && request.method === "GET") {
         try {
           const result = await env.DB.prepare(
             `SELECT id, title, description, category, image_url, status, created_at
-             FROM programs
-             ORDER BY id DESC
-             LIMIT 500`
+             FROM programs ORDER BY id DESC LIMIT 500`
           ).all();
 
           return jsonResponse({
@@ -401,7 +480,7 @@ export default {
         }
       }
 
-      // Create a program
+      // Create program
       if (path === "/api/admin/programs" && request.method === "POST") {
         const { body, error } = await readJson(request);
 
@@ -410,7 +489,6 @@ export default {
         }
 
         const validation = validateProgram(body || {});
-
         if (validation.error) {
           return jsonResponse({
             success: false,
@@ -427,11 +505,7 @@ export default {
              (title, description, category, image_url, status, created_at)
              VALUES (?, ?, ?, ?, ?, ?)`
           ).bind(
-            title,
-            description,
-            category,
-            image_url,
-            status,
+            title, description, category, image_url, status,
             new Date().toISOString()
           ).run();
 
@@ -449,11 +523,10 @@ export default {
         }
       }
 
-      // Update a program
+      // Update or delete program
       const programMatch = path.match(/^\/api\/admin\/programs\/(\d+)$/);
 
       if (programMatch && request.method === "PUT") {
-        const id = Number(programMatch[1]);
         const { body, error } = await readJson(request);
 
         if (error) {
@@ -461,7 +534,6 @@ export default {
         }
 
         const validation = validateProgram(body || {}, true);
-
         if (validation.error) {
           return jsonResponse({
             success: false,
@@ -482,13 +554,12 @@ export default {
           }, 400);
         }
 
-        const assignments = keys.map(key => `${key} = ?`).join(", ");
-        const values = keys.map(key => fields[key]);
-
         try {
+          const assignments = keys.map(key => `${key} = ?`).join(", ");
+          const values = keys.map(key => fields[key]);
           const result = await env.DB.prepare(
             `UPDATE programs SET ${assignments} WHERE id = ?`
-          ).bind(...values, id).run();
+          ).bind(...values, Number(programMatch[1])).run();
 
           if (!result.meta?.changes) {
             return jsonResponse({
@@ -510,7 +581,6 @@ export default {
         }
       }
 
-      // Delete a program
       if (programMatch && request.method === "DELETE") {
         try {
           const result = await env.DB.prepare(
@@ -537,10 +607,8 @@ export default {
         }
       }
 
-      // Delete volunteer application
-      const volunteerMatch = path.match(
-        /^\/api\/admin\/volunteers\/(\d+)$/
-      );
+      // Delete volunteer
+      const volunteerMatch = path.match(/^\/api\/admin\/volunteers\/(\d+)$/);
 
       if (volunteerMatch && request.method === "DELETE") {
         try {
@@ -569,9 +637,7 @@ export default {
       }
 
       // Delete contact message
-      const messageMatch = path.match(
-        /^\/api\/admin\/messages\/(\d+)$/
-      );
+      const messageMatch = path.match(/^\/api\/admin\/messages\/(\d+)$/);
 
       if (messageMatch && request.method === "DELETE") {
         try {
