@@ -9,102 +9,77 @@
   <link rel="stylesheet" href="css/admin.css">
   <style>
     :root {
-      --green: #174b3a;
-      --green-light: #e8f2ec;
-      --gold: #d4a95e;
-      --border: #dce5df;
-      --text: #24352d;
+      --green:#174b3a; --green-light:#e8f2ec;
+      --gold:#d4a95e; --border:#dce5df; --text:#24352d;
     }
-
-    * { box-sizing: border-box; }
-    body { color: var(--text); }
-    button, input, textarea, select { font: inherit; }
+    * { box-sizing:border-box; }
+    body { color:var(--text); }
+    button,input,textarea,select { font:inherit; }
     button {
-      cursor: pointer;
-      border: 0;
-      border-radius: 7px;
-      padding: 10px 15px;
-      background: var(--green);
-      color: white;
-      margin: 3px;
+      cursor:pointer; border:0; border-radius:7px; padding:10px 15px;
+      background:var(--green); color:white; margin:3px;
     }
-    button:hover { opacity: .88; }
-    button:disabled { opacity: .5; cursor: wait; }
-    input, textarea, select {
-      width: 100%;
-      padding: 11px;
-      margin: 6px 0 14px;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      background: white;
+    button:hover { opacity:.88; }
+    button:disabled { opacity:.5; cursor:wait; }
+    input,textarea,select {
+      width:100%; padding:11px; margin:6px 0 14px;
+      border:1px solid var(--border); border-radius:7px; background:white;
     }
-    label { display: block; font-weight: 600; }
-    textarea { min-height: 105px; resize: vertical; }
+    label { display:block; font-weight:600; }
+    textarea { min-height:105px; resize:vertical; }
     #login-section {
-      max-width: 430px;
-      margin: 9vh auto;
-      padding: 28px;
-      background: white;
-      border-radius: 14px;
-      box-shadow: 0 8px 35px #174b3a18;
+      max-width:430px; margin:9vh auto; padding:28px;
+      background:white; border-radius:14px; box-shadow:0 8px 35px #174b3a18;
     }
-    #dashboard { max-width: 1500px; margin: auto; padding: 18px; }
+    #dashboard { max-width:1500px; margin:auto; padding:18px; }
     #dashboard header {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 15px; flex-wrap: wrap;
-      padding: 18px; background: var(--green); color: white;
-      border-radius: 12px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:15px; flex-wrap:wrap; padding:18px; background:var(--green);
+      color:white; border-radius:12px;
     }
-    #dashboard header h1 { margin: 0; font-size: clamp(19px, 3vw, 28px); }
+    #dashboard header h1 { margin:0; font-size:clamp(19px,3vw,28px); }
     #dashboard nav {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      margin: 16px 0; padding: 12px;
-      background: var(--green-light); border-radius: 10px;
+      display:flex; flex-wrap:wrap; gap:6px; margin:16px 0; padding:12px;
+      background:var(--green-light); border-radius:10px;
     }
-    #dashboard nav a { padding: 10px; color: var(--green); }
+    #dashboard nav a { padding:10px; color:var(--green); }
     main section {
-      padding: clamp(15px, 3vw, 28px);
-      margin: 14px 0; background: white;
-      border: 1px solid var(--border); border-radius: 12px;
+      padding:clamp(15px,3vw,28px); margin:14px 0; background:white;
+      border:1px solid var(--border); border-radius:12px;
     }
     .form-card {
-      margin: 20px 0; padding: 18px;
-      border: 1px solid var(--border); border-radius: 10px;
-      background: #fbfdfb;
+      margin:20px 0; padding:18px; border:1px solid var(--border);
+      border-radius:10px; background:#fbfdfb;
     }
     .form-grid {
-      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 16px;
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 16px;
     }
-    .full-width { grid-column: 1 / -1; }
-    .table-wrap { width: 100%; overflow-x: auto; margin-top: 15px; }
-    table { width: 100%; border-collapse: collapse; min-width: 650px; }
-    th, td {
-      padding: 12px; text-align: left; vertical-align: top;
-      border-bottom: 1px solid var(--border);
-      overflow-wrap: anywhere;
+    .full-width { grid-column:1/-1; }
+    .table-wrap { width:100%; overflow-x:auto; margin-top:15px; }
+    table { width:100%; border-collapse:collapse; min-width:650px; }
+    th,td {
+      padding:12px; text-align:left; vertical-align:top;
+      border-bottom:1px solid var(--border); overflow-wrap:anywhere;
     }
-    th { background: var(--green-light); }
-    .program-image {
-      width: 90px; height: 65px; object-fit: cover;
-      border-radius: 6px;
-    }
-    .status-active { color: #176b39; font-weight: 700; }
-    .status-inactive { color: #a34b29; font-weight: 700; }
-    .notice { margin: 12px 0; min-height: 22px; }
-    .danger { background: #a63232; }
-    .secondary { background: #64746a; }
-    .muted { color: #64746a; }
-    .stats { display: flex; gap: 12px; flex-wrap: wrap; }
+    th { background:var(--green-light); }
+    .program-image { width:90px; height:65px; object-fit:cover; border-radius:6px; }
+    .status-active { color:#176b39; font-weight:700; }
+    .status-inactive { color:#a34b29; font-weight:700; }
+    .status-pending { color:#956300; font-weight:700; }
+    .notice { margin:12px 0; min-height:22px; }
+    .danger { background:#a63232; }
+    .secondary { background:#64746a; }
+    .muted { color:#64746a; }
+    .stats { display:flex; gap:12px; flex-wrap:wrap; }
     .stats p {
-      flex: 1; min-width: 190px; padding: 16px;
-      background: var(--green-light); border-radius: 8px;
+      flex:1; min-width:190px; padding:16px;
+      background:var(--green-light); border-radius:8px;
     }
-    [hidden] { display: none !important; }
-    @media (max-width: 650px) {
-      #dashboard { padding: 8px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .full-width { grid-column: auto; }
+    [hidden] { display:none !important; }
+    @media(max-width:650px) {
+      #dashboard { padding:8px; }
+      .form-grid { grid-template-columns:1fr; }
+      .full-width { grid-column:auto; }
     }
   </style>
 </head>
@@ -114,8 +89,7 @@
     <h2>Admin Login</h2>
     <form id="login-form">
       <label for="admin-password">Admin Password</label>
-      <input id="admin-password" type="password"
-        autocomplete="current-password" required>
+      <input id="admin-password" type="password" autocomplete="current-password" required>
       <button type="submit" id="login-button">Sign In</button>
       <p id="login-error" class="notice" role="alert"></p>
     </form>
@@ -139,14 +113,16 @@
     <main>
       <section id="page-overview">
         <h2>Welcome to AASRA Dashboard</h2>
-        <p>Manage contact messages, volunteer applications and foundation programs.</p>
+        <p>Manage contact messages, volunteers, donation pledges and programs.</p>
         <div class="stats">
           <p>Total contact messages: <strong id="overview-message-count">0</strong></p>
           <p>Total volunteers: <strong id="overview-volunteer-count">0</strong></p>
+          <p>Total donation pledges: <strong id="overview-donation-count">0</strong></p>
           <p>Total programs: <strong id="overview-program-count">0</strong></p>
         </div>
         <button type="button" data-page="messages">View Messages</button>
         <button type="button" data-page="volunteers">View Volunteers</button>
+        <button type="button" data-page="donations">View Donations</button>
         <button type="button" data-page="programs">Manage Programs</button>
       </section>
 
@@ -182,14 +158,27 @@
       </section>
 
       <section id="page-donations" hidden>
-        <h2>Donations</h2>
-        <p>Payment processing and donation records are not connected yet.</p>
+        <h2>Donation Pledges</h2>
+        <p>These are donation pledges submitted online. Payment is not processed or verified by this system.</p>
+        <button id="refresh-donations" type="button">Refresh Donations</button>
+        <button id="export-donations" type="button">Export CSV</button>
+        <label for="donation-search">Search donations</label>
+        <input id="donation-search" type="search" placeholder="Search donor, email or status">
+        <p id="donation-status" class="notice" role="status" aria-live="polite"></p>
+        <p>Donation pledges: <strong id="donation-count">0</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Donor</th><th>Email</th><th>Amount</th><th>Message</th><th>Status</th><th>Submitted</th><th>Action</th></tr>
+            </thead>
+            <tbody id="donation-table"><tr><td colspan="7">Please sign in.</td></tr></tbody>
+          </table>
+        </div>
       </section>
 
       <section id="page-programs" hidden>
         <h2>Programs Management</h2>
         <p>Add, update, activate, deactivate or remove foundation programs.</p>
-
         <button type="button" id="new-program-button">+ Add New Program</button>
         <button type="button" id="refresh-programs" class="secondary">Refresh Programs</button>
         <p id="program-status" class="notice" role="status" aria-live="polite"></p>
@@ -198,7 +187,6 @@
           <h3 id="program-form-heading">Add a Program</h3>
           <form id="program-form">
             <input type="hidden" id="program-id">
-
             <div class="form-grid">
               <div>
                 <label for="program-title">Program Title *</label>
@@ -206,8 +194,7 @@
               </div>
               <div>
                 <label for="program-category">Category *</label>
-                <input id="program-category" maxlength="100"
-                  placeholder="Education, Healthcare..." required>
+                <input id="program-category" maxlength="100" placeholder="Education, Healthcare..." required>
               </div>
               <div class="full-width">
                 <label for="program-description">Description *</label>
@@ -215,18 +202,16 @@
               </div>
               <div class="full-width">
                 <label for="program-image">Image URL (optional)</label>
-                <input id="program-image" type="url" maxlength="1000"
-                  placeholder="https://example.com/image.jpg">
+                <input id="program-image" type="url" maxlength="1000" placeholder="https://example.com/image.jpg">
               </div>
               <div>
-                <label for="program-status">Status</label>
-                <select id="program-status">
+                <label for="program-status-select">Status</label>
+                <select id="program-status-select">
                   <option value="active">Active — visible on website</option>
                   <option value="inactive">Inactive — hidden on website</option>
                 </select>
               </div>
             </div>
-
             <button type="submit" id="save-program-button">Save Program</button>
             <button type="button" id="cancel-program-button" class="secondary">Cancel</button>
           </form>
@@ -234,12 +219,8 @@
 
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Image</th><th>Title / Description</th><th>Category</th><th>Status</th><th>Actions</th></tr>
-            </thead>
-            <tbody id="program-table">
-              <tr><td colspan="5">Sign in and open Programs to load records.</td></tr>
-            </tbody>
+            <thead><tr><th>Image</th><th>Title / Description</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="program-table"><tr><td colspan="5">Sign in and open Programs to load records.</td></tr></tbody>
           </table>
         </div>
       </section>
@@ -253,12 +234,12 @@
     let adminToken = "";
     let messages = [];
     let volunteers = [];
+    let donations = [];
     let programs = [];
 
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, character => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;",
-        '"': "&quot;", "'": "&#39;"
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
       })[character]);
     }
 
@@ -272,15 +253,13 @@
 
     async function apiRequest(path, options = {}) {
       const headers = {
-        ...(options.body ? { "Content-Type": "application/json" } : {}),
+        ...(options.body ? {"Content-Type":"application/json"} : {}),
         ...(options.headers || {})
       };
-
       if (adminToken) headers.Authorization = `Bearer ${adminToken}`;
 
-      const response = await fetch(`${API_BASE}${path}`, { ...options, headers });
+      const response = await fetch(`${API_BASE}${path}`, {...options, headers});
       let data = {};
-
       try { data = await response.json(); } catch {}
 
       if (response.status === 401 || response.status === 403) {
@@ -294,7 +273,6 @@
       if (!response.ok || data.success === false) {
         throw new Error(data.error || data.message || "The request failed.");
       }
-
       return data;
     }
 
@@ -302,9 +280,9 @@
       document.querySelectorAll("main section").forEach(section => {
         section.hidden = section.id !== `page-${pageName}`;
       });
-
       if (pageName === "messages") loadMessages();
       if (pageName === "volunteers") loadVolunteers();
+      if (pageName === "donations") loadDonations();
       if (pageName === "programs") loadPrograms();
     }
 
@@ -315,18 +293,15 @@
     $("#login-form").addEventListener("submit", async event => {
       event.preventDefault();
       const button = $("#login-button");
-      const error = $("#login-error");
-
+      $("#login-error").textContent = "";
       button.disabled = true;
       button.textContent = "Signing in...";
-      error.textContent = "";
 
       try {
         const result = await apiRequest("/api/admin/login", {
-          method: "POST",
-          body: JSON.stringify({ password: $("#admin-password").value })
+          method:"POST",
+          body:JSON.stringify({password:$("#admin-password").value})
         });
-
         if (!result.token) throw new Error("The server did not return a login token.");
 
         adminToken = result.token;
@@ -334,9 +309,11 @@
         $("#login-section").hidden = true;
         $("#dashboard").hidden = false;
         showPage("overview");
-        await Promise.allSettled([loadMessages(), loadVolunteers(), loadPrograms()]);
+        await Promise.allSettled([
+          loadMessages(), loadVolunteers(), loadDonations(), loadPrograms()
+        ]);
       } catch (err) {
-        error.textContent = err.message || "Unable to sign in. Please try again.";
+        $("#login-error").textContent = err.message || "Unable to sign in.";
       } finally {
         button.disabled = false;
         button.textContent = "Sign In";
@@ -347,6 +324,7 @@
       adminToken = "";
       messages = [];
       volunteers = [];
+      donations = [];
       programs = [];
 
       $("#dashboard").hidden = true;
@@ -356,34 +334,37 @@
 
       $("#message-table").innerHTML = '<tr><td colspan="5">Please sign in.</td></tr>';
       $("#volunteer-table").innerHTML = '<tr><td colspan="8">Please sign in.</td></tr>';
+      $("#donation-table").innerHTML = '<tr><td colspan="7">Please sign in.</td></tr>';
       $("#program-table").innerHTML = '<tr><td colspan="5">Please sign in.</td></tr>';
 
       $("#message-count").textContent = "0";
       $("#volunteer-count").textContent = "0";
+      $("#donation-count").textContent = "0";
       $("#overview-message-count").textContent = "0";
       $("#overview-volunteer-count").textContent = "0";
+      $("#overview-donation-count").textContent = "0";
       $("#overview-program-count").textContent = "0";
 
       $("#message-status").textContent = "";
       $("#volunteer-status").textContent = "";
+      $("#donation-status").textContent = "";
       $("#program-status").textContent = "";
       $("#program-form-card").hidden = true;
     });
 
+    // CONTACT MESSAGES
     async function loadMessages() {
       if (!adminToken) return;
-      const status = $("#message-status");
-      status.textContent = "Loading messages...";
+      $("#message-status").textContent = "Loading messages...";
       $("#refresh-messages").disabled = true;
-
       try {
         const result = await apiRequest("/api/admin/messages");
         if (!Array.isArray(result.messages)) throw new Error("Unexpected messages API response.");
         messages = result.messages;
         renderMessages();
-        status.textContent = `Loaded ${messages.length} message(s).`;
+        $("#message-status").textContent = `Loaded ${messages.length} message(s).`;
       } catch (err) {
-        status.textContent = err.message;
+        $("#message-status").textContent = err.message;
         $("#message-table").innerHTML = `<tr><td colspan="5">${escapeHTML(err.message)}</td></tr>`;
       } finally {
         $("#refresh-messages").disabled = false;
@@ -393,10 +374,8 @@
     function renderMessages() {
       const query = $("#message-search").value.trim().toLowerCase();
       const filtered = messages.filter(item =>
-        [item.name, item.email, item.message, item.subject, item.created_at]
-          .join(" ").toLowerCase().includes(query)
+        [item.name,item.email,item.message,item.subject,item.created_at].join(" ").toLowerCase().includes(query)
       );
-
       $("#message-count").textContent = filtered.length;
       $("#overview-message-count").textContent = messages.length;
 
@@ -407,8 +386,7 @@
           <td>${escapeHTML(item.message || "—")}</td>
           <td>${formatDate(item.created_at)}</td>
           <td><button type="button" data-delete-message="${Number(item.id)}" class="danger">Delete</button></td>
-        </tr>
-      `).join("") : '<tr><td colspan="5">No contact messages found.</td></tr>';
+        </tr>`).join("") : '<tr><td colspan="5">No contact messages found.</td></tr>';
     }
 
     $("#message-search").addEventListener("input", renderMessages);
@@ -418,13 +396,11 @@
       const button = event.target.closest("[data-delete-message]");
       if (!button) return;
       const id = Number(button.dataset.deleteMessage);
-
       if (!Number.isSafeInteger(id) || id < 1) return alert("Invalid message ID.");
       if (!confirm("Permanently delete this message?")) return;
-
       button.disabled = true;
       try {
-        await apiRequest(`/api/admin/messages/${id}`, { method: "DELETE" });
+        await apiRequest(`/api/admin/messages/${id}`, {method:"DELETE"});
         messages = messages.filter(item => Number(item.id) !== id);
         renderMessages();
         $("#message-status").textContent = "Message deleted successfully.";
@@ -434,47 +410,45 @@
       }
     });
 
-    $("#export-messages").addEventListener("click", () => {
-      const query = $("#message-search").value.trim().toLowerCase();
-      const filtered = messages.filter(item =>
-        [item.name, item.email, item.message, item.created_at]
-          .join(" ").toLowerCase().includes(query)
-      );
-
-      const rows = [
-        ["Name", "Email", "Message", "Submitted"],
-        ...filtered.map(item => [item.name || "", item.email || "", item.message || "", item.created_at || ""])
-      ];
-
+    function downloadCSV(filename, rows) {
       const csv = rows.map(row => row.map(value =>
         '"' + String(value ?? "").replace(/"/g, '""') + '"'
       ).join(",")).join("\r\n");
-
-      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob(["\uFEFF" + csv], {type:"text/csv;charset=utf-8;"});
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `aasra-messages-${new Date().toISOString().slice(0, 10)}.csv`;
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
+    }
+
+    $("#export-messages").addEventListener("click", () => {
+      const query = $("#message-search").value.trim().toLowerCase();
+      const filtered = messages.filter(item =>
+        [item.name,item.email,item.message,item.created_at].join(" ").toLowerCase().includes(query)
+      );
+      downloadCSV(`aasra-messages-${new Date().toISOString().slice(0,10)}.csv`, [
+        ["Name","Email","Message","Submitted"],
+        ...filtered.map(item => [item.name,item.email,item.message,item.created_at])
+      ]);
     });
 
+    // VOLUNTEERS
     async function loadVolunteers() {
       if (!adminToken) return;
-      const status = $("#volunteer-status");
-      status.textContent = "Loading volunteer applications...";
+      $("#volunteer-status").textContent = "Loading volunteer applications...";
       $("#refresh-volunteers").disabled = true;
-
       try {
         const result = await apiRequest("/api/admin/volunteers");
         if (!Array.isArray(result.volunteers)) throw new Error("Unexpected volunteers API response.");
         volunteers = result.volunteers;
         renderVolunteers();
-        status.textContent = `Loaded ${volunteers.length} volunteer application(s).`;
+        $("#volunteer-status").textContent = `Loaded ${volunteers.length} volunteer application(s).`;
       } catch (err) {
-        status.textContent = err.message;
+        $("#volunteer-status").textContent = err.message;
         $("#volunteer-table").innerHTML = `<tr><td colspan="8">${escapeHTML(err.message)}</td></tr>`;
       } finally {
         $("#refresh-volunteers").disabled = false;
@@ -484,7 +458,6 @@
     function renderVolunteers() {
       $("#volunteer-count").textContent = volunteers.length;
       $("#overview-volunteer-count").textContent = volunteers.length;
-
       $("#volunteer-table").innerHTML = volunteers.length ? volunteers.map(item => `
         <tr>
           <td>${escapeHTML(item.name || "—")}</td>
@@ -495,23 +468,19 @@
           <td>${escapeHTML(item.message || "—")}</td>
           <td>${formatDate(item.created_at)}</td>
           <td><button type="button" data-delete-volunteer="${Number(item.id)}" class="danger">Delete</button></td>
-        </tr>
-      `).join("") : '<tr><td colspan="8">No volunteer applications found.</td></tr>';
+        </tr>`).join("") : '<tr><td colspan="8">No volunteer applications found.</td></tr>';
     }
 
     $("#refresh-volunteers").addEventListener("click", loadVolunteers);
-
     $("#volunteer-table").addEventListener("click", async event => {
       const button = event.target.closest("[data-delete-volunteer]");
       if (!button) return;
       const id = Number(button.dataset.deleteVolunteer);
-
       if (!Number.isSafeInteger(id) || id < 1) return alert("Invalid volunteer ID.");
       if (!confirm("Permanently delete this volunteer application?")) return;
-
       button.disabled = true;
       try {
-        await apiRequest(`/api/admin/volunteers/${id}`, { method: "DELETE" });
+        await apiRequest(`/api/admin/volunteers/${id}`, {method:"DELETE"});
         volunteers = volunteers.filter(item => Number(item.id) !== id);
         renderVolunteers();
         $("#volunteer-status").textContent = "Volunteer application deleted successfully.";
@@ -521,6 +490,84 @@
       }
     });
 
+    // DONATIONS
+    async function loadDonations() {
+      if (!adminToken) return;
+      $("#donation-status").textContent = "Loading donation pledges...";
+      $("#refresh-donations").disabled = true;
+      try {
+        const result = await apiRequest("/api/admin/donations");
+        if (!Array.isArray(result.donations)) throw new Error("Unexpected donations API response.");
+        donations = result.donations;
+        renderDonations();
+        $("#donation-status").textContent = `Loaded ${donations.length} donation pledge(s).`;
+      } catch (err) {
+        $("#donation-status").textContent = err.message;
+        $("#donation-table").innerHTML = `<tr><td colspan="7">${escapeHTML(err.message)}</td></tr>`;
+      } finally {
+        $("#refresh-donations").disabled = false;
+      }
+    }
+
+    function renderDonations() {
+      const query = $("#donation-search").value.trim().toLowerCase();
+      const filtered = donations.filter(item =>
+        [item.donor_name,item.email,item.amount,item.currency,item.message,item.status,item.created_at]
+          .join(" ").toLowerCase().includes(query)
+      );
+
+      $("#donation-count").textContent = filtered.length;
+      $("#overview-donation-count").textContent = donations.length;
+
+      $("#donation-table").innerHTML = filtered.length ? filtered.map(item => `
+        <tr>
+          <td>${escapeHTML(item.donor_name || "—")}</td>
+          <td>${escapeHTML(item.email || "—")}</td>
+          <td>${escapeHTML(item.currency || "PKR")} ${escapeHTML(item.amount ?? "—")}</td>
+          <td>${escapeHTML(item.message || "—")}</td>
+          <td class="${item.status === "pending" ? "status-pending" : ""}">${escapeHTML(item.status || "pending")}</td>
+          <td>${formatDate(item.created_at)}</td>
+          <td><button type="button" data-delete-donation="${Number(item.id)}" class="danger">Delete</button></td>
+        </tr>`).join("") : '<tr><td colspan="7">No donation pledges found.</td></tr>';
+    }
+
+    $("#donation-search").addEventListener("input", renderDonations);
+    $("#refresh-donations").addEventListener("click", loadDonations);
+
+    $("#export-donations").addEventListener("click", () => {
+      const query = $("#donation-search").value.trim().toLowerCase();
+      const filtered = donations.filter(item =>
+        [item.donor_name,item.email,item.amount,item.currency,item.message,item.status,item.created_at]
+          .join(" ").toLowerCase().includes(query)
+      );
+      downloadCSV(`aasra-donations-${new Date().toISOString().slice(0,10)}.csv`, [
+        ["Donor","Email","Amount","Currency","Message","Status","Submitted"],
+        ...filtered.map(item => [
+          item.donor_name,item.email,item.amount,item.currency,
+          item.message,item.status,item.created_at
+        ])
+      ]);
+    });
+
+    $("#donation-table").addEventListener("click", async event => {
+      const button = event.target.closest("[data-delete-donation]");
+      if (!button) return;
+      const id = Number(button.dataset.deleteDonation);
+      if (!Number.isSafeInteger(id) || id < 1) return alert("Invalid donation ID.");
+      if (!confirm("Permanently delete this donation pledge?")) return;
+      button.disabled = true;
+      try {
+        await apiRequest(`/api/admin/donations/${id}`, {method:"DELETE"});
+        donations = donations.filter(item => Number(item.id) !== id);
+        renderDonations();
+        $("#donation-status").textContent = "Donation pledge deleted successfully.";
+      } catch (err) {
+        alert(err.message);
+        button.disabled = false;
+      }
+    });
+
+    // PROGRAMS
     function openProgramForm(program = null) {
       $("#program-form").reset();
       $("#program-id").value = program ? program.id : "";
@@ -528,8 +575,7 @@
       $("#program-category").value = program ? program.category || "Community" : "Community";
       $("#program-description").value = program ? program.description || "" : "";
       $("#program-image").value = program ? program.image_url || "" : "";
-      $("#program-status").value = program ? program.status || "active" : "active";
-
+      $("#program-status-select").value = program ? program.status || "active" : "active";
       $("#program-form-heading").textContent = program ? "Edit Program" : "Add a Program";
       $("#save-program-button").textContent = program ? "Update Program" : "Save Program";
       $("#program-form-card").hidden = false;
@@ -545,20 +591,17 @@
 
     async function loadPrograms() {
       if (!adminToken) return;
-      const status = $("#program-status");
-      const table = $("#program-table");
-      status.textContent = "Loading programs...";
+      $("#program-status").textContent = "Loading programs...";
       $("#refresh-programs").disabled = true;
-
       try {
         const result = await apiRequest("/api/admin/programs");
         if (!Array.isArray(result.programs)) throw new Error("Unexpected programs API response.");
         programs = result.programs;
         renderPrograms();
-        status.textContent = `Loaded ${programs.length} program(s).`;
+        $("#program-status").textContent = `Loaded ${programs.length} program(s).`;
       } catch (err) {
-        status.textContent = err.message || "Could not load programs.";
-        table.innerHTML = `<tr><td colspan="5">${escapeHTML(status.textContent)}</td></tr>`;
+        $("#program-status").textContent = err.message;
+        $("#program-table").innerHTML = `<tr><td colspan="5">${escapeHTML(err.message)}</td></tr>`;
       } finally {
         $("#refresh-programs").disabled = false;
       }
@@ -566,37 +609,24 @@
 
     function renderPrograms() {
       $("#overview-program-count").textContent = programs.length;
-      const table = $("#program-table");
-
-      if (!programs.length) {
-        table.innerHTML = '<tr><td colspan="5">No programs found. Use “Add New Program” to create one.</td></tr>';
-        return;
-      }
-
-      table.innerHTML = programs.map(program => {
+      $("#program-table").innerHTML = programs.length ? programs.map(program => {
         const id = Number(program.id);
         const image = /^https?:\/\//i.test(program.image_url || "")
           ? `<img class="program-image" src="${escapeHTML(program.image_url)}" alt="${escapeHTML(program.title)}" loading="lazy">`
           : '<span class="muted">No image</span>';
 
-        return `
-          <tr>
-            <td>${image}</td>
-            <td><strong>${escapeHTML(program.title)}</strong><br>${escapeHTML(program.description)}</td>
-            <td>${escapeHTML(program.category || "Community")}</td>
-            <td class="${program.status === "active" ? "status-active" : "status-inactive"}">
-              ${escapeHTML(program.status || "active")}
-            </td>
-            <td>
-              <button type="button" data-edit-program="${id}">Edit</button>
-              <button type="button" class="secondary" data-toggle-program="${id}">
-                ${program.status === "active" ? "Deactivate" : "Activate"}
-              </button>
-              <button type="button" class="danger" data-delete-program="${id}">Delete</button>
-            </td>
-          </tr>
-        `;
-      }).join("");
+        return `<tr>
+          <td>${image}</td>
+          <td><strong>${escapeHTML(program.title)}</strong><br>${escapeHTML(program.description)}</td>
+          <td>${escapeHTML(program.category || "Community")}</td>
+          <td class="${program.status === "active" ? "status-active" : "status-inactive"}">${escapeHTML(program.status || "active")}</td>
+          <td>
+            <button type="button" data-edit-program="${id}">Edit</button>
+            <button type="button" class="secondary" data-toggle-program="${id}">${program.status === "active" ? "Deactivate" : "Activate"}</button>
+            <button type="button" class="danger" data-delete-program="${id}">Delete</button>
+          </td>
+        </tr>`;
+      }).join("") : '<tr><td colspan="5">No programs found. Use “Add New Program” to create one.</td></tr>';
     }
 
     $("#program-form").addEventListener("submit", async event => {
@@ -605,18 +635,17 @@
 
       const id = $("#program-id").value;
       const payload = {
-        title: $("#program-title").value.trim(),
-        category: $("#program-category").value.trim(),
-        description: $("#program-description").value.trim(),
-        image_url: $("#program-image").value.trim(),
-        status: $("#program-status").value
+        title:$("#program-title").value.trim(),
+        category:$("#program-category").value.trim(),
+        description:$("#program-description").value.trim(),
+        image_url:$("#program-image").value.trim(),
+        status:$("#program-status-select").value
       };
 
       if (!payload.title || !payload.category || !payload.description) {
         $("#program-status").textContent = "Please fill in all required fields.";
         return;
       }
-
       if (payload.image_url && !/^https?:\/\//i.test(payload.image_url)) {
         $("#program-status").textContent = "Image URL must start with https:// or http://.";
         return;
@@ -625,22 +654,20 @@
       const button = $("#save-program-button");
       button.disabled = true;
       button.textContent = id ? "Updating..." : "Saving...";
-      $("#program-status").textContent = "";
 
       try {
         const result = id
           ? await apiRequest(`/api/admin/programs/${encodeURIComponent(id)}`, {
-              method: "PUT", body: JSON.stringify(payload)
+              method:"PUT", body:JSON.stringify(payload)
             })
           : await apiRequest("/api/admin/programs", {
-              method: "POST", body: JSON.stringify(payload)
+              method:"POST", body:JSON.stringify(payload)
             });
 
         $("#program-form").reset();
         $("#program-form-card").hidden = true;
         await loadPrograms();
-        $("#program-status").textContent = result.message ||
-          (id ? "Program updated successfully." : "Program added successfully.");
+        $("#program-status").textContent = result.message || "Program saved successfully.";
       } catch (err) {
         $("#program-status").textContent = err.message || "Could not save program.";
       } finally {
@@ -655,36 +682,31 @@
       const deleteButton = event.target.closest("[data-delete-program]");
 
       if (editButton) {
-        const id = Number(editButton.dataset.editProgram);
-        const program = programs.find(item => Number(item.id) === id);
+        const program = programs.find(item => Number(item.id) === Number(editButton.dataset.editProgram));
         if (program) openProgramForm(program);
         return;
       }
 
       if (toggleButton) {
-        const id = Number(toggleButton.dataset.toggleProgram);
-        const program = programs.find(item => Number(item.id) === id);
+        const program = programs.find(item => Number(item.id) === Number(toggleButton.dataset.toggleProgram));
         if (!program) return;
-
         const nextStatus = program.status === "active" ? "inactive" : "active";
         toggleButton.disabled = true;
-        $("#program-status").textContent = "Updating program status...";
-
         try {
-          await apiRequest(`/api/admin/programs/${id}`, {
-            method: "PUT",
-            body: JSON.stringify({
-              title: program.title,
-              description: program.description,
-              category: program.category || "Community",
-              image_url: program.image_url || "",
-              status: nextStatus
+          await apiRequest(`/api/admin/programs/${Number(program.id)}`, {
+            method:"PUT",
+            body:JSON.stringify({
+              title:program.title,
+              description:program.description,
+              category:program.category || "Community",
+              image_url:program.image_url || "",
+              status:nextStatus
             })
           });
           await loadPrograms();
           $("#program-status").textContent = `Program is now ${nextStatus}.`;
         } catch (err) {
-          $("#program-status").textContent = err.message || "Could not update status.";
+          $("#program-status").textContent = err.message;
           toggleButton.disabled = false;
         }
         return;
@@ -692,20 +714,16 @@
 
       if (deleteButton) {
         const id = Number(deleteButton.dataset.deleteProgram);
-        if (!Number.isSafeInteger(id) || id < 1) {
-          alert("Invalid program ID.");
-          return;
-        }
+        if (!Number.isSafeInteger(id) || id < 1) return alert("Invalid program ID.");
         if (!confirm("Permanently delete this program? This cannot be undone.")) return;
-
         deleteButton.disabled = true;
         try {
-          await apiRequest(`/api/admin/programs/${id}`, { method: "DELETE" });
+          await apiRequest(`/api/admin/programs/${id}`, {method:"DELETE"});
           programs = programs.filter(item => Number(item.id) !== id);
           renderPrograms();
           $("#program-status").textContent = "Program deleted successfully.";
         } catch (err) {
-          alert(err.message || "Could not delete program.");
+          alert(err.message);
           deleteButton.disabled = false;
         }
       }
@@ -713,4 +731,3 @@
   </script>
 </body>
 </html>
-
